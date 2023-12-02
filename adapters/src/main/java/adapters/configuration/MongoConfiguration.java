@@ -15,14 +15,14 @@ public class MongoConfiguration {
 
     @Bean
     public MongoClient mongoClient(
-            MongoProperties mongoProperties
+        MongoProperties mongoProperties
     ) {
         ConnectionString connectionString =
-                new ConnectionString(mongoProperties.url);
+            new ConnectionString(mongoProperties.url);
 
         MongoClientSettings mongoClientSettings = MongoClientSettings.builder()
-                .applyConnectionString(connectionString)
-                .build();
+            .applyConnectionString(connectionString)
+            .build();
 
         return MongoClients.create(mongoClientSettings);
     }
