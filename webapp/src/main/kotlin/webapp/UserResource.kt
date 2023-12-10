@@ -4,7 +4,7 @@ import domain.*
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import java.util.UUID
+import webapp.adapters.UserRequestAdapter
 
 @RestController
 class UserResource(
@@ -15,21 +15,13 @@ class UserResource(
     @PostMapping("/insert")
     fun insert(
         @RequestBody insertCustomerRequest: InsertCustomerRequest
-    ): ResponseEntity<*> {
-        return try {
-            insertCustomerUseCase.insert(adaptRequest(insertCustomerRequest))
+    ): ResponseEntity<*> =
+        try {
+            insertCustomerUseCase.insert(UserRequestAdapter(uuidGenerator).adapt(insertCustomerRequest))
             ResponseEntity.noContent().build<Unit>()
         } catch (e: Exception) {
             ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build<Unit>()
         }
-    }
-
-    private fun adaptRequest(insertCustomerRequest: InsertCustomerRequest): Customer = Customer(
-        uuidGenerator.get().toId(),
-        insertCustomerRequest.name,
-        insertCustomerRequest.age,
-        insertCustomerRequest.favouriteDestinations
-    )
 
     @GetMapping("/find")
     fun find(
