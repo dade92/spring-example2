@@ -1,9 +1,6 @@
 package webapp
 
-import domain.Customer
-import domain.FavouriteDestinations
-import domain.FindCustomerUseCase
-import domain.InsertCustomerUseCase
+import domain.*
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -30,6 +27,19 @@ class UserResource(
         @RequestParam name: String
     ): ResponseEntity<Customer> =
         findCustomerUseCase.findBy(name).fold(
+            {
+                ResponseEntity.notFound().build()
+            },
+            {
+                ResponseEntity.ok(it)
+            }
+        )
+
+    @GetMapping("/findById")
+    fun findById(
+        @RequestParam id: String
+    ): ResponseEntity<Customer> =
+        findCustomerUseCase.findById(Id(id)).fold(
             {
                 ResponseEntity.notFound().build()
             },

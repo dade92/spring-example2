@@ -3,10 +3,7 @@ package adapters
 import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
-import domain.Customer
-import domain.CustomerNotFoundError
-import domain.CustomerRepository
-import domain.FavouriteDestinations
+import domain.*
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.data.mongodb.core.query.Query
@@ -26,6 +23,15 @@ class MongoCustomerRepository(
         query.addCriteria(Criteria.where("name").`is`(name))
         return try {
             mongoTemplate.find(query, MongoCustomer::class.java, COLLECTION_NAME)[0].toDomain().right()
+        } catch (e: Exception) {
+            CustomerNotFoundError.left()
+        }
+    }
+
+    override fun findById(id: Id): Either<CustomerNotFoundError, Customer> {
+        return try {
+            mongoTemplate.findById(id.value, MongoCustomer::class.java, COLLECTION_NAME)?.toDomain()?.right()
+                ?: CustomerNotFoundError.left()
         } catch (e: Exception) {
             CustomerNotFoundError.left()
         }

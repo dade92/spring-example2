@@ -1,10 +1,12 @@
+### inserts a new customer
+
 POST http://localhost:8080/insert
 Content-Type: application/json
 Accept: application/json
 
 {
     "name": "Carlo",
-    "age": 31,
+    "age": 32,
     "favouriteDestinations": {
         "destinations": [
             {
@@ -17,25 +19,31 @@ Accept: application/json
     }
 }
 
-###
+### find by name
 
-GET {{localhost}}/find?name=Sergio
+GET {{localhost}}/find?name=Carlo
 Content-Type: application/json
 Accept: application/json
 
-###
+### find by id
+
+GET {{localhost}}/findById?id=64e9b17dcfadd332f3f9a34f
+Content-Type: application/json
+Accept: application/json
+
+### retrieve all users
 
 GET {{localhost}}/retrieveUsers
 Content-Type: application/json
 Accept: application/json
 
-###
+### retrieve translations
 
 GET {{localhost}}/translations/en
 Content-Type: application/json
 Accept: application/json
 
-###
+### sends message through websocket
 
 POST {{localhost}}/send
 Content-Type: application/json
