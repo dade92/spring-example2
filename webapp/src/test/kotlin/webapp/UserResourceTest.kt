@@ -1,5 +1,6 @@
 package webapp
 
+import arrow.core.left
 import arrow.core.right
 import com.springexample.utils.Fixtures
 import domain.*
@@ -12,6 +13,7 @@ import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import webapp.adapters.UserRequestAdapter
 
 @WebMvcTest(UserResource::class)
@@ -58,7 +60,7 @@ class UserResourceTest {
             MockMvcRequestBuilders.post("/insert")
                 .content(INSERT_REQUEST)
                 .contentType(MediaType.APPLICATION_JSON)
-        ).andExpect(MockMvcResultMatchers.status().isNoContent)
+        ).andExpect(status().isNoContent)
 
         verify(insertCustomerUseCase).insert(customer)
     }
@@ -69,15 +71,13 @@ class UserResourceTest {
         val customer = Customer("uuid".toId(), "Davide", 30, FavouriteDestinations(listOf(Destination("Milan"))))
 
         `when`(userRequestAdapter.adapt(request)).thenReturn(customer)
-        `when`(
-            insertCustomerUseCase.insert(customer)
-        ).thenThrow(RuntimeException())
+        `when`(insertCustomerUseCase.insert(customer)).thenThrow(RuntimeException())
 
         mvc.perform(
             MockMvcRequestBuilders.post("/insert")
                 .content(INSERT_REQUEST)
                 .contentType(MediaType.APPLICATION_JSON)
-        ).andExpect(MockMvcResultMatchers.status().is5xxServerError)
+        ).andExpect(status().is5xxServerError)
     }
 
     @Test
@@ -94,11 +94,21 @@ class UserResourceTest {
         mvc.perform(
             MockMvcRequestBuilders.get("/find?name=Davide")
                 .contentType(MediaType.APPLICATION_JSON)
-        ).andExpect(MockMvcResultMatchers.status().isOk)
-            .andExpect(MockMvcResultMatchers.content().json(FIND_RESPONSE))
+        ).andExpect(status().isOk)
+            .andExpect(content().json(FIND_RESPONSE))
 
         verify(findCustomerUseCase).findBy("Davide")
     }
 
+    @Test
+    fun `find fails`() {
+        `when`(findCustomerUseCase.findBy("Davide")).thenReturn(CustomerNotFoundError.left())
 
+        mvc.perform(
+            MockMvcRequestBuilders.get("/find?name=Davide")
+                .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isNotFound)
+
+        verify(findCustomerUseCase).findBy("Davide")
+    }
 }
