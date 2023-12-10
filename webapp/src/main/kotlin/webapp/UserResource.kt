@@ -39,7 +39,7 @@ class UserResource(
     fun findById(
         @RequestParam id: String
     ): ResponseEntity<Customer> =
-        findCustomerUseCase.findById(Id(id)).fold(
+        findCustomerUseCase.findById(id.toId()).fold(
             {
                 ResponseEntity.notFound().build()
             },
@@ -48,7 +48,7 @@ class UserResource(
             }
         )
 
-    //TODO test
+    //TODO test or delete?
     @GetMapping("/retrieveUsers")
     fun retrieveAll(): ResponseEntity<CustomersResponse> {
         return ResponseEntity.ok(
