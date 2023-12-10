@@ -1,6 +1,7 @@
 package domain
 
 data class Customer(
+    val id: Id,
     val name: String,
     val age: Int,
     val favouriteDestinations: FavouriteDestinations

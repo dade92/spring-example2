@@ -3,13 +3,11 @@ package adapters
 import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
-import domain.Customer
-import domain.CustomerNotFoundError
-import domain.CustomerRepository
-import domain.FavouriteDestinations
+import domain.*
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.data.mongodb.core.query.Query
+import java.util.*
 
 private val COLLECTION_NAME = "mongocustomer"
 
@@ -31,6 +29,15 @@ class MongoCustomerRepository(
         }
     }
 
+    override fun findById(id: Id): Either<CustomerNotFoundError, Customer> {
+        return try {
+            mongoTemplate.findById(id.value, MongoCustomer::class.java, COLLECTION_NAME)?.toDomain()?.right()
+                ?: CustomerNotFoundError.left()
+        } catch (e: Exception) {
+            CustomerNotFoundError.left()
+        }
+    }
+
     override fun getAll(): List<Customer> {
         val query = Query()
         return mongoTemplate.find(query, MongoCustomer::class.java, COLLECTION_NAME).map { it.toDomain() }
@@ -39,6 +46,7 @@ class MongoCustomerRepository(
 }
 
 data class MongoCustomer(
+    val id: String,
     val name: String,
     val age: Int?,
     val favouriteDestinations: FavouriteDestinations?
@@ -46,14 +54,16 @@ data class MongoCustomer(
     fun toDomain(): Customer = Customer(
         name = name,
         age = age ?: 0,
-        favouriteDestinations = favouriteDestinations ?: FavouriteDestinations(emptyList())
+        favouriteDestinations = favouriteDestinations ?: FavouriteDestinations(emptyList()),
+        id = id.toId()
     )
 
     companion object {
         fun fromDomain(customer: Customer) = MongoCustomer(
             name = customer.name,
             age = customer.age,
-            favouriteDestinations = customer.favouriteDestinations
+            favouriteDestinations = customer.favouriteDestinations,
+            id = UUID.randomUUID().toString()
         )
     }
 }

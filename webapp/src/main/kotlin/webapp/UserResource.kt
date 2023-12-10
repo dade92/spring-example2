@@ -1,29 +1,27 @@
 package webapp
 
-import domain.Customer
-import domain.FavouriteDestinations
-import domain.FindCustomerUseCase
-import domain.InsertCustomerUseCase
+import domain.*
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import webapp.adapters.UserRequestAdapter
 
 @RestController
 class UserResource(
     private val insertCustomerUseCase: InsertCustomerUseCase,
-    private val findCustomerUseCase: FindCustomerUseCase
+    private val findCustomerUseCase: FindCustomerUseCase,
+    private val userRequestAdapter: UserRequestAdapter
 ) {
     @PostMapping("/insert")
     fun insert(
         @RequestBody insertCustomerRequest: InsertCustomerRequest
-    ): ResponseEntity<*> {
-        return try {
-            insertCustomerUseCase.insert(insertCustomerRequest.toDomain())
+    ): ResponseEntity<*> =
+        try {
+            insertCustomerUseCase.insert(userRequestAdapter.adapt(insertCustomerRequest))
             ResponseEntity.noContent().build<Unit>()
         } catch (e: Exception) {
             ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build<Unit>()
         }
-    }
 
     @GetMapping("/find")
     fun find(
@@ -38,7 +36,20 @@ class UserResource(
             }
         )
 
-    //TODO test
+    @GetMapping("/findById")
+    fun findById(
+        @RequestParam id: String
+    ): ResponseEntity<Customer> =
+        findCustomerUseCase.findById(id.toId()).fold(
+            {
+                ResponseEntity.notFound().build()
+            },
+            {
+                ResponseEntity.ok(it)
+            }
+        )
+
+    //TODO test or delete?
     @GetMapping("/retrieveUsers")
     fun retrieveAll(): ResponseEntity<CustomersResponse> {
         return ResponseEntity.ok(
@@ -58,8 +69,4 @@ data class InsertCustomerRequest(
     val name: String,
     val age: Int,
     val favouriteDestinations: FavouriteDestinations
-) {
-
-    fun toDomain() = Customer(this.name, age, favouriteDestinations)
-
-}
+)
