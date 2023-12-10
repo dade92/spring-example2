@@ -7,6 +7,7 @@ import domain.*
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.data.mongodb.core.query.Query
+import java.util.*
 
 private val COLLECTION_NAME = "mongocustomer"
 
@@ -45,6 +46,7 @@ class MongoCustomerRepository(
 }
 
 data class MongoCustomer(
+    val id: String,
     val name: String,
     val age: Int?,
     val favouriteDestinations: FavouriteDestinations?
@@ -52,14 +54,16 @@ data class MongoCustomer(
     fun toDomain(): Customer = Customer(
         name = name,
         age = age ?: 0,
-        favouriteDestinations = favouriteDestinations ?: FavouriteDestinations(emptyList())
+        favouriteDestinations = favouriteDestinations ?: FavouriteDestinations(emptyList()),
+        id = id.toId()
     )
 
     companion object {
         fun fromDomain(customer: Customer) = MongoCustomer(
             name = customer.name,
             age = customer.age,
-            favouriteDestinations = customer.favouriteDestinations
+            favouriteDestinations = customer.favouriteDestinations,
+            id = UUID.randomUUID().toString()
         )
     }
 }

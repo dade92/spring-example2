@@ -19,4 +19,7 @@ class AppConfiguration {
     fun translationsProvider(): TranslationsProvider =
         StaticTranslationsProvider()
 
+    @Bean
+    fun uuidGenerator(): UUIDGenerator = RandomUUIDGenerator()
+
 }

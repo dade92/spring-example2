@@ -26,11 +26,17 @@ class UserResourceTest {
     @MockBean
     private lateinit var findCustomerUseCase: FindCustomerUseCase
 
+    @MockBean
+    private lateinit var uuidGenerator: UUIDGenerator
+
     private val INSERT_REQUEST = Fixtures.readJson("/insertRequest.json")
     private val FIND_RESPONSE = Fixtures.readJson("/findResponse.json")
 
     @Test
     fun `insert successful`() {
+        val uuid = "uuid"
+        `when`(uuidGenerator.get()).thenReturn(uuid)
+
         mvc.perform(
             MockMvcRequestBuilders.post("/insert")
                 .content(INSERT_REQUEST)
@@ -39,6 +45,7 @@ class UserResourceTest {
 
         verify(insertCustomerUseCase).insert(
             Customer(
+                uuid.toId(),
                 "Davide",
                 30,
                 FavouriteDestinations(listOf(Destination("Milan")))
@@ -51,7 +58,7 @@ class UserResourceTest {
     fun `insert fails`() {
         `when`(
             insertCustomerUseCase.insert(
-                Customer("Davide", 30, FavouriteDestinations(listOf(Destination("Milan"))))
+                Customer("uuid".toId(), "Davide", 30, FavouriteDestinations(listOf(Destination("Milan"))))
             )
         ).thenThrow(RuntimeException())
 
@@ -66,6 +73,7 @@ class UserResourceTest {
     fun `find successful`() {
         `when`(findCustomerUseCase.findBy("Davide")).thenReturn(
             Customer(
+                "uuid".toId(),
                 "Davide",
                 30,
                 FavouriteDestinations(listOf(Destination("Milan")))
