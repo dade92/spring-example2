@@ -3,6 +3,7 @@ package webapp
 import domain.*
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import webapp.adapters.UserRequestAdapter
 
 @Configuration
 class AppConfiguration {
@@ -21,5 +22,9 @@ class AppConfiguration {
 
     @Bean
     fun uuidGenerator(): UUIDGenerator = RandomUUIDGenerator()
+
+    @Bean
+    fun userRequestAdapter(uuidGenerator: UUIDGenerator): UserRequestAdapter =
+        UserRequestAdapter(uuidGenerator)
 
 }

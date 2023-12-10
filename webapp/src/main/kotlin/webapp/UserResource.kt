@@ -10,14 +10,14 @@ import webapp.adapters.UserRequestAdapter
 class UserResource(
     private val insertCustomerUseCase: InsertCustomerUseCase,
     private val findCustomerUseCase: FindCustomerUseCase,
-    private val uuidGenerator: UUIDGenerator
+    private val userRequestAdapter: UserRequestAdapter
 ) {
     @PostMapping("/insert")
     fun insert(
         @RequestBody insertCustomerRequest: InsertCustomerRequest
     ): ResponseEntity<*> =
         try {
-            insertCustomerUseCase.insert(UserRequestAdapter(uuidGenerator).adapt(insertCustomerRequest))
+            insertCustomerUseCase.insert(userRequestAdapter.adapt(insertCustomerRequest))
             ResponseEntity.noContent().build<Unit>()
         } catch (e: Exception) {
             ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build<Unit>()
