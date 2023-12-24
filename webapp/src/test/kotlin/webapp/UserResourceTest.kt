@@ -35,6 +35,7 @@ class UserResourceTest {
     private lateinit var userRequestAdapter: UserRequestAdapter
 
     private val INSERT_REQUEST = Fixtures.readJson("/insertRequest.json")
+    private val ADD_DESTINATION_REQUEST = Fixtures.readJson("/updateRequest.json")
     private val FIND_RESPONSE = Fixtures.readJson("/findResponse.json")
 
     companion object {
@@ -113,5 +114,35 @@ class UserResourceTest {
         ).andExpect(status().isNotFound)
 
         verify(findCustomerUseCase).findBy("Davide")
+    }
+
+    @Test
+    fun `update customer successful`() {
+        val name = "ciccio"
+
+        `when`(updateCustomerUseCase.addDestination(name, Destination("London"))).thenReturn(Unit.right())
+
+        mvc.perform(
+            MockMvcRequestBuilders.put("/add-destination/ciccio")
+                .content(ADD_DESTINATION_REQUEST)
+                .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isNoContent)
+
+        verify(updateCustomerUseCase).addDestination(name, Destination("London"))
+    }
+
+    @Test
+    fun `update customer error`() {
+        val name = "ciccio"
+
+        `when`(updateCustomerUseCase.addDestination(name, Destination("London"))).thenReturn(CustomerNotFoundError.left())
+
+        mvc.perform(
+            MockMvcRequestBuilders.put("/add-destination/ciccio")
+                .content(ADD_DESTINATION_REQUEST)
+                .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isNotFound)
+
+        verify(updateCustomerUseCase).addDestination(name, Destination("London"))
     }
 }
