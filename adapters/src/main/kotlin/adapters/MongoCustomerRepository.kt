@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.data.mongodb.core.query.Query
 import org.springframework.data.mongodb.core.query.Query.query
+import org.springframework.data.mongodb.core.query.Update
 import org.springframework.data.mongodb.core.query.Update.update
 import java.util.*
 
@@ -50,10 +51,12 @@ class MongoCustomerRepository(
     override fun update(name: String): Either<CustomerNotFoundError, Unit> =
         try {
             val query = query(Criteria.where("name").`is`(name))
-            val update = update(
-                "favouriteDestinations",
-                FavouriteDestinations(listOf(Destination("Sidney"), Destination("London")))
-            )
+//            val update = update(
+//                "favouriteDestinations",
+//                FavouriteDestinations(listOf(Destination("Sidney"), Destination("London")))
+//            )
+            val update = Update().push("favouriteDestinations.destinations", Destination("San Francisco"))
+
             mongoTemplate.updateFirst(
                 query, update, MongoCustomer::class.java, COLLECTION_NAME
             )
