@@ -27,7 +27,7 @@ Accept: application/json
 
 ### find by id
 
-GET {{localhost}}/findById?id=3
+GET {{localhost}}/findById?id=1
 Content-Type: application/json
 Accept: application/json
 
@@ -38,7 +38,7 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "destination": "Oggiono"
+  "destination": "Longone al Segrino"
 }
 
 ### remove destination
