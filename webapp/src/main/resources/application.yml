@@ -1,5 +1,5 @@
 mongo:
-  url: mongodb://root:password@localhost:27017/customers?authSource=admin
+  url: mongodb://root:password@localhost:27017/?authSource=admin
 
 spring:
   graphql:
