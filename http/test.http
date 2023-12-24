@@ -5,15 +5,12 @@ Content-Type: application/json
 Accept: application/json
 
 {
-    "name": "Carlo",
+    "name": "Stefania",
     "age": 32,
     "favouriteDestinations": {
         "destinations": [
             {
-                "city": "Pavia"
-            },
-            {
-                "city": "Chiasso"
+                "city": "Rochester"
             }
         ]
     }
@@ -27,7 +24,7 @@ Accept: application/json
 
 ### find by id
 
-GET {{localhost}}/findById?id=1
+GET {{localhost}}/findById?id=c4c37cd1-9b00-48df-adb3-2ed3cd88c50f
 Content-Type: application/json
 Accept: application/json
 

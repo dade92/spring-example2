@@ -35,14 +35,14 @@ class MongoCustomerRepository(
         }
     }
 
-    override fun findById(id: Id): Either<CustomerNotFoundError, Customer> {
-        return try {
+    override fun findById(id: Id): Either<CustomerNotFoundError, Customer> =
+        try {
             mongoTemplate.findById(id.value, MongoCustomer::class.java, COLLECTION_NAME)?.toDomain()?.right()
                 ?: CustomerNotFoundError.left()
         } catch (e: Exception) {
+            logger.warn("Unable to find customer because of ", e)
             CustomerNotFoundError.left()
         }
-    }
 
     override fun addDestination(name: String, destination: Destination): Either<CustomerNotFoundError, Unit> =
         try {
