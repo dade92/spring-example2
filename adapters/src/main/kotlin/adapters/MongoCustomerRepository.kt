@@ -8,8 +8,13 @@ import org.slf4j.LoggerFactory
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.data.mongodb.core.query.Query
+import org.springframework.data.mongodb.core.query.Query.query
+import org.springframework.data.mongodb.core.query.Update.update
 import java.util.*
-import kotlin.math.log
+
+private val staticDestinations = listOf(
+    Destination("Sidney"), Destination("Tokyo")
+)
 
 private val COLLECTION_NAME = "mongocustomer"
 
@@ -42,6 +47,22 @@ class MongoCustomerRepository(
             CustomerNotFoundError.left()
         }
     }
+
+    override fun update(name: String): Either<CustomerNotFoundError, Unit> =
+        try {
+            mongoTemplate.updateFirst(
+                query(Criteria.where("name").`is`(name)), update(
+                    "favouriteDestinations", FavouriteDestinations(
+                        staticDestinations
+                    )
+                ),
+                MongoCustomer::class.java
+            )
+            Unit.right()
+        } catch (e: Exception) {
+            logger.warn("Can't update customer because of ", e)
+            CustomerNotFoundError.left()
+        }
 
     override fun getAll(): List<Customer> {
         val query = Query()

@@ -31,6 +31,12 @@ GET {{localhost}}/findById?id=3
 Content-Type: application/json
 Accept: application/json
 
+### update customer
+
+PUT {{localhost}}/update/Davide
+Content-Type: application/json
+Accept: application/json
+
 ### retrieve all users
 
 GET {{localhost}}/retrieveUsers

@@ -10,7 +10,8 @@ import webapp.adapters.UserRequestAdapter
 class UserResource(
     private val insertCustomerUseCase: InsertCustomerUseCase,
     private val findCustomerUseCase: FindCustomerUseCase,
-    private val userRequestAdapter: UserRequestAdapter
+    private val userRequestAdapter: UserRequestAdapter,
+    private val updateCustomerUseCase: UpdateCustomerUseCase
 ) {
     @PostMapping("/insert")
     fun insert(
@@ -33,6 +34,19 @@ class UserResource(
             },
             {
                 ResponseEntity.ok(it)
+            }
+        )
+
+    @RequestMapping(method = [RequestMethod.PUT], path = ["/update/{name}"])
+    fun updateCustomer(
+        @PathVariable name: String
+    ): ResponseEntity<Customer> =
+        updateCustomerUseCase.update(name).fold(
+            {
+                ResponseEntity.notFound().build()
+            },
+            {
+                ResponseEntity.noContent().build()
             }
         )
 
