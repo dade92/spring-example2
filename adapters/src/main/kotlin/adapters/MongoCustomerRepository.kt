@@ -4,16 +4,20 @@ import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
 import domain.*
+import org.slf4j.LoggerFactory
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.data.mongodb.core.query.Query
 import java.util.*
+import kotlin.math.log
 
 private val COLLECTION_NAME = "mongocustomer"
 
 class MongoCustomerRepository(
     private val mongoTemplate: MongoTemplate
 ) : CustomerRepository {
+
+    private val logger = LoggerFactory.getLogger(MongoCustomerRepository::class.java)
 
     override fun insert(customer: Customer) {
         mongoTemplate.insert(MongoCustomer.fromDomain(customer), COLLECTION_NAME)
@@ -25,6 +29,7 @@ class MongoCustomerRepository(
         return try {
             mongoTemplate.find(query, MongoCustomer::class.java, COLLECTION_NAME)[0].toDomain().right()
         } catch (e: Exception) {
+            logger.warn("Unable to find customer because of ", e)
             CustomerNotFoundError.left()
         }
     }

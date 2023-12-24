@@ -13,6 +13,8 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 @EnableConfigurationProperties(MongoProperties.class)
 public class MongoConfiguration {
 
+    private String DATABASE = "customers";
+
     @Bean
     public MongoClient mongoClient(
         MongoProperties mongoProperties
@@ -29,6 +31,6 @@ public class MongoConfiguration {
 
     @Bean
     public MongoTemplate mongoTemplate(MongoClient mongoClient) {
-        return new MongoTemplate(mongoClient, "test");
+        return new MongoTemplate(mongoClient, DATABASE);
     }
 }

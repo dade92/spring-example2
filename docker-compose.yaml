@@ -15,10 +15,6 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: password
-    volumes:
-      - ./local-env/database/db:/data/db
-      - ./local-env/database/dev.archive:/Databases/dev.archive
-      - ./local-env/database/production:/Databases/production
   mongo-express:
     image: mongo-express
     container_name: mongo-express
