@@ -54,7 +54,7 @@ class UserResourceTest {
         val uuid = "uuid"
         val customer = Customer(
             uuid.toId(),
-            "Davide",
+            "Davide".toName(),
             30,
             FavouriteDestinations(listOf(Destination("Milan")))
         )
@@ -73,7 +73,12 @@ class UserResourceTest {
 
     @Test
     fun `insert fails`() {
-        val customer = Customer("uuid".toId(), "Davide", 30, FavouriteDestinations(listOf(Destination("Milan"))))
+        val customer = Customer(
+            "uuid".toId(),
+            "Davide".toName(),
+            30,
+            FavouriteDestinations(listOf(Destination("Milan")))
+        )
 
         `when`(userRequestAdapter.adapt(request)).thenReturn(customer)
         `when`(insertCustomerUseCase.insert(customer)).thenThrow(RuntimeException())
@@ -90,7 +95,7 @@ class UserResourceTest {
         `when`(findCustomerUseCase.findBy("Davide")).thenReturn(
             Customer(
                 "uuid".toId(),
-                "Davide",
+                "Davide".toName(),
                 30,
                 FavouriteDestinations(listOf(Destination("Milan")))
             ).right()

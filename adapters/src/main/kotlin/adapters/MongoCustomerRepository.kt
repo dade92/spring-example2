@@ -91,7 +91,7 @@ data class MongoCustomer(
     val favouriteDestinations: FavouriteDestinations?
 ) {
     fun toDomain(): Customer = Customer(
-        name = name,
+        name = name.toName(),
         age = age ?: 0,
         favouriteDestinations = favouriteDestinations ?: FavouriteDestinations(emptyList()),
         id = id.toId()
@@ -99,7 +99,7 @@ data class MongoCustomer(
 
     companion object {
         fun fromDomain(customer: Customer) = MongoCustomer(
-            name = customer.name,
+            name = customer.name.value,
             age = customer.age,
             favouriteDestinations = customer.favouriteDestinations,
             id = UUID.randomUUID().toString()
