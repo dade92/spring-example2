@@ -92,7 +92,7 @@ class UserResourceTest {
 
     @Test
     fun `find successful`() {
-        `when`(findCustomerUseCase.findBy("Davide")).thenReturn(
+        `when`(findCustomerUseCase.findBy("Davide".toName())).thenReturn(
             Customer(
                 "uuid".toId(),
                 "Davide".toName(),
@@ -107,19 +107,19 @@ class UserResourceTest {
         ).andExpect(status().isOk)
             .andExpect(content().json(FIND_RESPONSE))
 
-        verify(findCustomerUseCase).findBy("Davide")
+        verify(findCustomerUseCase).findBy("Davide".toName())
     }
 
     @Test
     fun `find fails`() {
-        `when`(findCustomerUseCase.findBy("Davide")).thenReturn(CustomerNotFoundError.left())
+        `when`(findCustomerUseCase.findBy("Davide".toName())).thenReturn(CustomerNotFoundError.left())
 
         mvc.perform(
             MockMvcRequestBuilders.get("/find?name=Davide")
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isNotFound)
 
-        verify(findCustomerUseCase).findBy("Davide")
+        verify(findCustomerUseCase).findBy("Davide".toName())
     }
 
     @Test

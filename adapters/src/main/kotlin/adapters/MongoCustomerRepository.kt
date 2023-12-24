@@ -10,8 +10,6 @@ import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.data.mongodb.core.query.Query
 import org.springframework.data.mongodb.core.query.Query.query
 import org.springframework.data.mongodb.core.query.Update
-import org.springframework.data.mongodb.core.query.Update.update
-import java.util.*
 
 private val COLLECTION_NAME = "mongocustomer"
 
@@ -21,12 +19,13 @@ class MongoCustomerRepository(
 
     private val logger = LoggerFactory.getLogger(MongoCustomerRepository::class.java)
 
-    override fun insert(customer: Customer) {
+    override fun insert(customer: Customer): Either<GenericDbError, Unit> {
         mongoTemplate.insert(MongoCustomer.fromDomain(customer), COLLECTION_NAME)
+        return Unit.right()
     }
 
-    override fun find(name: String): Either<CustomerNotFoundError, Customer> {
-        val query = query(Criteria.where("name").`is`(name))
+    override fun find(name: Name): Either<CustomerNotFoundError, Customer> {
+        val query = query(Criteria.where("name").`is`(name.value))
         return try {
             mongoTemplate.find(query, MongoCustomer::class.java, COLLECTION_NAME)[0].toDomain().right()
         } catch (e: Exception) {

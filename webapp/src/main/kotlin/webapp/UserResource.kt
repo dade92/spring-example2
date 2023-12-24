@@ -28,7 +28,7 @@ class UserResource(
     fun find(
         @RequestParam name: String
     ): ResponseEntity<Customer> =
-        findCustomerUseCase.findBy(name).fold(
+        findCustomerUseCase.findBy(name.toName()).fold(
             {
                 ResponseEntity.notFound().build()
             },
