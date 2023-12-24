@@ -37,11 +37,26 @@ class UserResource(
             }
         )
 
-    @RequestMapping(method = [RequestMethod.PUT], path = ["/update/{name}"])
-    fun updateCustomer(
-        @PathVariable name: String
+    @RequestMapping(method = [RequestMethod.PUT], path = ["/add-destination/{name}"])
+    fun addDestination(
+        @PathVariable name: String,
+        @RequestBody addDestinationRequest: UpdateRequest
     ): ResponseEntity<Customer> =
-        updateCustomerUseCase.update(name).fold(
+        updateCustomerUseCase.addDestination(name, Destination(addDestinationRequest.destination)).fold(
+            {
+                ResponseEntity.notFound().build()
+            },
+            {
+                ResponseEntity.noContent().build()
+            }
+        )
+
+    @RequestMapping(method = [RequestMethod.PUT], path = ["/remove-destination/{name}"])
+    fun removeDestination(
+        @PathVariable name: String,
+        @RequestBody updateRequest: UpdateRequest,
+    ): ResponseEntity<Customer> =
+        updateCustomerUseCase.removeDestination(name, Destination(updateRequest.destination)).fold(
             {
                 ResponseEntity.notFound().build()
             },
@@ -83,4 +98,8 @@ data class InsertCustomerRequest(
     val name: String,
     val age: Int,
     val favouriteDestinations: FavouriteDestinations
+)
+
+data class UpdateRequest(
+    val destination: String
 )

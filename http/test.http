@@ -31,11 +31,25 @@ GET {{localhost}}/findById?id=3
 Content-Type: application/json
 Accept: application/json
 
-### update customer
+### add destination
 
-PUT {{localhost}}/update/Davide
+PUT {{localhost}}/add-destination/Davide
 Content-Type: application/json
 Accept: application/json
+
+{
+  "destination": "Oggiono"
+}
+
+### remove destination
+
+PUT {{localhost}}/remove-destination/Davide
+Content-Type: application/json
+Accept: application/json
+
+{
+  "destination": "London"
+}
 
 ### retrieve all users
 
