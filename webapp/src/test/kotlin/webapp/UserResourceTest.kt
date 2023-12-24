@@ -29,6 +29,9 @@ class UserResourceTest {
     private lateinit var findCustomerUseCase: FindCustomerUseCase
 
     @MockBean
+    private lateinit var updateCustomerUseCase: UpdateCustomerUseCase
+
+    @MockBean
     private lateinit var userRequestAdapter: UserRequestAdapter
 
     private val INSERT_REQUEST = Fixtures.readJson("/insertRequest.json")
