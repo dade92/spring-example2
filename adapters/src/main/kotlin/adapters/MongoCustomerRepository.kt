@@ -102,7 +102,7 @@ data class MongoCustomer(
             name = customer.name.value,
             age = customer.age,
             favouriteDestinations = customer.favouriteDestinations,
-            id = UUID.randomUUID().toString()
+            id = customer.id.value
         )
     }
 }

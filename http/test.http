@@ -10,10 +10,10 @@ Accept: application/json
     "favouriteDestinations": {
         "destinations": [
             {
-                "city": "Milan"
+                "city": "Pavia"
             },
             {
-                "city": "London"
+                "city": "Chiasso"
             }
         ]
     }
@@ -48,7 +48,7 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "destination": "London"
+  "destination": "Milan"
 }
 
 ### retrieve all users
