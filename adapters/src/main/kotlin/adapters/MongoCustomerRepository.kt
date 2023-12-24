@@ -29,8 +29,7 @@ class MongoCustomerRepository(
     }
 
     override fun find(name: String): Either<CustomerNotFoundError, Customer> {
-        val query = Query()
-        query.addCriteria(Criteria.where("name").`is`(name))
+        val query = query(Criteria.where("name").`is`(name))
         return try {
             mongoTemplate.find(query, MongoCustomer::class.java, COLLECTION_NAME)[0].toDomain().right()
         } catch (e: Exception) {
@@ -50,13 +49,13 @@ class MongoCustomerRepository(
 
     override fun update(name: String): Either<CustomerNotFoundError, Unit> =
         try {
+            val query = query(Criteria.where("name").`is`(name))
+            val update = update(
+                "favouriteDestinations",
+                FavouriteDestinations(listOf(Destination("Sidney"), Destination("London")))
+            )
             mongoTemplate.updateFirst(
-                query(Criteria.where("name").`is`(name)), update(
-                    "favouriteDestinations", FavouriteDestinations(
-                        staticDestinations
-                    )
-                ),
-                MongoCustomer::class.java
+                query, update, MongoCustomer::class.java, COLLECTION_NAME
             )
             Unit.right()
         } catch (e: Exception) {

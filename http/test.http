@@ -21,7 +21,7 @@ Accept: application/json
 
 ### find by name
 
-GET {{localhost}}/find?name=Carlo
+GET {{localhost}}/find?name=Davide
 Content-Type: application/json
 Accept: application/json
 
