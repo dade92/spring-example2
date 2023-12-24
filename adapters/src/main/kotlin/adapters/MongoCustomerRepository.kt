@@ -13,10 +13,6 @@ import org.springframework.data.mongodb.core.query.Update
 import org.springframework.data.mongodb.core.query.Update.update
 import java.util.*
 
-private val staticDestinations = listOf(
-    Destination("Sidney"), Destination("Tokyo")
-)
-
 private val COLLECTION_NAME = "mongocustomer"
 
 class MongoCustomerRepository(
