@@ -18,6 +18,12 @@ services:
     volumes:
       - spring-example2-data-db:/data/db
       - spring-example2-data-db-prod:/Databases/production
+
+volumes:
+  spring-example2-data-db:
+    driver: local
+  spring-example2-data-db-prod:
+    driver: local
 #  mongo-express:
 #    image: mongo-express
 #    container_name: mongo-express
