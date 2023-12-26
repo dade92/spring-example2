@@ -24,18 +24,18 @@ Accept: application/json
 
 ### find by id
 
-GET {{host}}/findById?id=1
+GET {{host}}/findById?id=38883420-6d47-410d-a892-d3c64c659f1e
 Content-Type: application/json
 Accept: application/json
 
 ### add destination
 
-PUT {{host}}/add-destination/Davide
+PUT {{host}}/add-destination/Stefania
 Content-Type: application/json
 Accept: application/json
 
 {
-  "destination": "Longone al Segrino"
+  "destination": "Chicago"
 }
 
 ### remove destination
