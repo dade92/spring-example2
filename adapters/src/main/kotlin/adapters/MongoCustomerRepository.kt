@@ -8,8 +8,8 @@ import org.slf4j.LoggerFactory
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.data.mongodb.core.query.Query
-import java.util.*
-import kotlin.math.log
+import org.springframework.data.mongodb.core.query.Query.query
+import org.springframework.data.mongodb.core.query.Update
 
 private val COLLECTION_NAME = "mongocustomer"
 
@@ -19,13 +19,13 @@ class MongoCustomerRepository(
 
     private val logger = LoggerFactory.getLogger(MongoCustomerRepository::class.java)
 
-    override fun insert(customer: Customer) {
+    override fun insert(customer: Customer): Either<GenericDbError, Unit> {
         mongoTemplate.insert(MongoCustomer.fromDomain(customer), COLLECTION_NAME)
+        return Unit.right()
     }
 
-    override fun find(name: String): Either<CustomerNotFoundError, Customer> {
-        val query = Query()
-        query.addCriteria(Criteria.where("name").`is`(name))
+    override fun find(name: Name): Either<CustomerNotFoundError, Customer> {
+        val query = query(Criteria.where("name").`is`(name.value))
         return try {
             mongoTemplate.find(query, MongoCustomer::class.java, COLLECTION_NAME)[0].toDomain().right()
         } catch (e: Exception) {
@@ -34,14 +34,47 @@ class MongoCustomerRepository(
         }
     }
 
-    override fun findById(id: Id): Either<CustomerNotFoundError, Customer> {
-        return try {
+    override fun findById(id: Id): Either<CustomerNotFoundError, Customer> =
+        try {
             mongoTemplate.findById(id.value, MongoCustomer::class.java, COLLECTION_NAME)?.toDomain()?.right()
                 ?: CustomerNotFoundError.left()
         } catch (e: Exception) {
+            logger.warn("Unable to find customer because of ", e)
             CustomerNotFoundError.left()
         }
-    }
+
+    override fun addDestination(name: String, destination: Destination): Either<CustomerNotFoundError, Unit> =
+        try {
+            val query = query(Criteria.where("name").`is`(name))
+//            val update = update(
+//                "favouriteDestinations",
+//                FavouriteDestinations(listOf(Destination("Sidney"), Destination("London")))
+//            )
+            val update = Update().push("favouriteDestinations.destinations", destination)
+
+            mongoTemplate.updateFirst(
+                query, update, MongoCustomer::class.java, COLLECTION_NAME
+            )
+            Unit.right()
+        } catch (e: Exception) {
+            logger.warn("Can't update customer because of ", e)
+            CustomerNotFoundError.left()
+        }
+
+    override fun removeDestination(name: String, destination: Destination): Either<CustomerNotFoundError, Unit> =
+        try {
+            val query = query(Criteria.where("name").`is`(name))
+
+            val update = Update().pull("favouriteDestinations.destinations", destination)
+
+            mongoTemplate.updateFirst(
+                query, update, MongoCustomer::class.java, COLLECTION_NAME
+            )
+            Unit.right()
+        } catch (e: Exception) {
+            logger.warn("Can't update customer because of ", e)
+            CustomerNotFoundError.left()
+        }
 
     override fun getAll(): List<Customer> {
         val query = Query()
@@ -57,7 +90,7 @@ data class MongoCustomer(
     val favouriteDestinations: FavouriteDestinations?
 ) {
     fun toDomain(): Customer = Customer(
-        name = name,
+        name = name.toName(),
         age = age ?: 0,
         favouriteDestinations = favouriteDestinations ?: FavouriteDestinations(emptyList()),
         id = id.toId()
@@ -65,10 +98,10 @@ data class MongoCustomer(
 
     companion object {
         fun fromDomain(customer: Customer) = MongoCustomer(
-            name = customer.name,
+            name = customer.name.value,
             age = customer.age,
             favouriteDestinations = customer.favouriteDestinations,
-            id = UUID.randomUUID().toString()
+            id = customer.id.value
         )
     }
 }

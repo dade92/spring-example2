@@ -10,7 +10,8 @@ import webapp.adapters.UserRequestAdapter
 class UserResource(
     private val insertCustomerUseCase: InsertCustomerUseCase,
     private val findCustomerUseCase: FindCustomerUseCase,
-    private val userRequestAdapter: UserRequestAdapter
+    private val userRequestAdapter: UserRequestAdapter,
+    private val updateCustomerUseCase: UpdateCustomerUseCase
 ) {
     @PostMapping("/insert")
     fun insert(
@@ -27,12 +28,40 @@ class UserResource(
     fun find(
         @RequestParam name: String
     ): ResponseEntity<Customer> =
-        findCustomerUseCase.findBy(name).fold(
+        findCustomerUseCase.findBy(name.toName()).fold(
             {
                 ResponseEntity.notFound().build()
             },
             {
                 ResponseEntity.ok(it)
+            }
+        )
+
+    @RequestMapping(method = [RequestMethod.PUT], path = ["/add-destination/{name}"])
+    fun addDestination(
+        @PathVariable name: String,
+        @RequestBody addDestinationRequest: UpdateRequest
+    ): ResponseEntity<Customer> =
+        updateCustomerUseCase.addDestination(name, Destination(addDestinationRequest.destination)).fold(
+            {
+                ResponseEntity.notFound().build()
+            },
+            {
+                ResponseEntity.noContent().build()
+            }
+        )
+
+    @RequestMapping(method = [RequestMethod.PUT], path = ["/remove-destination/{name}"])
+    fun removeDestination(
+        @PathVariable name: String,
+        @RequestBody updateRequest: UpdateRequest,
+    ): ResponseEntity<Customer> =
+        updateCustomerUseCase.removeDestination(name, Destination(updateRequest.destination)).fold(
+            {
+                ResponseEntity.notFound().build()
+            },
+            {
+                ResponseEntity.noContent().build()
             }
         )
 
@@ -69,4 +98,8 @@ data class InsertCustomerRequest(
     val name: String,
     val age: Int,
     val favouriteDestinations: FavouriteDestinations
+)
+
+data class UpdateRequest(
+    val destination: String
 )
