@@ -8,9 +8,9 @@ sleep 2
 echo "Starting app..."
 docker compose up -d app
 
-echo "Starting mongo express interface on port 8081..."
-docker compose up -d mongo-express
-sleep 2
+#echo "Starting mongo express interface on port 8081..."
+#docker compose up -d mongo-express
+#sleep 2
 
 docker ps
 
