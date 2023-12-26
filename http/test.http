@@ -24,7 +24,7 @@ Accept: application/json
 
 ### find by id
 
-GET {{localhost}}/findById?id=c4c37cd1-9b00-48df-adb3-2ed3cd88c50f
+GET {{localhost}}/findById?id=2
 Content-Type: application/json
 Accept: application/json
 
