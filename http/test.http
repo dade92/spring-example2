@@ -1,6 +1,6 @@
 ### inserts a new customer
 
-POST http://localhost:8080/insert
+POST {{host}}/insert
 Content-Type: application/json
 Accept: application/json
 
@@ -18,19 +18,19 @@ Accept: application/json
 
 ### find by name
 
-GET {{localhost}}/find?name=Davide
+GET {{host}}/find?name=Stefania
 Content-Type: application/json
 Accept: application/json
 
 ### find by id
 
-GET {{localhost}}/findById?id=2
+GET {{host}}/findById?id=1
 Content-Type: application/json
 Accept: application/json
 
 ### add destination
 
-PUT {{localhost}}/add-destination/Davide
+PUT {{host}}/add-destination/Davide
 Content-Type: application/json
 Accept: application/json
 
@@ -40,7 +40,7 @@ Accept: application/json
 
 ### remove destination
 
-PUT {{localhost}}/remove-destination/Davide
+PUT {{host}}/remove-destination/Davide
 Content-Type: application/json
 Accept: application/json
 
@@ -50,19 +50,19 @@ Accept: application/json
 
 ### retrieve all users
 
-GET {{localhost}}/retrieveUsers
+GET {{host}}/retrieveUsers
 Content-Type: application/json
 Accept: application/json
 
 ### retrieve translations
 
-GET {{localhost}}/translations/en
+GET {{host}}/translations/en
 Content-Type: application/json
 Accept: application/json
 
 ### sends message through websocket
 
-POST {{localhost}}/send
+POST {{host}}/send
 Content-Type: application/json
 Accept: application/json
 
