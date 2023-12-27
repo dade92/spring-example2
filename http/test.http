@@ -33,39 +33,39 @@ Accept: application/json
 
 ### find by id
 
-GET {{host}}/findById?id=a1ef3fc7-21e2-4477-878a-fc732c68196e
+GET {{host}}/findById?id=2
 Content-Type: application/json
 Accept: application/json
 
 ### add destination
 
-PUT {{host}}/add-destination/123
+PUT {{host}}/add-destination/2
 Content-Type: application/json
 Accept: application/json
 
 {
-  "destination": "Milan"
+  "destination": "Pavia"
 }
 
 ### remove destination
 
-PUT {{host}}/remove-destination/123
+PUT {{host}}/remove-destination/2
 Content-Type: application/json
 Accept: application/json
 
 {
-  "destination": "Manchester"
+  "destination": "London"
 }
 
 ### update destination
 
-PUT {{host}}/update-destination/123
+PUT {{host}}/update-destination/2
 Content-Type: application/json
 Accept: application/json
 
 {
-  "old": "Liverpool",
-  "new": "Manchester"
+  "old": "Milan",
+  "new": "Usmate Velate"
 }
 
 ### retrieve all users
