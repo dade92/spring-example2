@@ -59,13 +59,13 @@ Accept: application/json
 
 ### update destination
 
-PUT {{host}}/update-destination/Sergio
+PUT {{host}}/update-destination/Carl
 Content-Type: application/json
 Accept: application/json
 
 {
-  "old": "London",
-  "new": "Busto Arsizio"
+  "old": "Liverpool",
+  "new": "Manchester"
 }
 
 ### retrieve all users

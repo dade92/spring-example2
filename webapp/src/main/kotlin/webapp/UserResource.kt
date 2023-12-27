@@ -52,12 +52,12 @@ class UserResource(
             }
         )
 
-    @RequestMapping(method = [RequestMethod.PUT], path = ["/add-destination/{name}"])
+    @RequestMapping(method = [RequestMethod.PUT], path = ["/add-destination/{id}"])
     fun addDestination(
-        @PathVariable name: String,
+        @PathVariable id: String,
         @RequestBody addDestinationRequest: UpdateRequest
     ): ResponseEntity<Customer> =
-        updateCustomerUseCase.addDestination(name, Destination(addDestinationRequest.destination)).fold(
+        updateCustomerUseCase.addDestination(id.toId(), Destination(addDestinationRequest.destination)).fold(
             {
                 ResponseEntity.notFound().build()
             },
@@ -66,12 +66,12 @@ class UserResource(
             }
         )
 
-    @RequestMapping(method = [RequestMethod.PUT], path = ["/remove-destination/{name}"])
+    @RequestMapping(method = [RequestMethod.PUT], path = ["/remove-destination/{id}"])
     fun removeDestination(
-        @PathVariable name: String,
+        @PathVariable id: String,
         @RequestBody updateRequest: UpdateRequest,
     ): ResponseEntity<Customer> =
-        updateCustomerUseCase.removeDestination(name, Destination(updateRequest.destination)).fold(
+        updateCustomerUseCase.removeDestination(id.toId(), Destination(updateRequest.destination)).fold(
             {
                 ResponseEntity.notFound().build()
             },
@@ -80,13 +80,13 @@ class UserResource(
             }
         )
 
-    @RequestMapping(method = [RequestMethod.PUT], path = ["/update-destination/{name}"])
+    @RequestMapping(method = [RequestMethod.PUT], path = ["/update-destination/{id}"])
     fun updateDestination(
-        @PathVariable name: String,
+        @PathVariable id: String,
         @RequestBody updateDestinationRequest: UpdateDestinationRequest,
     ): ResponseEntity<Customer> =
         updateCustomerUseCase.updateDestination(
-            name,
+            id.toId(),
             Destination(updateDestinationRequest.old),
             Destination(updateDestinationRequest.new)
         ).fold(
