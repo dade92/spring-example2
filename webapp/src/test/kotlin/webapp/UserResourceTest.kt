@@ -36,6 +36,7 @@ class UserResourceTest {
     private lateinit var userRequestAdapter: UserRequestAdapter
 
     private val INSERT_REQUEST = Fixtures.readJson("/insertRequest.json")
+    private val INSERT_RESPONSE = Fixtures.readJson("/insertResponse.json")
     private val ADD_DESTINATION_REQUEST = Fixtures.readJson("/updateRequest.json")
     private val FIND_RESPONSE = Fixtures.readJson("/findResponse.json")
 
@@ -60,12 +61,13 @@ class UserResourceTest {
         )
 
         `when`(userRequestAdapter.adapt(request)).thenReturn(customer)
+        `when`(insertCustomerUseCase.insert(customer)).thenReturn(uuid.toId().right())
 
         mvc.perform(
             MockMvcRequestBuilders.post("/insert")
                 .content(INSERT_REQUEST)
                 .contentType(MediaType.APPLICATION_JSON)
-        ).andExpect(status().isNoContent)
+        ).andExpect(status().is2xxSuccessful).andExpect(content().json(INSERT_RESPONSE))
 
         verify(insertCustomerUseCase).insert(customer)
     }
@@ -81,7 +83,7 @@ class UserResourceTest {
         )
 
         `when`(userRequestAdapter.adapt(request)).thenReturn(customer)
-        `when`(insertCustomerUseCase.insert(customer)).thenThrow(RuntimeException())
+        `when`(insertCustomerUseCase.insert(customer)).thenReturn(GenericDbError.left())
 
         mvc.perform(
             MockMvcRequestBuilders.post("/insert")

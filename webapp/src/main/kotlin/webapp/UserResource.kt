@@ -17,12 +17,14 @@ class UserResource(
     fun insert(
         @RequestBody insertCustomerRequest: InsertCustomerRequest
     ): ResponseEntity<*> =
-        try {
-            insertCustomerUseCase.insert(userRequestAdapter.adapt(insertCustomerRequest))
-            ResponseEntity.noContent().build<Unit>()
-        } catch (e: Exception) {
-            ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build<Unit>()
-        }
+        insertCustomerUseCase.insert(userRequestAdapter.adapt(insertCustomerRequest)).fold(
+            {
+                ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build<Unit>()
+            },
+            {
+                ResponseEntity.ok(InsertCustomerResponse(it.value))
+            }
+        )
 
     @GetMapping("/find")
     fun find(
@@ -98,6 +100,10 @@ data class InsertCustomerRequest(
     val name: String,
     val age: Int,
     val favouriteDestinations: FavouriteDestinations
+)
+
+data class InsertCustomerResponse(
+    val id: String
 )
 
 data class UpdateRequest(

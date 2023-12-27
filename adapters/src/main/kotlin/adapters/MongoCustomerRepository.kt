@@ -19,9 +19,9 @@ class MongoCustomerRepository(
 
     private val logger = LoggerFactory.getLogger(MongoCustomerRepository::class.java)
 
-    override fun insert(customer: Customer): Either<GenericDbError, Unit> {
+    override fun insert(customer: Customer): Either<GenericDbError, Id> {
         mongoTemplate.insert(MongoCustomer.fromDomain(customer), COLLECTION_NAME)
-        return Unit.right()
+        return customer.id.right()
     }
 
     override fun find(name: Name): Either<CustomerNotFoundError, Customer> {

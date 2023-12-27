@@ -3,7 +3,7 @@ package domain
 import arrow.core.Either
 
 interface CustomerRepository {
-    fun insert(customer: Customer): Either<GenericDbError, Unit>
+    fun insert(customer: Customer): Either<GenericDbError, Id>
     fun find(name: Name): Either<CustomerNotFoundError, Customer>
     fun findById(id: Id): Either<CustomerNotFoundError, Customer>
     fun addDestination(name: String, destination: Destination): Either<CustomerNotFoundError, Unit>

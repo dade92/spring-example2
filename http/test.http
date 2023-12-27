@@ -5,15 +5,18 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "name": "Bridget",
-  "age": 35,
+  "name": "Giorgio",
+  "age": 29,
   "favouriteDestinations": {
     "destinations": [
       {
-        "city": "London"
+        "city": "New York"
       },
       {
-        "city": "New York"
+        "city": "Milan"
+      },
+      {
+        "city": "Chicago"
       }
     ]
   }
@@ -21,34 +24,34 @@ Accept: application/json
 
 ### find by name
 
-GET {{host}}/find?name=Bridget
+GET {{host}}/find?name=Sergio
 Content-Type: application/json
 Accept: application/json
 
 ### find by id
 
-GET {{host}}/findById?id=9ebae187-98a7-433f-bc46-6e727faf0ea3
+GET {{host}}/findById?id=c9ef9332-b9ab-4f62-9ebe-408d2b333ab2
 Content-Type: application/json
 Accept: application/json
 
 ### add destination
 
-PUT {{host}}/add-destination/Bridget
-Content-Type: application/json
-Accept: application/json
-
-{
-  "destination": "Manchester"
-}
-
-### remove destination
-
-PUT {{host}}/remove-destination/Davide
+PUT {{host}}/add-destination/Carl
 Content-Type: application/json
 Accept: application/json
 
 {
   "destination": "Milan"
+}
+
+### remove destination
+
+PUT {{host}}/remove-destination/Bridget
+Content-Type: application/json
+Accept: application/json
+
+{
+  "destination": "Manchester"
 }
 
 ### retrieve all users
