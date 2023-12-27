@@ -24,9 +24,15 @@ ready for the deployment.
 
 ## Run the entire application
 
-Run using `./run.sh` command.
+Run using `./run.sh` command inside the `deploy` directory.
 This will download from dockerhub the images and run everything using docker compose.\
 You can stop shut everything down running the script `./stop.sh`.
+
+### Raspberry PI
+
+This application was successfully deployed in a Raspberry PI 4 Model B, with the only fix that mongo db must be 
+version 4.4.18 or earlier, for some incompatibilities between latest mongo db versions and ARM architecture. To run on
+Raspberry, just enter the deploy folder and run the `./run.sh` script. Everything should run smoothly.
 
 ## Local testing
 

@@ -86,6 +86,26 @@ class MongoCustomerRepository(
             CustomerNotFoundError.left()
         }
 
+    override fun updateDestination(
+        oldDestination: Destination,
+        newDestination: Destination,
+        name: String
+    ): Either<CustomerNotFoundError, Unit> =
+        try {
+            val query = Query(
+                Criteria.where("name").`is`(name)
+                    .and("favouriteDestinations.destinations.city").`is`(oldDestination.city)
+            )
+
+            val update = Update().set("favouriteDestinations.destinations.$.city", newDestination.city)
+
+            mongoTemplate.updateFirst(query, update, COLLECTION_NAME)
+            Unit.right()
+        } catch (e: Exception) {
+            logger.error("Error updating destination for customer ${name} due to ", e)
+            CustomerNotFoundError.left()
+        }
+
     override fun getAll(): List<Customer> {
         val query = Query()
         return mongoTemplate.find(query, MongoCustomer::class.java, COLLECTION_NAME).map { it.toDomain() }

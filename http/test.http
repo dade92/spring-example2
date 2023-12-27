@@ -21,7 +21,7 @@ Accept: application/json
 
 ### remove customer
 
-POST {{host}}/remove/1
+POST {{host}}/remove/a1ef3fc7-21e2-4477-878a-fc732c68196e
 Content-Type: application/json
 Accept: application/json
 
@@ -55,6 +55,17 @@ Accept: application/json
 
 {
   "destination": "Manchester"
+}
+
+### update destination
+
+PUT {{host}}/update-destination/Sergio
+Content-Type: application/json
+Accept: application/json
+
+{
+  "old": "London",
+  "new": "Busto Arsizio"
 }
 
 ### retrieve all users

@@ -80,6 +80,24 @@ class UserResource(
             }
         )
 
+    @RequestMapping(method = [RequestMethod.PUT], path = ["/update-destination/{name}"])
+    fun updateDestination(
+        @PathVariable name: String,
+        @RequestBody updateDestinationRequest: UpdateDestinationRequest,
+    ): ResponseEntity<Customer> =
+        updateCustomerUseCase.updateDestination(
+            name,
+            Destination(updateDestinationRequest.old),
+            Destination(updateDestinationRequest.new)
+        ).fold(
+            {
+                ResponseEntity.notFound().build()
+            },
+            {
+                ResponseEntity.noContent().build()
+            }
+        )
+
     @GetMapping("/findById")
     fun findById(
         @RequestParam id: String
@@ -117,6 +135,11 @@ data class InsertCustomerRequest(
 
 data class InsertCustomerResponse(
     val id: String
+)
+
+data class UpdateDestinationRequest(
+    val old: String,
+    val new: String
 )
 
 data class UpdateRequest(
