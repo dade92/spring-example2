@@ -39,7 +39,7 @@ Accept: application/json
 
 ### add destination
 
-PUT {{host}}/add-destination/Carl
+PUT {{host}}/add-destination/123
 Content-Type: application/json
 Accept: application/json
 
@@ -49,7 +49,7 @@ Accept: application/json
 
 ### remove destination
 
-PUT {{host}}/remove-destination/Bridget
+PUT {{host}}/remove-destination/123
 Content-Type: application/json
 Accept: application/json
 
@@ -59,7 +59,7 @@ Accept: application/json
 
 ### update destination
 
-PUT {{host}}/update-destination/Carl
+PUT {{host}}/update-destination/123
 Content-Type: application/json
 Accept: application/json
 
