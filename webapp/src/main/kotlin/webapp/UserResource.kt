@@ -26,6 +26,19 @@ class UserResource(
             }
         )
 
+    @PostMapping("/remove/{id}")
+    fun remove(
+        @PathVariable id: String
+    ): ResponseEntity<*> =
+        insertCustomerUseCase.remove(id.toId()).fold(
+            {
+                ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build<Unit>()
+            },
+            {
+                ResponseEntity.noContent().build()
+            }
+        )
+
     @GetMapping("/find")
     fun find(
         @RequestParam name: String

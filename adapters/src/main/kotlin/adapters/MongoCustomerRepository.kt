@@ -24,6 +24,16 @@ class MongoCustomerRepository(
         return customer.id.right()
     }
 
+    override fun remove(id: Id): Either<GenericDbError, Unit> =
+        try {
+            val query = query(Criteria.where("_id").`is`(id.value))
+            mongoTemplate.remove(query, COLLECTION_NAME)
+            Unit.right()
+        } catch (e: Exception) {
+            logger.error("Error while removing customer with id ${id.value} due to ", e)
+            GenericDbError.left()
+        }
+
     override fun find(name: Name): Either<CustomerNotFoundError, Customer> {
         val query = query(Criteria.where("name").`is`(name.value))
         return try {
