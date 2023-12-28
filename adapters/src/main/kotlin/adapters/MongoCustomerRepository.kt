@@ -19,12 +19,13 @@ class MongoCustomerRepository(
 
     private val logger = LoggerFactory.getLogger(MongoCustomerRepository::class.java)
 
-    override fun insert(customer: Customer): Either<GenericDbError, Id> {
-        mongoTemplate.insert(MongoCustomer.fromDomain(customer), COLLECTION_NAME).let {
-            it.id
+    override fun insert(customer: Customer): Either<GenericDbError, Id> =
+        try {
+            mongoTemplate.insert(MongoCustomer.fromDomain(customer), COLLECTION_NAME)
+            customer.id.right()
+        } catch (e: Exception) {
+            GenericDbError.left()
         }
-        return customer.id.right()
-    }
 
     override fun remove(id: Id): Either<GenericDbError, Unit> =
         try {
