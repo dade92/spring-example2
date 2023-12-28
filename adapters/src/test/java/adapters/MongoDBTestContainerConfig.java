@@ -1,14 +1,12 @@
 package adapters;
 
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.utility.DockerImageName;
 import org.testcontainers.utility.MountableFile;
 
 @Configuration
-@EnableMongoRepositories
 public class MongoDBTestContainerConfig {
     @Container
     public static final GenericContainer<?> mongoDBContainer = new GenericContainer<>(
