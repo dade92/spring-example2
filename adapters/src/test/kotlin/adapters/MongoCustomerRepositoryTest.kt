@@ -14,9 +14,8 @@ import org.testcontainers.junit.jupiter.Testcontainers
 import org.hamcrest.MatcherAssert.assertThat
 
 
-@SpringBootTest
+@SpringBootTest(classes = [AdaptersConfiguration::class, MongoConfiguration::class, MongoDBTestContainerConfig::class])
 @Testcontainers
-@ContextConfiguration(classes = [AdaptersConfiguration::class, MongoConfiguration::class, MongoDBTestContainerConfig::class])
 class MongoCustomerRepositoryIntegrationTest {
 
     @Autowired
