@@ -7,9 +7,9 @@ interface CustomerRepository {
     fun remove(id: Id): Either<GenericDbError, Unit>
     fun find(name: Name): Either<CustomerNotFoundError, Customer>
     fun findById(id: Id): Either<CustomerNotFoundError, Customer>
-    fun addDestination(name: String, destination: Destination): Either<CustomerNotFoundError, Unit>
-    fun removeDestination(name: String, destination: Destination): Either<CustomerNotFoundError, Unit>
-    fun updateDestination(oldDestination: Destination, newDestination: Destination, name: String): Either<CustomerNotFoundError, Unit>
+    fun addDestination(id: Id, destination: Destination): Either<CustomerNotFoundError, Unit>
+    fun removeDestination(id: Id, destination: Destination): Either<CustomerNotFoundError, Unit>
+    fun updateDestination(oldDestination: Destination, newDestination: Destination, id: Id): Either<CustomerNotFoundError, Unit>
 
     fun getAll(): List<Customer>
 }

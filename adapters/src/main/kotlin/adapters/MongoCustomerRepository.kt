@@ -53,9 +53,9 @@ class MongoCustomerRepository(
             CustomerNotFoundError.left()
         }
 
-    override fun addDestination(name: String, destination: Destination): Either<CustomerNotFoundError, Unit> =
+    override fun addDestination(id: Id, destination: Destination): Either<CustomerNotFoundError, Unit> =
         try {
-            val query = query(Criteria.where("name").`is`(name))
+            val query = query(Criteria.where("_id").`is`(id.value))
 //            val update = update(
 //                "favouriteDestinations",
 //                FavouriteDestinations(listOf(Destination("Sidney"), Destination("London")))
@@ -71,9 +71,9 @@ class MongoCustomerRepository(
             CustomerNotFoundError.left()
         }
 
-    override fun removeDestination(name: String, destination: Destination): Either<CustomerNotFoundError, Unit> =
+    override fun removeDestination(id: Id, destination: Destination): Either<CustomerNotFoundError, Unit> =
         try {
-            val query = query(Criteria.where("name").`is`(name))
+            val query = query(Criteria.where("_id").`is`(id.value))
 
             val update = Update().pull("favouriteDestinations.destinations", destination)
 
@@ -89,11 +89,11 @@ class MongoCustomerRepository(
     override fun updateDestination(
         oldDestination: Destination,
         newDestination: Destination,
-        name: String
+        id: Id
     ): Either<CustomerNotFoundError, Unit> =
         try {
             val query = Query(
-                Criteria.where("name").`is`(name)
+                Criteria.where("_id").`is`(id.value)
                     .and("favouriteDestinations.destinations.city").`is`(oldDestination.city)
             )
 
@@ -102,7 +102,7 @@ class MongoCustomerRepository(
             mongoTemplate.updateFirst(query, update, COLLECTION_NAME)
             Unit.right()
         } catch (e: Exception) {
-            logger.error("Error updating destination for customer ${name} due to ", e)
+            logger.error("Error updating destination for customer ${id.value} due to ", e)
             CustomerNotFoundError.left()
         }
 

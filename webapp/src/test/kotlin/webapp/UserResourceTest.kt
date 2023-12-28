@@ -126,71 +126,71 @@ class UserResourceTest {
 
     @Test
     fun `update customer destination successful`() {
-        val name = "ciccio"
+        val id = "123"
 
-        `when`(updateCustomerUseCase.addDestination(name, Destination("London"))).thenReturn(Unit.right())
+        `when`(updateCustomerUseCase.addDestination(id.toId(), Destination("London"))).thenReturn(Unit.right())
 
         mvc.perform(
-            MockMvcRequestBuilders.put("/add-destination/ciccio")
+            MockMvcRequestBuilders.put("/add-destination/123")
                 .content(ADD_DESTINATION_REQUEST)
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isNoContent)
 
-        verify(updateCustomerUseCase).addDestination(name, Destination("London"))
+        verify(updateCustomerUseCase).addDestination(id.toId(), Destination("London"))
     }
 
     @Test
     fun `update customer destination error`() {
-        val name = "ciccio"
+        val id = "123"
 
         `when`(
             updateCustomerUseCase.addDestination(
-                name,
+                id.toId(),
                 Destination("London")
             )
         ).thenReturn(CustomerNotFoundError.left())
 
         mvc.perform(
-            MockMvcRequestBuilders.put("/add-destination/ciccio")
+            MockMvcRequestBuilders.put("/add-destination/123")
                 .content(ADD_DESTINATION_REQUEST)
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isNotFound)
 
-        verify(updateCustomerUseCase).addDestination(name, Destination("London"))
+        verify(updateCustomerUseCase).addDestination(id.toId(), Destination("London"))
     }
 
     @Test
     fun `remove customer destination successful`() {
-        val name = "ciccio"
+        val id = "123"
 
-        `when`(updateCustomerUseCase.removeDestination(name, Destination("London"))).thenReturn(Unit.right())
+        `when`(updateCustomerUseCase.removeDestination(id.toId(), Destination("London"))).thenReturn(Unit.right())
 
         mvc.perform(
-            MockMvcRequestBuilders.put("/remove-destination/ciccio")
+            MockMvcRequestBuilders.put("/remove-destination/123")
                 .content(ADD_DESTINATION_REQUEST)
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isNoContent)
 
-        verify(updateCustomerUseCase).removeDestination(name, Destination("London"))
+        verify(updateCustomerUseCase).removeDestination(id.toId(), Destination("London"))
     }
 
     @Test
     fun `remove customer destination error`() {
-        val name = "ciccio"
+        val id = "123"
 
         `when`(
             updateCustomerUseCase.removeDestination(
-                name,
+                id.toId(),
                 Destination("London")
             )
         ).thenReturn(CustomerNotFoundError.left())
 
         mvc.perform(
-            MockMvcRequestBuilders.put("/remove-destination/ciccio")
+            MockMvcRequestBuilders.put("/remove-destination/123")
                 .content(ADD_DESTINATION_REQUEST)
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isNotFound)
 
-        verify(updateCustomerUseCase).removeDestination(name, Destination("London"))
+        verify(updateCustomerUseCase).removeDestination(id.toId(), Destination("London"))
     }
 }
