@@ -22,8 +22,8 @@ class MongoCustomerRepositoryIntegrationTest {
     private lateinit var customerRepository: CustomerRepository
 
     @Test
-    fun `insert should return customer id on success and successfully save the customer on DB, after remove, no customer exists`() {
-        val customerId = "3".toId()
+    fun `insert successfully and remove the customer afterwards`() {
+        val customerId = "4".toId()
         val newCustomer = aCustomer(customerId, "John Doe".toName())
 
         val result = customerRepository.insert(newCustomer)
@@ -53,15 +53,15 @@ class MongoCustomerRepositoryIntegrationTest {
     @Test
     fun `add destination to an existing customer`() {
         val newDestination = Destination("Tokyo")
-        val id = "1".toId()
+        val id = "2".toId()
 
         customerRepository.addDestination(id, newDestination)
 
         assertThat(customerRepository.findById(id)).isEqualTo(
             Customer(
                 id = id,
-                name = "Davide".toName(),
-                age = 31,
+                name = "Sergio".toName(),
+                age = 62,
                 favouriteDestinations = FavouriteDestinations(
                     listOf(
                         Destination("Milan"),
@@ -75,14 +75,14 @@ class MongoCustomerRepositoryIntegrationTest {
 
     @Test
     fun `update an existing destination`() {
-        val id = "1".toId()
+        val id = "3".toId()
         customerRepository.updateDestination(Destination("Milan"), Destination("San Diego"), id)
 
         assertThat(customerRepository.findById(id)).isEqualTo(
             Customer(
                 id = id,
-                name = "Davide".toName(),
-                age = 31,
+                name = "Paola".toName(),
+                age = 57,
                 favouriteDestinations = FavouriteDestinations(
                     listOf(
                         Destination("San Diego"),
