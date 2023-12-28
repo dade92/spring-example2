@@ -5,12 +5,13 @@ import adapters.configuration.MongoConfiguration
 import arrow.core.left
 import arrow.core.right
 import domain.*
-import org.assertj.core.api.Assertions.assertThat
+import org.hamcrest.CoreMatchers.`is`
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ContextConfiguration
 import org.testcontainers.junit.jupiter.Testcontainers
+import org.hamcrest.MatcherAssert.assertThat
 
 
 @SpringBootTest
@@ -28,13 +29,13 @@ class MongoCustomerRepositoryIntegrationTest {
 
         val result = customerRepository.insert(newCustomer)
 
-        assertThat(result).isEqualTo(customerId.right())
+        assertThat(result, `is`(customerId.right()))
 
-        assertThat(customerRepository.findById(customerId)).isEqualTo(newCustomer.right())
+        assertThat(customerRepository.findById(customerId), `is`(newCustomer.right()))
 
-        assertThat(customerRepository.remove(customerId)).isEqualTo(Unit.right())
+        assertThat(customerRepository.remove(customerId), `is`(Unit.right()))
 
-        assertThat(customerRepository.findById(customerId)).isEqualTo(CustomerNotFoundError.left())
+        assertThat(customerRepository.findById(customerId), `is`(CustomerNotFoundError.left()))
     }
 
     @Test
@@ -45,9 +46,9 @@ class MongoCustomerRepositoryIntegrationTest {
             age = 31,
             favouriteDestinations = FavouriteDestinations(listOf(Destination("Milan"), Destination("London")))
         )
-        assertThat(customerRepository.find("Davide".toName())).isEqualTo(alreadyPresentCustomer.right())
+        assertThat(customerRepository.find("Davide".toName()), `is`(alreadyPresentCustomer.right()))
 
-        assertThat(customerRepository.findById("1".toId())).isEqualTo(alreadyPresentCustomer.right())
+        assertThat(customerRepository.findById("1".toId()), `is`(alreadyPresentCustomer.right()))
     }
 
     @Test
@@ -57,19 +58,21 @@ class MongoCustomerRepositoryIntegrationTest {
 
         customerRepository.addDestination(id, newDestination)
 
-        assertThat(customerRepository.findById(id)).isEqualTo(
-            Customer(
-                id = id,
-                name = "Sergio".toName(),
-                age = 62,
-                favouriteDestinations = FavouriteDestinations(
-                    listOf(
-                        Destination("Milan"),
-                        Destination("London"),
-                        newDestination
+        assertThat(
+            customerRepository.findById(id), `is`(
+                Customer(
+                    id = id,
+                    name = "Sergio".toName(),
+                    age = 62,
+                    favouriteDestinations = FavouriteDestinations(
+                        listOf(
+                            Destination("Milan"),
+                            Destination("London"),
+                            newDestination
+                        )
                     )
-                )
-            ).right()
+                ).right()
+            )
         )
     }
 
@@ -78,18 +81,20 @@ class MongoCustomerRepositoryIntegrationTest {
         val id = "3".toId()
         customerRepository.updateDestination(Destination("Milan"), Destination("San Diego"), id)
 
-        assertThat(customerRepository.findById(id)).isEqualTo(
-            Customer(
-                id = id,
-                name = "Paola".toName(),
-                age = 57,
-                favouriteDestinations = FavouriteDestinations(
-                    listOf(
-                        Destination("San Diego"),
-                        Destination("London"),
+        assertThat(
+            customerRepository.findById(id), `is`(
+                Customer(
+                    id = id,
+                    name = "Paola".toName(),
+                    age = 57,
+                    favouriteDestinations = FavouriteDestinations(
+                        listOf(
+                            Destination("San Diego"),
+                            Destination("London"),
+                        )
                     )
-                )
-            ).right()
+                ).right()
+            )
         )
     }
 
