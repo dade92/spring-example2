@@ -19,10 +19,13 @@ class MongoCustomerRepository(
 
     private val logger = LoggerFactory.getLogger(MongoCustomerRepository::class.java)
 
-    override fun insert(customer: Customer): Either<GenericDbError, Id> {
-        mongoTemplate.insert(MongoCustomer.fromDomain(customer), COLLECTION_NAME)
-        return customer.id.right()
-    }
+    override fun insert(customer: Customer): Either<GenericDbError, Id> =
+        try {
+            mongoTemplate.insert(MongoCustomer.fromDomain(customer), COLLECTION_NAME)
+            customer.id.right()
+        } catch (e: Exception) {
+            GenericDbError.left()
+        }
 
     override fun remove(id: Id): Either<GenericDbError, Unit> =
         try {
@@ -34,15 +37,14 @@ class MongoCustomerRepository(
             GenericDbError.left()
         }
 
-    override fun find(name: Name): Either<CustomerNotFoundError, Customer> {
-        val query = query(Criteria.where("name").`is`(name.value))
-        return try {
+    override fun find(name: Name): Either<CustomerNotFoundError, Customer> =
+        try {
+            val query = query(Criteria.where("name").`is`(name.value))
             mongoTemplate.find(query, MongoCustomer::class.java, COLLECTION_NAME)[0].toDomain().right()
         } catch (e: Exception) {
             logger.warn("Unable to find customer because of ", e)
             CustomerNotFoundError.left()
         }
-    }
 
     override fun findById(id: Id): Either<CustomerNotFoundError, Customer> =
         try {
