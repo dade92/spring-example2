@@ -5,6 +5,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.utility.DockerImageName;
+import org.testcontainers.utility.MountableFile;
 
 @Configuration
 @EnableMongoRepositories
@@ -14,8 +15,8 @@ public class MongoDBTestContainerConfig {
         DockerImageName.parse("mongo:latest"))
         .withEnv("MONGO_INITDB_ROOT_USERNAME", "root")
         .withEnv("MONGO_INITDB_ROOT_PASSWORD", "password")
-        .withExposedPorts(27017);
-//        .withCopyFileToContainer(MountableFile.forClasspathResource("/init.js"), "/docker-entrypoint-initdb.d/init-script.js");
+        .withExposedPorts(27017)
+        .withCopyFileToContainer(MountableFile.forClasspathResource("./init.js"), "/docker-entrypoint-initdb.d/init-script.js");
 
     static {
         mongoDBContainer.start();

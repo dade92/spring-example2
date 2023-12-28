@@ -2,7 +2,6 @@ package adapters
 
 import adapters.configuration.AdaptersConfiguration
 import adapters.configuration.MongoConfiguration
-import arrow.core.left
 import arrow.core.right
 import domain.*
 import org.assertj.core.api.Assertions.assertThat
@@ -10,7 +9,6 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.mongodb.core.MongoTemplate
-import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.ContextConfiguration
 import org.testcontainers.junit.jupiter.Testcontainers
 
@@ -26,25 +24,35 @@ class MongoCustomerRepositoryIntegrationTest {
     @Autowired
     private lateinit var mongoTemplate: MongoTemplate
 
+    val customer = aCustomer("3".toId(), "John Doe".toName())
 
     @Test
     fun `insert should return customer id on success`() {
-        // Arrange
-        val customer = createSampleCustomer()
-
-        // Act
         val result = customerRepository.insert(customer)
 
-        // Assert
-        assertThat(result).isEqualTo(customer.id.right())
+        assertThat(result).isEqualTo("3".toId().right())
     }
 
-    private fun createSampleCustomer(): Customer {
+    @Test
+    fun `should retrieve an existing customer`() {
+        val alreadyPresentCustomer = Customer(
+            id = "1".toId(),
+            name = "Davide".toName(),
+            age = 31,
+            favouriteDestinations = FavouriteDestinations(listOf(Destination("Milan"), Destination("London")))
+        )
+        assertThat(customerRepository.find("Davide".toName())).isEqualTo(alreadyPresentCustomer.right())
+
+        assertThat(customerRepository.findById("1".toId())).isEqualTo(alreadyPresentCustomer.right())
+    }
+
+    private fun aCustomer(id: Id, name: Name): Customer {
         return Customer(
-            name = Name("John Doe"),
+            name = name,
             age = 30,
             favouriteDestinations = FavouriteDestinations(listOf(Destination("City1"))),
-            id = Id("123")
+            id = id
         )
     }
+
 }
