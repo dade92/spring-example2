@@ -86,6 +86,19 @@
             <version>1.9.1</version>
             <scope>test</scope>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/io.kotest/kotest-assertions-core-jvm -->
+        <dependency>
+            <groupId>io.kotest</groupId>
+            <artifactId>kotest-assertions-core-jvm</artifactId>
+            <version>5.8.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.kotest.extensions</groupId>
+            <artifactId>kotest-assertions-arrow</artifactId>
+            <version>1.4.0</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
