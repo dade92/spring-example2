@@ -26,6 +26,7 @@ class MongoCustomerRepository(
             mongoTemplate.insert(MongoCustomer.fromDomain(customer, timeProvider.now()), COLLECTION_NAME)
             customer.id.right()
         } catch (e: Exception) {
+            logger.error("Error while inserting customer, due to ", e)
             GenericDbError.left()
         }
 
@@ -122,7 +123,7 @@ data class MongoCustomer(
     val name: String,
     val age: Int?,
     val favouriteDestinations: FavouriteDestinations?,
-    val creationDate: LocalDateTime
+    val creationDate: String
 ) {
     fun toDomain(): Customer = Customer(
         name = name.toName(),
@@ -137,7 +138,7 @@ data class MongoCustomer(
             age = customer.age,
             favouriteDestinations = customer.favouriteDestinations,
             id = customer.id.value,
-            creationDate = now
+            creationDate = now.toString()
         )
     }
 }
