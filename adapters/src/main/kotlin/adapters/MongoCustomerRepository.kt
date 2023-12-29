@@ -11,6 +11,8 @@ import org.springframework.data.mongodb.core.query.Query
 import org.springframework.data.mongodb.core.query.Query.query
 import org.springframework.data.mongodb.core.query.Update
 import java.time.LocalDateTime
+import java.time.temporal.ChronoUnit
+import java.time.temporal.TemporalUnit
 
 private val COLLECTION_NAME = "mongocustomer"
 
@@ -138,7 +140,7 @@ data class MongoCustomer(
             age = customer.age,
             favouriteDestinations = customer.favouriteDestinations,
             id = customer.id.value,
-            creationDate = now.toString()
+            creationDate = now.truncatedTo(ChronoUnit.SECONDS).toString()
         )
     }
 }
