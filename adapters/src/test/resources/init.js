@@ -24,4 +24,11 @@ db.mongocustomer.insert([
         "favouriteDestinations": {destinations: [{city: 'Milan'}, {city: 'London'}]},
         "creationDate": '2023-12-29T08:48:06.742Z'
     },
+    {
+        "_id": '4',
+        "name": "Sergio",
+        "age": 62,
+        "favouriteDestinations": {destinations: [{city: 'Milan'}, {city: 'London'}]},
+        "creationDate": '2023-12-29T08:48:06.742Z'
+    },
 ]);
