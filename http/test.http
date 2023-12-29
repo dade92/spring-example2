@@ -33,7 +33,7 @@ Accept: application/json
 
 ### find by id
 
-GET {{host}}/findById?id=2
+GET {{host}}/findById?id=c1950016-1c66-4d64-8a2c-632311c33572
 Content-Type: application/json
 Accept: application/json
 
