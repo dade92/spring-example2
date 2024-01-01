@@ -10,20 +10,25 @@ import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.data.mongodb.core.query.Query
 import org.springframework.data.mongodb.core.query.Query.query
 import org.springframework.data.mongodb.core.query.Update
+import java.time.LocalDateTime
+import java.time.temporal.ChronoUnit
+import java.time.temporal.TemporalUnit
 
 private val COLLECTION_NAME = "mongocustomer"
 
 class MongoCustomerRepository(
-    private val mongoTemplate: MongoTemplate
+    private val mongoTemplate: MongoTemplate,
+    private val timeProvider: TimeProvider
 ) : CustomerRepository {
 
     private val logger = LoggerFactory.getLogger(MongoCustomerRepository::class.java)
 
     override fun insert(customer: Customer): Either<GenericDbError, Id> =
         try {
-            mongoTemplate.insert(MongoCustomer.fromDomain(customer), COLLECTION_NAME)
+            mongoTemplate.insert(MongoCustomer.fromDomain(customer, timeProvider.now()), COLLECTION_NAME)
             customer.id.right()
         } catch (e: Exception) {
+            logger.error("Error while inserting customer, due to ", e)
             GenericDbError.left()
         }
 
@@ -119,7 +124,8 @@ data class MongoCustomer(
     val id: String,
     val name: String,
     val age: Int?,
-    val favouriteDestinations: FavouriteDestinations?
+    val favouriteDestinations: FavouriteDestinations?,
+    val creationDate: String?
 ) {
     fun toDomain(): Customer = Customer(
         name = name.toName(),
@@ -129,11 +135,12 @@ data class MongoCustomer(
     )
 
     companion object {
-        fun fromDomain(customer: Customer) = MongoCustomer(
+        fun fromDomain(customer: Customer, now: LocalDateTime) = MongoCustomer(
             name = customer.name.value,
             age = customer.age,
             favouriteDestinations = customer.favouriteDestinations,
-            id = customer.id.value
+            id = customer.id.value,
+            creationDate = now.truncatedTo(ChronoUnit.SECONDS).toString()
         )
     }
 }

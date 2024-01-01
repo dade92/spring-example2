@@ -20,7 +20,7 @@ class MongoCustomerRepositoryIT {
 
     @Test
     fun `insert successfully and remove the customer afterwards`() {
-        val customerId = "4".toId()
+        val customerId = "5".toId()
         val newCustomer = aCustomer(customerId, "John Doe".toName())
 
         val actualId = customerRepository.insert(newCustomer)
@@ -65,6 +65,21 @@ class MongoCustomerRepositoryIT {
                     newDestination
                 )
             )
+        ).right()
+    }
+
+    @Test
+    fun `remove destination from existing customer`() {
+        val toBeRemoved = Destination("Milan")
+        val id = "4".toId()
+
+        customerRepository.removeDestination(id, toBeRemoved)
+
+        customerRepository.findById(id) shouldBe Customer(
+            id = id,
+            name = "Sergio".toName(),
+            age = 62,
+            favouriteDestinations = FavouriteDestinations(listOf(Destination("London")))
         ).right()
     }
 

@@ -4,7 +4,8 @@ import org.springframework.context.annotation.Configuration;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.utility.DockerImageName;
-import org.testcontainers.utility.MountableFile;
+
+import static org.testcontainers.utility.MountableFile.forClasspathResource;
 
 @Configuration
 public class MongoDBTestContainerConfig {
@@ -14,7 +15,10 @@ public class MongoDBTestContainerConfig {
         .withEnv("MONGO_INITDB_ROOT_USERNAME", "root")
         .withEnv("MONGO_INITDB_ROOT_PASSWORD", "password")
         .withExposedPorts(27017)
-        .withCopyFileToContainer(MountableFile.forClasspathResource("./init.js"), "/docker-entrypoint-initdb.d/init-script.js");
+        .withCopyFileToContainer(
+            forClasspathResource("./init.js"),
+            "/docker-entrypoint-initdb.d/init-script.js"
+        );
 
     static {
         mongoDBContainer.start();
