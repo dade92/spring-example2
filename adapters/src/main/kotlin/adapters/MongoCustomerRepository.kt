@@ -125,7 +125,7 @@ data class MongoCustomer(
     val name: String,
     val age: Int?,
     val favouriteDestinations: FavouriteDestinations?,
-    val creationDate: String
+    val creationDate: String?
 ) {
     fun toDomain(): Customer = Customer(
         name = name.toName(),
