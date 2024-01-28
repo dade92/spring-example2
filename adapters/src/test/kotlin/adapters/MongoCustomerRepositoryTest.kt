@@ -13,7 +13,7 @@ import org.testcontainers.junit.jupiter.Testcontainers
 
 @SpringBootTest(classes = [AdaptersConfiguration::class, MongoConfiguration::class, MongoDBTestContainerConfig::class])
 @Testcontainers
-class MongoCustomerRepositoryIT {
+class MongoCustomerRepositoryIntegrationTest {
 
     @Autowired
     private lateinit var customerRepository: CustomerRepository

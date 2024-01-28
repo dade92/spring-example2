@@ -5,15 +5,15 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "name": "test3",
+  "name": "Karissa",
   "age": 31,
   "favouriteDestinations": {
     "destinations": [
       {
-        "city": "Canzo"
+        "city": "Rochester"
       },
       {
-        "city": "Pavia"
+        "city": "Richmond"
       }
     ]
   }
@@ -21,25 +21,25 @@ Accept: application/json
 
 ### remove customer
 
-POST {{host}}/remove/a1ef3fc7-21e2-4477-878a-fc732c68196e
+POST {{host}}/remove/b2ab9ad2-b739-4ba1-bb42-fd5c35ccf638
 Content-Type: application/json
 Accept: application/json
 
 ### find by name
 
-GET {{host}}/find?name=Davide
+GET {{host}}/find?name=Karissa
 Content-Type: application/json
 Accept: application/json
 
 ### find by id
 
-GET {{host}}/findById?id=b0ca8934-bd3b-4278-9089-874619d584db
+GET {{host}}/findById?id=1234
 Content-Type: application/json
 Accept: application/json
 
 ### add destination
 
-PUT {{host}}/add-destination/2
+PUT {{host}}/add-destination/1234
 Content-Type: application/json
 Accept: application/json
 
@@ -87,5 +87,5 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "message": "Hey there!!!"
+  "message": "What's up bro??"
 }
