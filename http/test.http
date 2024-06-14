@@ -1,6 +1,6 @@
 ### inserts a new customer
 
-POST {{host}}/insert
+POST {{host}}/api/insert
 Content-Type: application/json
 Accept: application/json
 
@@ -21,25 +21,25 @@ Accept: application/json
 
 ### remove customer
 
-POST {{host}}/remove/b2ab9ad2-b739-4ba1-bb42-fd5c35ccf638
+POST {{host}}/api/remove/b2ab9ad2-b739-4ba1-bb42-fd5c35ccf638
 Content-Type: application/json
 Accept: application/json
 
 ### find by name
 
-GET {{host}}/find?name=Karissa
+GET {{host}}/api/find?name=Karissa
 Content-Type: application/json
 Accept: application/json
 
 ### find by id
 
-GET {{host}}/findById?id=1234
+GET {{host}}/api/findById?id=1234
 Content-Type: application/json
 Accept: application/json
 
 ### add destination
 
-PUT {{host}}/add-destination/1234
+PUT {{host}}/api/add-destination/1234
 Content-Type: application/json
 Accept: application/json
 
@@ -49,7 +49,7 @@ Accept: application/json
 
 ### remove destination
 
-PUT {{host}}/remove-destination/2
+PUT {{host}}/api/remove-destination/2
 Content-Type: application/json
 Accept: application/json
 
@@ -59,7 +59,7 @@ Accept: application/json
 
 ### update destination
 
-PUT {{host}}/update-destination/2
+PUT {{host}}/api/update-destination/2
 Content-Type: application/json
 Accept: application/json
 
@@ -70,7 +70,7 @@ Accept: application/json
 
 ### retrieve all users
 
-GET {{host}}/retrieveUsers
+GET {{host}}/api/retrieveUsers
 Content-Type: application/json
 Accept: application/json
 
@@ -82,7 +82,7 @@ Accept: application/json
 
 ### sends message through websocket
 
-POST {{host}}/send
+POST {{host}}/api/send
 Content-Type: application/json
 Accept: application/json
 
