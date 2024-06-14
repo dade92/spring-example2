@@ -76,7 +76,7 @@ Accept: application/json
 
 ### retrieve translations
 
-GET {{host}}/translations/en
+GET {{host}}/api/translations/en
 Content-Type: application/json
 Accept: application/json
 

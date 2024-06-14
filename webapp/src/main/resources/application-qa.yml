@@ -1,2 +1,6 @@
+server:
+  servlet:
+    context-path: /api
+
 mongo:
   url: mongodb://root:password@mongo:27017/customers?authSource=admin
