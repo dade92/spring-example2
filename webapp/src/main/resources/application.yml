@@ -2,6 +2,11 @@ server:
   servlet:
     context-path: /api
 
+aws:
+  accessKey: AKIASNM5FAX7AYSSAZ5O
+  secretAccessKey: 6db8HPHxTt/p9hlFQhIn1utwazq69qhuRFr9JtLy
+  bucketName: s3-bucket-example-1234599
+
 mongo:
   url: mongodb://root:password@localhost:27017/?authSource=admin
 
