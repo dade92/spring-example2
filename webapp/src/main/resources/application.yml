@@ -3,9 +3,9 @@ server:
     context-path: /api
 
 aws:
-  accessKey: AKIASNM5FAX7AYSSAZ5O
-  secretAccessKey: 6db8HPHxTt/p9hlFQhIn1utwazq69qhuRFr9JtLy
-  bucketName: s3-bucket-example-1234599
+  accessKey: ${ACCESS_KEY}
+  secretAccessKey: ${SECRET_ACCESS_KEY}
+  bucketName: davide-s3-12345678900000
 
 mongo:
   url: mongodb://root:password@localhost:27017/?authSource=admin
