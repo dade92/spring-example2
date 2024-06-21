@@ -16,8 +16,11 @@ public class DocumentConfiguration {
     public AwsDocumentService documentService(
         AwsProperties awsProperties
     ) {
+        BasicAWSCredentials awsCredentials = new BasicAWSCredentials(awsProperties.accessKey, awsProperties.secretAccessKey);
+
         AmazonS3 amazonS3 = AmazonS3ClientBuilder
             .standard()
+            .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
             .withRegion("eu-central-1")
             .build();
 
