@@ -33,7 +33,7 @@ Accept: application/json
 
 ### find by id
 
-GET {{host}}/api/findById?id=1234
+GET {{host}}/api/findById?id=14c2e906-7644-48f2-b741-057b46225350
 Content-Type: application/json
 Accept: application/json
 
