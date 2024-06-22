@@ -5,15 +5,12 @@ import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
-import org.springframework.web.multipart.MultipartFile;
+import documents.DocumentService;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
-import java.util.Objects;
 
-public class AwsDocumentService {
+public class AwsDocumentService implements DocumentService {
 
     private final AmazonS3 amazonS3;
     private final String bucketName;
@@ -23,12 +20,12 @@ public class AwsDocumentService {
         this.bucketName = bucketName;
     }
 
-    public void upload(MultipartFile file) {
-        File localFile = convertMultipartFileToFile(file);
-
-        amazonS3.putObject(new PutObjectRequest(bucketName, file.getOriginalFilename(), localFile));
+    @Override
+    public void upload(File file) {
+        amazonS3.putObject(new PutObjectRequest(bucketName, file.getName(), file));
     }
 
+    @Override
     public String readTextFile(String filename) throws IOException {
         S3Object amazonS3Object = amazonS3.getObject(new GetObjectRequest(bucketName, filename));
         S3ObjectInputStream objectContent = amazonS3Object.getObjectContent();
@@ -38,16 +35,6 @@ public class AwsDocumentService {
             output.append((char) content);
         }
         return output.toString();
-    }
-
-    private File convertMultipartFileToFile(MultipartFile file) {
-        File convertedFile = new File(Objects.requireNonNull(file.getOriginalFilename()));
-        try {
-            Files.copy(file.getInputStream(), convertedFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return convertedFile;
     }
 
 }
