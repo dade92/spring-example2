@@ -3,7 +3,6 @@ package adapters.s3;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
 import documents.DocumentService;
 
@@ -27,8 +26,9 @@ public class AwsDocumentService implements DocumentService {
 
     @Override
     public String readTextFile(String filename) throws IOException {
-        S3Object amazonS3Object = amazonS3.getObject(new GetObjectRequest(bucketName, filename));
-        S3ObjectInputStream objectContent = amazonS3Object.getObjectContent();
+        S3ObjectInputStream objectContent = amazonS3
+            .getObject(new GetObjectRequest(bucketName, filename))
+            .getObjectContent();
         int content;
         StringBuilder output = new StringBuilder();
         while ((content = objectContent.read()) != -1) {
