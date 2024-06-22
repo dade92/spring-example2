@@ -89,3 +89,8 @@ Accept: application/json
 {
   "message": "What's up bro??"
 }
+
+### read text file from AWS s3 bucket
+
+GET {{host}}/api/read?fileName=awsTest.txt
+Content-Type: application/json
