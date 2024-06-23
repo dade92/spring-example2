@@ -1,7 +1,8 @@
-package adapters.s3;
+package adapters.documents;
 
-import com.amazonaws.auth.AWSSessionCredentials;
+import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
+import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.auth.BasicSessionCredentials;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
@@ -18,11 +19,7 @@ public class DocumentConfiguration {
     public DocumentService documentService(
         AwsProperties awsProperties
     ) {
-        AWSSessionCredentials awsCredentials = new BasicSessionCredentials(
-            awsProperties.accessKey,
-            awsProperties.secretAccessKey,
-            awsProperties.sessionToken
-        );
+        AWSCredentials awsCredentials = retrieveAWSCredentials(awsProperties);
 
         AmazonS3 amazonS3 = AmazonS3ClientBuilder
             .standard()
@@ -34,6 +31,21 @@ public class DocumentConfiguration {
             amazonS3,
             awsProperties.bucketName
         );
+    }
+
+    private AWSCredentials retrieveAWSCredentials(AwsProperties awsProperties) {
+        if (awsProperties.sessionToken.isBlank()) {
+            return new BasicAWSCredentials(
+                awsProperties.accessKey,
+                awsProperties.secretAccessKey
+            );
+        } else {
+            return new BasicSessionCredentials(
+                awsProperties.accessKey,
+                awsProperties.secretAccessKey,
+                awsProperties.sessionToken
+            );
+        }
     }
 
 }

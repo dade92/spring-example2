@@ -1,6 +1,5 @@
 package webapp.documents;
 
-import adapters.s3.AwsDocumentService;
 import documents.DocumentService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

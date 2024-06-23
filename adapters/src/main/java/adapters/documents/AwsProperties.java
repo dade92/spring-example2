@@ -1,4 +1,4 @@
-package adapters.s3;
+package adapters.documents;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
