@@ -6,8 +6,6 @@ import com.amazonaws.auth.BasicSessionCredentials;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import documents.DocumentService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,14 +14,10 @@ import org.springframework.context.annotation.Configuration;
 @EnableConfigurationProperties(AwsProperties.class)
 public class DocumentConfiguration {
 
-    private Logger logger = LoggerFactory.getLogger(DocumentConfiguration.class);
-
     @Bean
     public DocumentService documentService(
         AwsProperties awsProperties
     ) {
-        logger.info("Keys: " + awsProperties.accessKey+ " " + awsProperties.secretAccessKey + " " + awsProperties.sessionToken);
-
         AWSSessionCredentials awsCredentials = new BasicSessionCredentials(
             awsProperties.accessKey,
             awsProperties.secretAccessKey,
