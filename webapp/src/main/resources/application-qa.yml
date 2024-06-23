@@ -8,4 +8,5 @@ mongo:
 aws:
   accessKey: ${ACCESS_KEY}
   secretAccessKey: ${SECRET_ACCESS_KEY}
+  sessionToken: ${SESSION_TOKEN}
   bucketName: s3-bucket-example-1234599

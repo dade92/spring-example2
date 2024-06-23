@@ -5,6 +5,7 @@ server:
 aws:
   accessKey: ${ACCESS_KEY}
   secretAccessKey: ${SECRET_ACCESS_KEY}
+  sessionToken: ${SESSION_TOKEN}
   bucketName: davide-s3-12345678900000
 
 mongo:
