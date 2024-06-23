@@ -1,7 +1,8 @@
 package adapters.s3;
 
+import com.amazonaws.auth.AWSSessionCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
-import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.auth.BasicSessionCredentials;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import documents.DocumentService;
@@ -17,7 +18,11 @@ public class DocumentConfiguration {
     public DocumentService documentService(
         AwsProperties awsProperties
     ) {
-        BasicAWSCredentials awsCredentials = new BasicAWSCredentials(awsProperties.accessKey, awsProperties.secretAccessKey);
+        AWSSessionCredentials awsCredentials = new BasicSessionCredentials(
+            awsProperties.accessKey,
+            awsProperties.secretAccessKey,
+            awsProperties.sessionToken
+        );
 
         AmazonS3 amazonS3 = AmazonS3ClientBuilder
             .standard()

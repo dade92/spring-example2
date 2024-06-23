@@ -6,6 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class AwsProperties {
     public String accessKey;
     public String secretAccessKey;
+    public String sessionToken;
     public String bucketName;
 
     public void setAccessKey(String accessKey) {
@@ -18,5 +19,9 @@ public class AwsProperties {
 
     public void setBucketName(String bucketName) {
         this.bucketName = bucketName;
+    }
+
+    public void setSessionToken(String sessionToken) {
+        this.sessionToken = sessionToken;
     }
 }
