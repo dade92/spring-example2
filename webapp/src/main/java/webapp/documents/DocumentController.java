@@ -38,7 +38,7 @@ public class DocumentController {
         }
     }
 
-    public File adapt(MultipartFile file) {
+    private File adapt(MultipartFile file) {
         File convertedFile = new File(Objects.requireNonNull(file.getOriginalFilename()));
         try {
             Files.copy(file.getInputStream(), convertedFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
