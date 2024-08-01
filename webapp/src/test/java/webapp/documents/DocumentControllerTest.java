@@ -33,7 +33,7 @@ class DocumentControllerTest {
 
         MockMultipartFile mockMultipartFile = new MockMultipartFile("file", "filename", "Text/plain", "some xml".getBytes());
 
-        when(documentService.upload2(any())).thenReturn(new ImageLocation(url));
+        when(documentService.upload(any())).thenReturn(new ImageLocation(url));
 
         mockMvc.perform(
             multipart("/upload")

@@ -26,7 +26,7 @@ public class DocumentController {
 
     @PostMapping("/upload")
     public ResponseEntity<UploadResponse> saveDocument(@RequestParam("file") MultipartFile file) {
-        ImageLocation imageLocation = documentService.upload2(adapt(file));
+        ImageLocation imageLocation = documentService.upload(adapt(file));
         return ResponseEntity.ok(new UploadResponse(imageLocation.value()));
     }
 
