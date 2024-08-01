@@ -1,6 +1,7 @@
 package webapp.documents;
 
 import documents.DocumentService;
+import documents.ImageLocation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,12 +25,13 @@ public class DocumentController {
     }
 
     @PostMapping("/upload")
-    public void saveDocument(@RequestParam("file") MultipartFile file) {
-        documentService.upload(adapt(file));
+    public ResponseEntity<UploadResponse> saveDocument(@RequestParam("file") MultipartFile file) {
+        ImageLocation imageLocation = documentService.upload2(adapt(file));
+        return ResponseEntity.ok(new UploadResponse(imageLocation.value()));
     }
 
     @GetMapping("/read")
-    public ResponseEntity readDocument(@RequestParam String fileName) {
+    public ResponseEntity<ReadResponse> readDocument(@RequestParam String fileName) {
         try {
             String text = documentService.readTextFile(fileName);
             return ResponseEntity.ok(new ReadResponse(text));
@@ -48,9 +50,4 @@ public class DocumentController {
         return convertedFile;
     }
 
-}
-
-record ReadResponse(
-    String content
-) {
 }
