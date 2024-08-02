@@ -1,4 +1,4 @@
-package adapters.documents;
+package adapters.configuration;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

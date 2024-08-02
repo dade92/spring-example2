@@ -1,4 +1,4 @@
-package adapters.documents;
+package adapters.configuration;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
@@ -6,10 +6,6 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.auth.BasicSessionCredentials;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import documents.DocumentService;
-import org.apache.juli.logging.Log;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,25 +14,17 @@ import java.util.Objects;
 
 @Configuration
 @EnableConfigurationProperties(AwsProperties.class)
-public class DocumentConfiguration {
+public class AwsConfiguration {
 
     @Bean
-    public DocumentService documentService(
-        AwsProperties awsProperties
-    ) {
+    public AmazonS3 amazonS3(AwsProperties awsProperties) {
         AWSCredentials awsCredentials = retrieveAWSCredentials(awsProperties);
 
-        AmazonS3 amazonS3 = AmazonS3ClientBuilder
+        return AmazonS3ClientBuilder
             .standard()
             .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
             .withRegion("eu-central-1")
             .build();
-
-        return new AwsDocumentService(
-            amazonS3,
-            awsProperties.bucketName,
-            new ImageLocationBuilder()
-        );
     }
 
     private AWSCredentials retrieveAWSCredentials(AwsProperties awsProperties) {

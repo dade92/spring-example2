@@ -1,0 +1,47 @@
+package adapters.documents;
+
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.PutObjectRequest;
+import documents.ImageLocation;
+import org.jmock.Expectations;
+import org.jmock.auto.Mock;
+import org.jmock.junit5.JUnit5Mockery;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
+
+import java.io.File;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+class AwsDocumentServiceTest {
+
+    @RegisterExtension public final JUnit5Mockery context = new JUnit5Mockery();
+
+    @Mock private AmazonS3 amazonS3;
+
+    private AwsDocumentService awsDocumentService;
+
+    private static final String BUCKET_NAME = "bucketName";
+    private static final String FILENAME = "filename";
+
+    @BeforeEach
+    void setUp() {
+        awsDocumentService = new AwsDocumentService(
+            amazonS3, BUCKET_NAME, new ImageLocationBuilder()
+        );
+    }
+
+    @Test
+    void upload() {
+        File file = new File(FILENAME);
+
+        context.checking(new Expectations(){{
+            oneOf(amazonS3).putObject(with(any(PutObjectRequest.class)));
+        }});
+
+        ImageLocation actual = awsDocumentService.upload(file);
+
+        assertEquals(new ImageLocation("https://bucketName.s3.eu-central-1.amazonaws.com/filename"), actual);
+    }
+}
