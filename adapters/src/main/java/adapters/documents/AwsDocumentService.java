@@ -12,20 +12,20 @@ import java.io.IOException;
 
 public class AwsDocumentService implements DocumentService {
 
-    private final String STATIC_BUCKET_NAME = "https://s3-bucket-example-1234599.s3.eu-central-1.amazonaws.com/";
-
     private final AmazonS3 amazonS3;
     private final String bucketName;
+    private final ImageLocationBuilder imageLocationBuilder;
 
-    public AwsDocumentService(AmazonS3 amazonS3, String bucketName) {
+    public AwsDocumentService(AmazonS3 amazonS3, String bucketName, ImageLocationBuilder imageLocationBuilder) {
         this.amazonS3 = amazonS3;
         this.bucketName = bucketName;
+        this.imageLocationBuilder = imageLocationBuilder;
     }
 
     @Override
     public ImageLocation upload(File file) {
         amazonS3.putObject(new PutObjectRequest(bucketName, file.getName(), file));
-        return new ImageLocation(STATIC_BUCKET_NAME + file.getName());
+        return imageLocationBuilder.build(bucketName, file.getName());
     }
 
     @Override
