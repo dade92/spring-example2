@@ -2,6 +2,7 @@ package webapp.documents;
 
 import documents.DocumentService;
 import documents.ImageLocation;
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -11,7 +12,12 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -31,7 +37,12 @@ class DocumentControllerTest {
     void upload() throws Exception {
         String url = "http://example.com";
 
-        MockMultipartFile mockMultipartFile = new MockMultipartFile("file", "filename", "Text/plain", "some xml".getBytes());
+        MockMultipartFile mockMultipartFile = new MockMultipartFile(
+            "file",
+            "filename",
+            "Text/plain",
+            "some xml".getBytes()
+        );
 
         when(documentService.upload(any())).thenReturn(new ImageLocation(url));
 

@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class ImageLocationBuilderTest {
+public class ImageLocationBuilderTest {
 
     private final ImageLocationBuilder imageLocationBuilder = new ImageLocationBuilder();
 

@@ -14,7 +14,7 @@ import java.io.File;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class AwsDocumentServiceTest {
+public class AwsDocumentServiceTest {
 
     @RegisterExtension public final JUnit5Mockery context = new JUnit5Mockery();
 
@@ -23,7 +23,6 @@ class AwsDocumentServiceTest {
     private AwsDocumentService awsDocumentService;
 
     private static final String BUCKET_NAME = "bucketName";
-    private static final String FILENAME = "filename";
 
     @BeforeEach
     void setUp() {
@@ -34,7 +33,7 @@ class AwsDocumentServiceTest {
 
     @Test
     void upload() {
-        File file = new File(FILENAME);
+        File file = new File("filename");
 
         context.checking(new Expectations(){{
             oneOf(amazonS3).putObject(with(any(PutObjectRequest.class)));
