@@ -6,7 +6,7 @@ aws:
   accessKey: ${ACCESS_KEY}
   secretAccessKey: ${SECRET_ACCESS_KEY}
   sessionToken: ${SESSION_TOKEN}
-  bucketName: davide-s3-12345678900000
+  bucketName: s3-bucket-example-1234599
 
 mongo:
   url: mongodb://root:password@localhost:27017/?authSource=admin

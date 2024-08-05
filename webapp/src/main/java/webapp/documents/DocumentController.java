@@ -40,6 +40,12 @@ public class DocumentController {
         }
     }
 
+    @GetMapping("/posts")
+    public ResponseEntity<ReadResponse> retrievePosts() {
+        documentService.readFiles();
+        return ResponseEntity.noContent().build();
+    }
+
     private File adapt(MultipartFile file) {
         File convertedFile = new File(Objects.requireNonNull(file.getOriginalFilename()));
         try {
