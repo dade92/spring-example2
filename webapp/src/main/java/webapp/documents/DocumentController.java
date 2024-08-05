@@ -41,9 +41,8 @@ public class DocumentController {
     }
 
     @GetMapping("/posts")
-    public ResponseEntity<ReadResponse> retrievePosts() {
-        documentService.readFiles();
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<PostsResponse> retrievePosts() {
+        return ResponseEntity.ok(new PostsResponse(documentService.readPosts()));
     }
 
     private File adapt(MultipartFile file) {

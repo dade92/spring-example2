@@ -6,11 +6,14 @@ import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
+import data.Post;
 import documents.DocumentService;
 import documents.ImageLocation;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AwsDocumentService implements DocumentService {
 
@@ -44,12 +47,15 @@ public class AwsDocumentService implements DocumentService {
     }
 
     @Override
-    public void readFiles() {
+    public List<Post> readPosts() {
         ObjectListing objectListing = amazonS3.listObjects(bucketName);
+        ArrayList<Post> posts = new ArrayList<>();
         for (S3ObjectSummary objectSummary : objectListing.getObjectSummaries()) {
             String key = objectSummary.getKey();
-            System.out.println(key);
+            posts.add(new Post(key ,imageLocationBuilder.build(bucketName, key)));
         }
+
+        return posts;
     }
 
 }
