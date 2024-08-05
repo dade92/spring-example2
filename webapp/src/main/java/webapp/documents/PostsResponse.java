@@ -1,8 +1,8 @@
 package webapp.documents;
 
-import data.Post;
-
 import java.util.List;
 
-public record PostsResponse(List<Post> posts) {
+public record PostsResponse(List<PostJson> posts) {
 }
+
+record PostJson(String name, String imageLocation) {}

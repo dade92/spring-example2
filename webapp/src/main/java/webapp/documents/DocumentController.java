@@ -1,5 +1,6 @@
 package webapp.documents;
 
+import data.Post;
 import documents.DocumentService;
 import documents.ImageLocation;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.List;
 import java.util.Objects;
 
 @RestController
@@ -42,7 +44,8 @@ public class DocumentController {
 
     @GetMapping("/posts")
     public ResponseEntity<PostsResponse> retrievePosts() {
-        return ResponseEntity.ok(new PostsResponse(documentService.readPosts()));
+        List<Post> posts = documentService.readPosts();
+        return ResponseEntity.ok(new PostsResponse(posts.stream().map(p -> new PostJson(p.name(), p.imageLocation().value())).toList()));
     }
 
     private File adapt(MultipartFile file) {
