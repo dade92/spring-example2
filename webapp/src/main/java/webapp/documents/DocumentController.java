@@ -3,6 +3,8 @@ package webapp.documents;
 import data.Post;
 import documents.DocumentService;
 import documents.ImageLocation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +23,7 @@ import java.util.Objects;
 public class DocumentController {
 
     private final DocumentService documentService;
+    private final Logger logger = LoggerFactory.getLogger(DocumentController.class);
 
     public DocumentController(DocumentService documentService) {
         this.documentService = documentService;
@@ -32,6 +35,7 @@ public class DocumentController {
             ImageLocation imageLocation = documentService.upload(adaptFile(file));
             return ResponseEntity.ok(new UploadResponse(imageLocation.value()));
         } catch (Exception e) {
+            logger.error("Error uploading post", e);
             return ResponseEntity.internalServerError().build();
         }
     }
@@ -44,6 +48,7 @@ public class DocumentController {
                 adaptToJson(posts))
             );
         } catch (Exception e) {
+            logger.error("Error retrieving posts", e);
             return ResponseEntity.internalServerError().build();
         }
     }
