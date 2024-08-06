@@ -29,7 +29,7 @@ public class DocumentController {
     @PostMapping("/upload")
     public ResponseEntity<UploadResponse> saveDocument(@RequestParam("file") MultipartFile file) {
         try {
-            ImageLocation imageLocation = documentService.upload(adapt(file));
+            ImageLocation imageLocation = documentService.upload(adaptFile(file));
             return ResponseEntity.ok(new UploadResponse(imageLocation.value()));
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
@@ -52,7 +52,7 @@ public class DocumentController {
         return posts.stream().map(p -> new PostJson(p.name(), p.imageLocation().value())).toList();
     }
 
-    private File adapt(MultipartFile file) {
+    private File adaptFile(MultipartFile file) {
         File convertedFile = new File(Objects.requireNonNull(file.getOriginalFilename()));
         try {
             Files.copy(file.getInputStream(), convertedFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
