@@ -1,6 +1,7 @@
 package adapters.documents;
 
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import documents.ImageLocation;
 import org.jmock.Expectations;
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
 import java.io.File;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -43,4 +45,5 @@ public class AwsDocumentServiceTest {
 
         assertEquals(new ImageLocation("https://bucketName.s3.eu-central-1.amazonaws.com/filename"), actual);
     }
+
 }
