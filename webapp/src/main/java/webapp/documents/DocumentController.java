@@ -45,7 +45,13 @@ public class DocumentController {
     @GetMapping("/posts")
     public ResponseEntity<PostsResponse> retrievePosts() {
         List<Post> posts = documentService.readPosts();
-        return ResponseEntity.ok(new PostsResponse(posts.stream().map(p -> new PostJson(p.name(), p.imageLocation().value())).toList()));
+        return ResponseEntity.ok(new PostsResponse(
+            adaptToJson(posts))
+        );
+    }
+
+    private List<PostJson> adaptToJson(List<Post> posts) {
+        return posts.stream().map(p -> new PostJson(p.name(), p.imageLocation().value())).toList();
     }
 
     private File adapt(MultipartFile file) {
