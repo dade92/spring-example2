@@ -53,6 +53,26 @@ class DocumentControllerTest {
     }
 
     @Test
+    void uploadFailsWithExceptionThrown() throws Exception {
+        String url = "http://example.com";
+
+        MockMultipartFile mockMultipartFile = new MockMultipartFile(
+            "file",
+            "filename",
+            "Text/plain",
+            "some xml".getBytes()
+        );
+
+        when(documentService.upload(any())).thenThrow(new RuntimeException());
+
+        mockMvc.perform(
+            multipart("/upload")
+                .file(mockMultipartFile)
+                .contentType(MediaType.MULTIPART_FORM_DATA)
+        ).andExpect(status().is5xxServerError());
+    }
+
+    @Test
     void retrievePosts() throws Exception {
         when(documentService.readPosts()).thenReturn(
             Arrays.asList(
@@ -65,5 +85,15 @@ class DocumentControllerTest {
             get("/posts")
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.content().json(READ_RESPONSE));
+    }
+
+    @Test
+    void retrievePostsFails() throws Exception {
+        when(documentService.readPosts()).thenThrow(new RuntimeException());
+
+        mockMvc.perform(
+            get("/posts")
+                .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().is5xxServerError());
     }
 }

@@ -28,8 +28,12 @@ public class DocumentController {
 
     @PostMapping("/upload")
     public ResponseEntity<UploadResponse> saveDocument(@RequestParam("file") MultipartFile file) {
-        ImageLocation imageLocation = documentService.upload(adapt(file));
-        return ResponseEntity.ok(new UploadResponse(imageLocation.value()));
+        try {
+            ImageLocation imageLocation = documentService.upload(adapt(file));
+            return ResponseEntity.ok(new UploadResponse(imageLocation.value()));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @GetMapping("/read")
@@ -44,10 +48,14 @@ public class DocumentController {
 
     @GetMapping("/posts")
     public ResponseEntity<PostsResponse> retrievePosts() {
-        List<Post> posts = documentService.readPosts();
-        return ResponseEntity.ok(new PostsResponse(
-            adaptToJson(posts))
-        );
+        try {
+            List<Post> posts = documentService.readPosts();
+            return ResponseEntity.ok(new PostsResponse(
+                adaptToJson(posts))
+            );
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     private List<PostJson> adaptToJson(List<Post> posts) {
