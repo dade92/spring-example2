@@ -36,16 +36,6 @@ public class DocumentController {
         }
     }
 
-    @GetMapping("/read")
-    public ResponseEntity<ReadResponse> readDocument(@RequestParam String fileName) {
-        try {
-            String text = documentService.readTextFile(fileName);
-            return ResponseEntity.ok(new ReadResponse(text));
-        } catch (IOException e) {
-            return ResponseEntity.internalServerError().build();
-        }
-    }
-
     @GetMapping("/posts")
     public ResponseEntity<PostsResponse> retrievePosts() {
         try {

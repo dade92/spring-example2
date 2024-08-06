@@ -1,17 +1,14 @@
 package adapters.documents;
 
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.amazonaws.services.s3.model.S3ObjectInputStream;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
 import data.Post;
 import documents.DocumentService;
 import documents.ImageLocation;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,28 +31,12 @@ public class AwsDocumentService implements DocumentService {
     }
 
     @Override
-    public String readTextFile(String filename) throws IOException {
-        S3ObjectInputStream objectContent = amazonS3
-            .getObject(new GetObjectRequest(bucketName, filename))
-            .getObjectContent();
-        int content;
-        StringBuilder output = new StringBuilder();
-        while ((content = objectContent.read()) != -1) {
-            output.append((char) content);
-        }
-        return output.toString();
-    }
-
-    @Override
     public List<Post> readPosts() {
         ObjectListing objectListing = amazonS3.listObjects(bucketName);
-        ArrayList<Post> posts = new ArrayList<>();
-        for (S3ObjectSummary objectSummary : objectListing.getObjectSummaries()) {
-            String key = objectSummary.getKey();
-            posts.add(new Post(key ,imageLocationBuilder.build(bucketName, key)));
-        }
 
-        return posts;
+        return objectListing.getObjectSummaries().stream().map(
+            os -> new Post(os.getKey(), imageLocationBuilder.build(bucketName, os.getKey()))
+        ).toList();
     }
 
 }
