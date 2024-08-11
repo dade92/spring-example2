@@ -43,7 +43,7 @@ public class AwsDocumentServiceTest {
 
         ImageLocation actual = awsDocumentService.upload(file);
 
-        assertEquals(new ImageLocation("https://bucketName.s3.eu-central-1.amazonaws.com/filename"), actual);
+        assertEquals(new ImageLocation("http://bucketName/filename"), actual);
     }
 
 }
