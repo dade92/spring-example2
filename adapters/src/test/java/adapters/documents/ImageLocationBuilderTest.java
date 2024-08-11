@@ -11,7 +11,7 @@ public class ImageLocationBuilderTest {
 
     @Test
     void build() {
-        ImageLocation expected = new ImageLocation("https://my-bucket.s3.eu-central-1.amazonaws.com/my-file");
+        ImageLocation expected = new ImageLocation("http://my-bucket/my-file");
         ImageLocation actual = imageLocationBuilder.build("my-bucket", "my-file");
 
         assertEquals(expected, actual);
