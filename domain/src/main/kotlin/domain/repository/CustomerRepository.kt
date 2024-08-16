@@ -11,6 +11,5 @@ interface CustomerRepository {
     fun addDestination(id: Id, destination: Destination): Either<Error, Unit>
     fun removeDestination(id: Id, destination: Destination): Either<Error, Unit>
     fun updateDestination(oldDestination: Destination, newDestination: Destination, id: Id): Either<Error, Unit>
-
     fun getAll(): List<Customer>
 }
