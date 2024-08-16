@@ -1,7 +1,7 @@
 package webapp.adapters
 
 import domain.Customer
-import domain.UUIDGenerator
+import domain.utils.UUIDGenerator
 import domain.toId
 import domain.toName
 import webapp.InsertCustomerRequest

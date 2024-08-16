@@ -4,6 +4,9 @@ import arrow.core.left
 import arrow.core.right
 import com.springexample.utils.Fixtures
 import domain.*
+import domain.usecases.FindCustomerUseCase
+import domain.usecases.InsertCustomerUseCase
+import domain.usecases.UpdateCustomerUseCase
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.verify
 import org.mockito.Mockito.`when`

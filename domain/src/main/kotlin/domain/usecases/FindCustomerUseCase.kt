@@ -1,6 +1,8 @@
-package domain
+package domain.usecases
 
 import arrow.core.Either
+import domain.*
+import domain.repository.CustomerRepository
 
 interface FindCustomerUseCase {
     fun findBy(name: Name): Either<Error, Customer>

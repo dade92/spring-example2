@@ -1,4 +1,4 @@
-package domain
+package domain.translations
 
 interface TranslationsProvider {
     fun retrieve(language: String): Translations

@@ -1,4 +1,4 @@
-package domain
+package domain.utils
 
 import java.time.LocalDateTime
 import java.time.ZoneId

@@ -4,6 +4,8 @@ import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
 import domain.*
+import domain.repository.CustomerRepository
+import domain.utils.TimeProvider
 import org.slf4j.LoggerFactory
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.query.Criteria
@@ -15,12 +17,12 @@ import java.time.temporal.ChronoUnit
 
 private val COLLECTION_NAME = "mongocustomer"
 
-class MongoCustomerRepository(
+class MongoDBCustomerRepository(
     private val mongoTemplate: MongoTemplate,
     private val timeProvider: TimeProvider
 ) : CustomerRepository {
 
-    private val logger = LoggerFactory.getLogger(MongoCustomerRepository::class.java)
+    private val logger = LoggerFactory.getLogger(MongoDBCustomerRepository::class.java)
 
     override fun insert(customer: Customer): Either<Error, Id> =
         try {

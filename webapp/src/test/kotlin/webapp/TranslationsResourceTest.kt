@@ -1,8 +1,8 @@
 package webapp
 
 import com.springexample.utils.Fixtures
-import domain.Translations
-import domain.TranslationsProvider
+import domain.translations.Translations
+import domain.translations.TranslationsProvider
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.`when`
 import org.springframework.beans.factory.annotation.Autowired

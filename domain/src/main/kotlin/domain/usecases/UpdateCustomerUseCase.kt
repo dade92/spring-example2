@@ -1,6 +1,10 @@
-package domain
+package domain.usecases
 
 import arrow.core.Either
+import domain.repository.CustomerRepository
+import domain.Destination
+import domain.Error
+import domain.Id
 
 interface UpdateCustomerUseCase {
     fun addDestination(id: Id, destination: Destination): Either<Error, Unit>

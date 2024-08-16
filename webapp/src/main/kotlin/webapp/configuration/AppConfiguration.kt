@@ -1,6 +1,11 @@
-package webapp
+package webapp.configuration
 
-import domain.*
+import domain.repository.CustomerRepository
+import domain.translations.StaticTranslationsProvider
+import domain.translations.TranslationsProvider
+import domain.usecases.*
+import domain.utils.RandomUUIDGenerator
+import domain.utils.UUIDGenerator
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import webapp.adapters.UserRequestAdapter

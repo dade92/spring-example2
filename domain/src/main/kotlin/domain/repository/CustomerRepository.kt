@@ -1,6 +1,7 @@
-package domain
+package domain.repository
 
 import arrow.core.Either
+import domain.*
 
 interface CustomerRepository {
     fun insert(customer: Customer): Either<Error, Id>
