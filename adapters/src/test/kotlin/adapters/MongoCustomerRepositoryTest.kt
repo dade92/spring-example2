@@ -31,7 +31,7 @@ class MongoCustomerRepositoryIntegrationTest {
 
         customerRepository.remove(customerId) shouldBe Unit.right()
 
-        customerRepository.findById(customerId) shouldBe CustomerNotFoundError.left()
+        customerRepository.findById(customerId) shouldBe Error.CustomerNotFoundError.left()
     }
 
     @Test

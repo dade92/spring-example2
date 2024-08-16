@@ -12,7 +12,6 @@ import org.springframework.data.mongodb.core.query.Query.query
 import org.springframework.data.mongodb.core.query.Update
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
-import java.time.temporal.TemporalUnit
 
 private val COLLECTION_NAME = "mongocustomer"
 
@@ -23,44 +22,44 @@ class MongoCustomerRepository(
 
     private val logger = LoggerFactory.getLogger(MongoCustomerRepository::class.java)
 
-    override fun insert(customer: Customer): Either<GenericDbError, Id> =
+    override fun insert(customer: Customer): Either<Error, Id> =
         try {
             mongoTemplate.insert(MongoCustomer.fromDomain(customer, timeProvider.now()), COLLECTION_NAME)
             customer.id.right()
         } catch (e: Exception) {
             logger.error("Error while inserting customer, due to ", e)
-            GenericDbError.left()
+            Error.GenericError.left()
         }
 
-    override fun remove(id: Id): Either<GenericDbError, Unit> =
+    override fun remove(id: Id): Either<Error, Unit> =
         try {
             val query = query(Criteria.where("_id").`is`(id.value))
             mongoTemplate.remove(query, COLLECTION_NAME)
             Unit.right()
         } catch (e: Exception) {
             logger.error("Error while removing customer with id ${id.value} due to ", e)
-            GenericDbError.left()
+            Error.GenericError.left()
         }
 
-    override fun find(name: Name): Either<CustomerNotFoundError, Customer> =
+    override fun find(name: Name): Either<Error, Customer> =
         try {
             val query = query(Criteria.where("name").`is`(name.value))
             mongoTemplate.find(query, MongoCustomer::class.java, COLLECTION_NAME)[0].toDomain().right()
         } catch (e: Exception) {
             logger.warn("Unable to find customer because of ", e)
-            CustomerNotFoundError.left()
+            Error.CustomerNotFoundError.left()
         }
 
-    override fun findById(id: Id): Either<CustomerNotFoundError, Customer> =
+    override fun findById(id: Id): Either<Error, Customer> =
         try {
             mongoTemplate.findById(id.value, MongoCustomer::class.java, COLLECTION_NAME)?.toDomain()?.right()
-                ?: CustomerNotFoundError.left()
+                ?: Error.CustomerNotFoundError.left()
         } catch (e: Exception) {
             logger.warn("Unable to find customer because of ", e)
-            CustomerNotFoundError.left()
+            Error.CustomerNotFoundError.left()
         }
 
-    override fun addDestination(id: Id, destination: Destination): Either<CustomerNotFoundError, Unit> =
+    override fun addDestination(id: Id, destination: Destination): Either<Error, Unit> =
         try {
             val query = query(Criteria.where("_id").`is`(id.value))
 //            val update = update(
@@ -75,10 +74,10 @@ class MongoCustomerRepository(
             Unit.right()
         } catch (e: Exception) {
             logger.warn("Can't update customer because of ", e)
-            CustomerNotFoundError.left()
+            Error.CustomerNotFoundError.left()
         }
 
-    override fun removeDestination(id: Id, destination: Destination): Either<CustomerNotFoundError, Unit> =
+    override fun removeDestination(id: Id, destination: Destination): Either<Error, Unit> =
         try {
             val query = query(Criteria.where("_id").`is`(id.value))
 
@@ -90,14 +89,14 @@ class MongoCustomerRepository(
             Unit.right()
         } catch (e: Exception) {
             logger.warn("Can't update customer because of ", e)
-            CustomerNotFoundError.left()
+            Error.CustomerNotFoundError.left()
         }
 
     override fun updateDestination(
         oldDestination: Destination,
         newDestination: Destination,
         id: Id
-    ): Either<CustomerNotFoundError, Unit> =
+    ): Either<Error, Unit> =
         try {
             val query = Query(
                 Criteria.where("_id").`is`(id.value)
@@ -110,7 +109,7 @@ class MongoCustomerRepository(
             Unit.right()
         } catch (e: Exception) {
             logger.error("Error updating destination for customer ${id.value} due to ", e)
-            CustomerNotFoundError.left()
+            Error.CustomerNotFoundError.left()
         }
 
     override fun getAll(): List<Customer> {

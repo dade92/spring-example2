@@ -3,13 +3,13 @@ package domain
 import arrow.core.Either
 
 interface CustomerRepository {
-    fun insert(customer: Customer): Either<GenericDbError, Id>
-    fun remove(id: Id): Either<GenericDbError, Unit>
-    fun find(name: Name): Either<CustomerNotFoundError, Customer>
-    fun findById(id: Id): Either<CustomerNotFoundError, Customer>
-    fun addDestination(id: Id, destination: Destination): Either<CustomerNotFoundError, Unit>
-    fun removeDestination(id: Id, destination: Destination): Either<CustomerNotFoundError, Unit>
-    fun updateDestination(oldDestination: Destination, newDestination: Destination, id: Id): Either<CustomerNotFoundError, Unit>
+    fun insert(customer: Customer): Either<Error, Id>
+    fun remove(id: Id): Either<Error, Unit>
+    fun find(name: Name): Either<Error, Customer>
+    fun findById(id: Id): Either<Error, Customer>
+    fun addDestination(id: Id, destination: Destination): Either<Error, Unit>
+    fun removeDestination(id: Id, destination: Destination): Either<Error, Unit>
+    fun updateDestination(oldDestination: Destination, newDestination: Destination, id: Id): Either<Error, Unit>
 
     fun getAll(): List<Customer>
 }

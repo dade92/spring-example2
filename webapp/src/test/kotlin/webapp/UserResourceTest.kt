@@ -83,7 +83,7 @@ class UserResourceTest {
         )
 
         `when`(userRequestAdapter.adapt(request)).thenReturn(customer)
-        `when`(insertCustomerUseCase.insert(customer)).thenReturn(GenericDbError.left())
+        `when`(insertCustomerUseCase.insert(customer)).thenReturn(Error.GenericError.left())
 
         mvc.perform(
             MockMvcRequestBuilders.post("/insert")
@@ -114,7 +114,7 @@ class UserResourceTest {
 
     @Test
     fun `find fails`() {
-        `when`(findCustomerUseCase.findBy("Davide".toName())).thenReturn(CustomerNotFoundError.left())
+        `when`(findCustomerUseCase.findBy("Davide".toName())).thenReturn(Error.CustomerNotFoundError.left())
 
         mvc.perform(
             MockMvcRequestBuilders.get("/find?name=Davide")
@@ -148,7 +148,7 @@ class UserResourceTest {
                 id.toId(),
                 Destination("London")
             )
-        ).thenReturn(CustomerNotFoundError.left())
+        ).thenReturn(Error.CustomerNotFoundError.left())
 
         mvc.perform(
             MockMvcRequestBuilders.put("/add-destination/123")
@@ -183,7 +183,7 @@ class UserResourceTest {
                 id.toId(),
                 Destination("London")
             )
-        ).thenReturn(CustomerNotFoundError.left())
+        ).thenReturn(Error.CustomerNotFoundError.left())
 
         mvc.perform(
             MockMvcRequestBuilders.put("/remove-destination/123")
