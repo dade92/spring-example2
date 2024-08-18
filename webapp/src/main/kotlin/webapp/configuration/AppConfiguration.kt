@@ -1,6 +1,11 @@
-package webapp
+package webapp.configuration
 
-import domain.*
+import domain.repository.CustomerRepository
+import domain.translations.InMemoryTranslationsProvider
+import domain.translations.TranslationsProvider
+import domain.usecases.*
+import domain.utils.RandomUUIDGenerator
+import domain.utils.UUIDGenerator
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import webapp.adapters.UserRequestAdapter
@@ -22,7 +27,7 @@ class AppConfiguration {
 
     @Bean
     fun translationsProvider(): TranslationsProvider =
-        StaticTranslationsProvider()
+        InMemoryTranslationsProvider()
 
     @Bean
     fun uuidGenerator(): UUIDGenerator = RandomUUIDGenerator()

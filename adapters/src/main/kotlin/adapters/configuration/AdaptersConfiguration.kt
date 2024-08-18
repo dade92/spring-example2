@@ -1,8 +1,8 @@
 package adapters.configuration
 
-import adapters.MongoCustomerRepository
-import domain.CustomerRepository
-import domain.DefaultTimeProvider
+import adapters.MongoDBCustomerRepository
+import domain.repository.CustomerRepository
+import domain.utils.DefaultTimeProvider
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.data.mongodb.core.MongoTemplate
@@ -13,6 +13,6 @@ class AdaptersConfiguration {
     @Bean
     fun customerRepository(
         mongoTemplate: MongoTemplate
-    ): CustomerRepository = MongoCustomerRepository(mongoTemplate, DefaultTimeProvider())
+    ): CustomerRepository = MongoDBCustomerRepository(mongoTemplate, DefaultTimeProvider())
 
 }

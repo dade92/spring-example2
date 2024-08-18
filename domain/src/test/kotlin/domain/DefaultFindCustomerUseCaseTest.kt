@@ -1,6 +1,8 @@
 package domain
 
 import arrow.core.right
+import domain.repository.CustomerRepository
+import domain.usecases.DefaultFindCustomerUseCase
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
 import org.jmock.AbstractExpectations.returnValue

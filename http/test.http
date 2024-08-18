@@ -27,13 +27,13 @@ Accept: application/json
 
 ### find by name
 
-GET {{host}}/api/find?name=Karissa
+GET {{host}}/api/find?name=Davide
 Content-Type: application/json
 Accept: application/json
 
 ### find by id
 
-GET {{host}}/api/findById?id=14c2e906-7644-48f2-b741-057b46225350
+GET {{host}}/api/findById?id=7e19d973-4c6b-4a33-9b34-50d7d5f892cd
 Content-Type: application/json
 Accept: application/json
 

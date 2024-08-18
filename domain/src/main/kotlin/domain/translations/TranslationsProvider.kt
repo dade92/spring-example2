@@ -1,4 +1,4 @@
-package domain
+package domain.translations
 
 interface TranslationsProvider {
     fun retrieve(language: String): Translations
@@ -8,7 +8,7 @@ data class Translations(
     val data: Map<String, String>
 )
 
-class StaticTranslationsProvider : TranslationsProvider {
+class InMemoryTranslationsProvider : TranslationsProvider {
 
     override fun retrieve(language: String): Translations =
         Translations(

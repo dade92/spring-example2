@@ -1,6 +1,9 @@
 package webapp
 
 import domain.*
+import domain.usecases.FindCustomerUseCase
+import domain.usecases.InsertCustomerUseCase
+import domain.usecases.UpdateCustomerUseCase
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*

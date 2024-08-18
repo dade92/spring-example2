@@ -5,6 +5,7 @@ import adapters.configuration.MongoConfiguration
 import arrow.core.left
 import arrow.core.right
 import domain.*
+import domain.repository.CustomerRepository
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -13,7 +14,7 @@ import org.testcontainers.junit.jupiter.Testcontainers
 
 @SpringBootTest(classes = [AdaptersConfiguration::class, MongoConfiguration::class, MongoDBTestContainerConfig::class])
 @Testcontainers
-class MongoCustomerRepositoryIntegrationTest {
+class MongoDBCustomerRepositoryIntegrationTest {
 
     @Autowired
     private lateinit var customerRepository: CustomerRepository
@@ -31,7 +32,7 @@ class MongoCustomerRepositoryIntegrationTest {
 
         customerRepository.remove(customerId) shouldBe Unit.right()
 
-        customerRepository.findById(customerId) shouldBe CustomerNotFoundError.left()
+        customerRepository.findById(customerId) shouldBe Error.CustomerNotFoundError.left()
     }
 
     @Test
