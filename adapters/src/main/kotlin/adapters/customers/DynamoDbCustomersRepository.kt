@@ -8,22 +8,32 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import domain.Customer
 import domain.Destination
 import domain.Error
+import domain.FavouriteDestinations
 import domain.Id
 import domain.Name
 import domain.repository.CustomerRepository
+import domain.toId
+import domain.toName
+import org.slf4j.LoggerFactory
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient
 import software.amazon.awssdk.services.dynamodb.model.AttributeValue
+import software.amazon.awssdk.services.dynamodb.model.GetItemRequest
 import software.amazon.awssdk.services.dynamodb.model.PutItemRequest
+import kotlin.math.log
+
 
 class DynamoDbCustomersRepository(
     private val dynamoDbClient: DynamoDbClient,
     private val tableName: String,
     private val objectMapper: ObjectMapper
 ) : CustomerRepository {
+
+    private val logger = LoggerFactory.getLogger(javaClass)
+
     override fun insert(customer: Customer): Either<Error, Id> {
         var customerJson: String? = null
         try {
-            customerJson = objectMapper.writeValueAsString(customer)
+            customerJson = objectMapper.writeValueAsString(customer.toDynamoCustomer())
             val item: MutableMap<String, AttributeValue> = HashMap()
             item["ID"] = AttributeValue.builder().s(customer.id.value).build()
             item["Data"] = AttributeValue.builder().s(customerJson).build()
@@ -49,7 +59,29 @@ class DynamoDbCustomersRepository(
     }
 
     override fun findById(id: Id): Either<Error, Customer> {
-        return Error.GenericError.left()
+        val key: MutableMap<String, AttributeValue> = HashMap()
+        key["ID"] = AttributeValue.builder().s(id.value).build()
+
+        val request = GetItemRequest.builder()
+            .tableName(tableName)
+            .key(key)
+            .build()
+
+        val returnedItem = dynamoDbClient.getItem(request).item()
+
+        if (returnedItem != null) {
+            val readValue = objectMapper.readValue(returnedItem["Data"]!!.s(), DynamoCustomer::class.java)
+
+            Customer(
+                readValue.id.toId(),
+                readValue.name.toName(),
+                readValue.age,
+                FavouriteDestinations(emptyList())
+            ).right()
+            return Error.GenericError.left()
+        } else {
+            return Error.GenericError.left()
+        }
     }
 
     override fun addDestination(id: Id, destination: Destination): Either<Error, Unit> {
@@ -72,3 +104,15 @@ class DynamoDbCustomersRepository(
         return listOf()
     }
 }
+
+private fun Customer.toDynamoCustomer(): DynamoCustomer = DynamoCustomer(
+    this.id.value,
+    this.name.value,
+    this.age
+)
+
+data class DynamoCustomer(
+    val id: String,
+    val name: String,
+    val age: Int
+)
