@@ -3,6 +3,7 @@ package adapters.customers
 import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
+import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.ObjectMapper
 import domain.Customer
@@ -72,13 +73,12 @@ class DynamoDbCustomersRepository(
         if (returnedItem != null) {
             val readValue = objectMapper.readValue(returnedItem["Data"]!!.s(), DynamoCustomer::class.java)
 
-            Customer(
+            return Customer(
                 readValue.id.toId(),
                 readValue.name.toName(),
                 readValue.age,
                 FavouriteDestinations(emptyList())
             ).right()
-            return Error.GenericError.left()
         } else {
             return Error.GenericError.left()
         }
@@ -112,7 +112,10 @@ private fun Customer.toDynamoCustomer(): DynamoCustomer = DynamoCustomer(
 )
 
 data class DynamoCustomer(
+    @JsonProperty("id")
     val id: String,
+    @JsonProperty("name")
     val name: String,
+    @JsonProperty("age")
     val age: Int
 )
