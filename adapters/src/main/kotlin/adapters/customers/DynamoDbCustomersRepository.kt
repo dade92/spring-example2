@@ -3,7 +3,6 @@ package adapters.customers
 import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
-import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.ObjectMapper
 import domain.Customer
@@ -20,7 +19,6 @@ import software.amazon.awssdk.services.dynamodb.DynamoDbClient
 import software.amazon.awssdk.services.dynamodb.model.AttributeValue
 import software.amazon.awssdk.services.dynamodb.model.GetItemRequest
 import software.amazon.awssdk.services.dynamodb.model.PutItemRequest
-import kotlin.math.log
 
 
 class DynamoDbCustomersRepository(
@@ -112,10 +110,7 @@ private fun Customer.toDynamoCustomer(): DynamoCustomer = DynamoCustomer(
 )
 
 data class DynamoCustomer(
-    @JsonProperty("id")
     val id: String,
-    @JsonProperty("name")
     val name: String,
-    @JsonProperty("age")
     val age: Int
 )
