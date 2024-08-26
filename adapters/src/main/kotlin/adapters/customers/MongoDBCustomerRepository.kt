@@ -1,4 +1,4 @@
-package adapters
+package adapters.customers
 
 import arrow.core.Either
 import arrow.core.left
