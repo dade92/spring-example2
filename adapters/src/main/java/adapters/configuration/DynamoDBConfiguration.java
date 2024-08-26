@@ -21,10 +21,5 @@ public class DynamoDBConfiguration {
         return builder.build();
     }
 
-    @Bean
-    public DynamoDbCustomersRepository dynamoDbRepository(DynamoDbClient dynamoDbClient) {
-        String tableName = "Customer";
-        return new DynamoDbCustomersRepository(dynamoDbClient, tableName, new ObjectMapper().registerModule(new KotlinModule.Builder().build()));
-    }
 }
 
