@@ -131,7 +131,7 @@ class DynamoDbCustomersRepository(
     private fun Customer.toDynamoCustomer(): DynamoCustomer {
         val dynamoCustomer = DynamoCustomer()
         dynamoCustomer.id = this.id.value
-        val dynamoCustomerData = DynamoCustomerData(this.name.value, "XXX", 30)
+        val dynamoCustomerData = DynamoCustomerData(this.name.value, "XXX", this.age)
         dynamoCustomer.data = objectMapper.writeValueAsString(dynamoCustomerData)
         return dynamoCustomer
     }
