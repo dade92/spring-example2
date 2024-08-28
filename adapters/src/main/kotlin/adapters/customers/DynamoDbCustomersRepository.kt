@@ -7,7 +7,6 @@ import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
 import com.fasterxml.jackson.core.JsonProcessingException
-import com.fasterxml.jackson.databind.ObjectMapper
 import domain.Customer
 import domain.Destination
 import domain.Error
@@ -22,8 +21,7 @@ import software.amazon.awssdk.services.dynamodb.model.DynamoDbException
 
 class DynamoDbCustomersRepository(
     private val customerTable: DynamoDbTable<DynamoCustomer>,
-    private val dynamoCustomerAdapter: DynamoCustomerAdapter,
-    private val objectMapper: ObjectMapper
+    private val dynamoCustomerAdapter: DynamoCustomerAdapter
 ) : CustomerRepository {
 
     private val logger = LoggerFactory.getLogger(javaClass)

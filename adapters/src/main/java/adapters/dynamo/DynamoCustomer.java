@@ -7,7 +7,6 @@ import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbParti
 public class DynamoCustomer {
     private String ID;
     private String username;
-    private String data;
     private DynamoCustomerData dynamoCustomerData;
 
     @DynamoDbPartitionKey
@@ -25,14 +24,6 @@ public class DynamoCustomer {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getData() {
-        return data;
-    }
-
-    public void setData(String data) {
-        this.data = data;
     }
 
     public DynamoCustomerData getDynamoCustomerData() {

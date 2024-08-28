@@ -3,8 +3,6 @@ package adapters.configuration
 import adapters.customers.DynamoCustomerAdapter
 import adapters.customers.DynamoDbCustomersRepository
 import adapters.dynamo.DynamoCustomer
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.KotlinModule
 import domain.repository.CustomerRepository
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -26,12 +24,9 @@ class AdaptersConfiguration {
             .dynamoDbClient(dynamoDbClient)
             .build()
 
-        val objectMapper = ObjectMapper().registerModule(KotlinModule.Builder().build())
-
         return DynamoDbCustomersRepository(
             dynamoDbEnhancedClient.table("Customer", TableSchema.fromBean(DynamoCustomer::class.java)),
-            DynamoCustomerAdapter(objectMapper),
-            objectMapper
+            DynamoCustomerAdapter()
         )
     }
 
