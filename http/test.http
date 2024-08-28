@@ -5,8 +5,8 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "name": "Botti",
-  "age": 32,
+  "name": "TestNested",
+  "age": 33,
   "favouriteDestinations": {
     "destinations": [
       {
@@ -27,13 +27,13 @@ Accept: application/json
 
 ### find by name
 
-GET {{host}}/api/find?name=Karissa
+GET {{host}}/api/find?name=Ciccio
 Content-Type: application/json
 Accept: application/json
 
 ### find by id
 
-GET {{host}}/api/findById?id=9e0020f3-288f-4bd8-9669-127d05430c44
+GET {{host}}/api/findById?id=397acea0-d3d7-4826-8fdd-6097194eb51b
 Content-Type: application/json
 Accept: application/json
 

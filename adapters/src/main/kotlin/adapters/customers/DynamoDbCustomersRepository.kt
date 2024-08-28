@@ -2,6 +2,7 @@ package adapters.customers
 
 import adapters.dynamo.DynamoCustomer
 import adapters.dynamo.DynamoCustomerData
+import adapters.dynamo.DynamoPerson
 import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
@@ -16,8 +17,6 @@ import domain.repository.CustomerRepository
 import org.slf4j.LoggerFactory
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbTable
 import software.amazon.awssdk.enhanced.dynamodb.Key
-import software.amazon.awssdk.enhanced.dynamodb.model.QueryConditional
-import software.amazon.awssdk.enhanced.dynamodb.model.QueryEnhancedRequest
 import software.amazon.awssdk.services.dynamodb.model.DynamoDbException
 
 
@@ -54,17 +53,28 @@ class DynamoDbCustomersRepository(
     }
 
     override fun find(name: Name): Either<Error, Customer> {
-        val queryConditional = QueryConditional.keyEqualTo(Key.builder().sortValue(name.value).build())
+//        val queryConditional = QueryConditional.keyEqualTo(Key.builder().sortValue(name.value).build())
+//
+//
+//        val request = QueryEnhancedRequest.builder()
+//            .queryConditional(queryConditional)
+//            .build()
+//
+//        try {
+//            val results: Iterator<DynamoCustomer> = customerTable.query(request).items().iterator()
+//
+//            return dynamoCustomerAdapter.adapt(results.next()).right()
+//        } catch (e: DynamoDbException) {
+//            System.err.println(e.message)
+//            return Error.GenericError.left()
+//        }
 
-
-        val request = QueryEnhancedRequest.builder()
-            .queryConditional(queryConditional)
+        val key = Key.builder()
+            .partitionValue(name.value)
             .build()
 
         try {
-            val results: Iterator<DynamoCustomer> = customerTable.query(request).items().iterator()
-
-            return dynamoCustomerAdapter.adapt(results.next()).right()
+            return dynamoCustomerAdapter.adapt(customerTable.getItem(key)).right()
         } catch (e: DynamoDbException) {
             System.err.println(e.message)
             return Error.GenericError.left()
@@ -131,8 +141,13 @@ class DynamoDbCustomersRepository(
     private fun Customer.toDynamoCustomer(): DynamoCustomer {
         val dynamoCustomer = DynamoCustomer()
         dynamoCustomer.id = this.id.value
+        dynamoCustomer.username = this.name.value
         val dynamoCustomerData = DynamoCustomerData(this.name.value, "XXX", this.age)
-        dynamoCustomer.data = objectMapper.writeValueAsString(dynamoCustomerData)
+        dynamoCustomerData.person = DynamoPerson().apply {
+            firstName = "Davide"
+            lastName = "Botti"
+        }
+        dynamoCustomer.dynamoCustomerData = dynamoCustomerData
         return dynamoCustomer
     }
 }
