@@ -2,14 +2,12 @@ package adapters.dynamo;
 
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
 
-import java.util.Objects;
-
 @DynamoDbBean
 public final class DynamoCustomerData {
     private String username;
     private String password;
     private int age;
-    private DynamoPerson person;
+    private DynamoFavouriteDestinations dynamoFavouriteDestinations;
 
     public DynamoCustomerData() {
     }
@@ -17,11 +15,13 @@ public final class DynamoCustomerData {
     public DynamoCustomerData(
         String username,
         String password,
-        int age
+        int age,
+        DynamoFavouriteDestinations dynamoFavouriteDestinations
     ) {
         this.username = username;
         this.password = password;
         this.age = age;
+        this.dynamoFavouriteDestinations = dynamoFavouriteDestinations;
     }
 
     public void setUsername(String username) {
@@ -48,34 +48,11 @@ public final class DynamoCustomerData {
         return age;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == this) return true;
-        if (obj == null || obj.getClass() != this.getClass()) return false;
-        var that = (DynamoCustomerData) obj;
-        return Objects.equals(this.username, that.username) &&
-            Objects.equals(this.password, that.password) &&
-            this.age == that.age;
+    public DynamoFavouriteDestinations getDynamoFavouriteDestinations() {
+        return dynamoFavouriteDestinations;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(username, password, age);
-    }
-
-    @Override
-    public String toString() {
-        return "DynamoCustomerData[" +
-            "username=" + username + ", " +
-            "password=" + password + ", " +
-            "age=" + age + ']';
-    }
-
-    public DynamoPerson getPerson() {
-        return person;
-    }
-
-    public void setPerson(DynamoPerson person) {
-        this.person = person;
+    public void setDynamoFavouriteDestinations(DynamoFavouriteDestinations dynamoFavouriteDestinations) {
+        this.dynamoFavouriteDestinations = dynamoFavouriteDestinations;
     }
 }

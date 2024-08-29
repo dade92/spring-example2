@@ -2,6 +2,7 @@ package adapters.customers
 
 import adapters.dynamo.DynamoCustomer
 import adapters.dynamo.DynamoCustomerData
+import adapters.dynamo.DynamoFavouriteDestinations
 import adapters.dynamo.DynamoPerson
 import arrow.core.Either
 import arrow.core.left
@@ -140,11 +141,12 @@ class DynamoDbCustomersRepository(
         val dynamoCustomer = DynamoCustomer()
         dynamoCustomer.id = this.id.value
         dynamoCustomer.username = this.name.value
-        val dynamoCustomerData = DynamoCustomerData(this.name.value, "XXX", this.age)
-        dynamoCustomerData.person = DynamoPerson().apply {
-            firstName = "Davide"
-            lastName = "Botti"
-        }
+        val dynamoCustomerData = DynamoCustomerData(
+            this.name.value,
+            "XXX",
+            this.age,
+            DynamoFavouriteDestinations(this.favouriteDestinations.destinations.map { it.city })
+        )
         dynamoCustomer.dynamoCustomerData = dynamoCustomerData
         return dynamoCustomer
     }
