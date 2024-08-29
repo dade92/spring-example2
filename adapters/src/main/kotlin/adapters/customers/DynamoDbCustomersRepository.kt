@@ -1,9 +1,8 @@
 package adapters.customers
 
-import adapters.dynamo.DynamoCustomer
-import adapters.dynamo.DynamoCustomerData
-import adapters.dynamo.DynamoFavouriteDestinations
-import adapters.dynamo.DynamoPerson
+import adapters.customers.dynamo.DynamoCustomer
+import adapters.customers.dynamo.DynamoCustomerData
+import adapters.customers.dynamo.DynamoFavouriteDestinations
 import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
@@ -139,7 +138,7 @@ class DynamoDbCustomersRepository(
 
     private fun Customer.toDynamoCustomer(): DynamoCustomer {
         val dynamoCustomer = DynamoCustomer()
-        dynamoCustomer.id = this.id.value
+        dynamoCustomer.ID = this.id.value
         dynamoCustomer.username = this.name.value
         val dynamoCustomerData = DynamoCustomerData(
             this.name.value,

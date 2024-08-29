@@ -5,19 +5,25 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "name": "Davide",
-  "age": 33,
+  "name": "Ciccio",
+  "age": 29,
   "favouriteDestinations": {
     "destinations": [
       {
-        "city": "Rochester"
+        "city": "Milan"
       },
       {
-        "city": "Richmond"
+        "city": "London"
       }
     ]
   }
 }
+
+### find by id
+
+GET {{host}}/api/findById?id=f48621b2-9433-4999-a091-dfea8ff5df89
+Content-Type: application/json
+Accept: application/json
 
 ### remove customer
 
@@ -28,12 +34,6 @@ Accept: application/json
 ### find by name
 
 GET {{host}}/api/find?name=Ciccio
-Content-Type: application/json
-Accept: application/json
-
-### find by id
-
-GET {{host}}/api/findById?id=5b9f8dd8-253f-4359-97c8-8be6362a73ed
 Content-Type: application/json
 Accept: application/json
 

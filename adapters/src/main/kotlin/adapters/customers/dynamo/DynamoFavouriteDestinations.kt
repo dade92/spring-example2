@@ -1,26 +1,14 @@
-package adapters.dynamo;
+package adapters.customers.dynamo
 
-import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
-
-import java.util.List;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean
 
 @DynamoDbBean
-public class DynamoFavouriteDestinations {
+class DynamoFavouriteDestinations {
+    var destinations: List<String>? = null
 
-    private List<String> destinations;
+    constructor()
 
-    public DynamoFavouriteDestinations() {
-    }
-
-    public DynamoFavouriteDestinations(List<String> destinations) {
-        this.destinations = destinations;
-    }
-
-    public List<String> getDestinations() {
-        return destinations;
-    }
-
-    public void setDestinations(List<String> destinations) {
-        this.destinations = destinations;
+    constructor(destinations: List<String>?) {
+        this.destinations = destinations
     }
 }
