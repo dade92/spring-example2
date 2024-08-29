@@ -1,7 +1,7 @@
 package adapters.configuration
 
-import adapters.customers.DynamoCustomerAdapter
-import adapters.customers.DynamoDbCustomersRepository
+import adapters.customers.dynamo.DynamoCustomerAdapter
+import adapters.customers.dynamo.DynamoDbCustomersRepository
 import adapters.customers.dynamo.DynamoCustomer
 import domain.repository.CustomerRepository
 import org.springframework.context.annotation.Bean

@@ -1,8 +1,5 @@
-package adapters.customers
+package adapters.customers.dynamo
 
-import adapters.customers.dynamo.DynamoCustomer
-import adapters.customers.dynamo.DynamoCustomerData
-import adapters.customers.dynamo.DynamoFavouriteDestinations
 import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
@@ -27,18 +24,7 @@ class DynamoDbCustomersRepository(
     private val logger = LoggerFactory.getLogger(javaClass)
 
     override fun insert(customer: Customer): Either<Error, Id> {
-        var customerJson: String? = null
         try {
-//            customerJson = objectMapper.writeValueAsString()
-//            val item: MutableMap<String, AttributeValue> = HashMap()
-//            item["ID"] = AttributeValue.builder().s(customer.id.value).build()
-//            item["Data"] = AttributeValue.builder().s(customerJson).build()
-//
-//            val request = PutItemRequest.builder()
-//                .tableName(tableName)
-//                .item(item)
-//                .build()
-
             customerTable.putItem(customer.toDynamoCustomer())
             return customer.id.right()
         } catch (e: JsonProcessingException) {
@@ -51,22 +37,6 @@ class DynamoDbCustomersRepository(
     }
 
     override fun find(name: Name): Either<Error, Customer> {
-//        val queryConditional = QueryConditional.keyEqualTo(Key.builder().sortValue(name.value).build())
-//
-//
-//        val request = QueryEnhancedRequest.builder()
-//            .queryConditional(queryConditional)
-//            .build()
-//
-//        try {
-//            val results: Iterator<DynamoCustomer> = customerTable.query(request).items().iterator()
-//
-//            return dynamoCustomerAdapter.adapt(results.next()).right()
-//        } catch (e: DynamoDbException) {
-//            System.err.println(e.message)
-//            return Error.GenericError.left()
-//        }
-
         val key = Key.builder()
             .partitionValue(name.value)
             .build()
@@ -80,26 +50,6 @@ class DynamoDbCustomersRepository(
     }
 
     override fun findById(id: Id): Either<Error, Customer> {
-//        val key: MutableMap<String, AttributeValue> = HashMap()
-//        key["ID"] = AttributeValue.builder().s(id.value).build()
-//
-//        val request = GetItemRequest.builder()
-//            .tableName(tableName)
-//            .key(key)
-//            .build()
-//
-//        val returnedItem = dynamoDbClient.getItem(request).item()
-//
-//        if (returnedItem != null) {
-//            val readValue = objectMapper.readValue(returnedItem["Data"]!!.s(), DynamoCustomer::class.java)
-//
-//            return Customer(
-//                readValue.id.toId(),
-//                readValue.name.toName(),
-//                readValue.age,
-//                FavouriteDestinations(emptyList())
-//            ).right()
-
         val key = Key.builder()
             .partitionValue(id.value)
             .build()
@@ -110,10 +60,6 @@ class DynamoDbCustomersRepository(
             System.err.println(e.message)
             return Error.GenericError.left()
         }
-
-//        } else {
-//            return Error.GenericError.left()
-//        }
     }
 
     override fun addDestination(id: Id, destination: Destination): Either<Error, Unit> {

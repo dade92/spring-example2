@@ -1,4 +1,4 @@
-package adapters.customers
+package adapters.customers.mongo
 
 import arrow.core.Either
 import arrow.core.left

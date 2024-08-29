@@ -1,6 +1,5 @@
-package adapters.customers
+package adapters.customers.dynamo
 
-import adapters.customers.dynamo.DynamoCustomer
 import domain.Customer
 import domain.Destination
 import domain.FavouriteDestinations
