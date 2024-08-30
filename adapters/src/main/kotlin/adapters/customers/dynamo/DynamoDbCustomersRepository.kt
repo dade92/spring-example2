@@ -38,8 +38,8 @@ class DynamoDbCustomersRepository(
         try {
             Key.builder()
                 .partitionValue(id.value)
-                .build().let {
-                    key -> dynamoCustomerAdapter.toCustomer(customerTable.getItem(key)).right()
+                .build().let { key ->
+                    dynamoCustomerAdapter.toCustomer(customerTable.getItem(key)).right()
                 }
         } catch (e: DynamoDbException) {
             logger.error("Error retrieving customer for id $id", e)
@@ -169,9 +169,6 @@ class DynamoDbCustomersRepository(
                 Unit.right()
             }
         )
-
-    //TODO this stuff should not exist
-    override fun getAll(): List<Customer> = emptyList()
 
     companion object {
         private val USERNAME_GSI = "UsernameIndex"

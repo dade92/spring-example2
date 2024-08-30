@@ -11,9 +11,6 @@ Accept: application/json
     "destinations": [
       {
         "city": "Como"
-      },
-      {
-        "city": "Erba"
       }
     ]
   }
@@ -21,7 +18,7 @@ Accept: application/json
 
 ### find by id
 
-GET {{host}}/api/findById?id=c5f62e13-a69d-4d5a-a95b-6b5b433306a2
+GET {{host}}/api/findById?id=c6eb97c0-62fd-48b7-88d4-7c823db02fcd
 Content-Type: application/json
 Accept: application/json
 
@@ -33,7 +30,7 @@ Accept: application/json
 
 ### remove customer
 
-POST {{host}}/api/remove/c5f62e13-a69d-4d5a-a95b-6b5b433306a2
+POST {{host}}/api/remove/26feefb0-a1c0-4ee7
 Content-Type: application/json
 Accept: application/json
 
@@ -50,22 +47,22 @@ Accept: application/json
 
 ### add destination
 
-PUT {{host}}/api/add-destination/c5f62e13-a69d-4d5a-a95b-6b5b433306a2
+PUT {{host}}/api/add-destination/c6eb97c0-62fd-48b7-88d4-7c823db02fcd
 Content-Type: application/json
 Accept: application/json
 
 {
-  "destination": "Pavia"
+  "destination": "New York"
 }
 
 ### remove destination
 
-PUT {{host}}/api/remove-destination/c5f62e13-a69d-4d5a-a95b-6b5b433306a2
+PUT {{host}}/api/remove-destination/c6eb97c0-62fd-48b7-88d4-7c823db02fcd
 Content-Type: application/json
 Accept: application/json
 
 {
-  "destination": "Como"
+  "destination": "Porto"
 }
 
 ### retrieve all users

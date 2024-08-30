@@ -3,8 +3,15 @@ package adapters.customers.mongo
 import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
-import domain.*
+import domain.Customer
+import domain.Destination
+import domain.Error
+import domain.FavouriteDestinations
+import domain.Id
+import domain.Name
 import domain.repository.CustomerRepository
+import domain.toId
+import domain.toName
 import domain.utils.TimeProvider
 import org.slf4j.LoggerFactory
 import org.springframework.data.mongodb.core.MongoTemplate
@@ -113,12 +120,6 @@ class MongoDBCustomerRepository(
             logger.error("Error updating destination for customer ${id.value} due to ", e)
             Error.CustomerNotFoundError.left()
         }
-
-    override fun getAll(): List<Customer> {
-        val query = Query()
-        return mongoTemplate.find(query, MongoCustomer::class.java, COLLECTION_NAME).map { it.toDomain() }
-    }
-
 }
 
 data class MongoCustomer(
