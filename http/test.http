@@ -5,8 +5,8 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "name": "Davide",
-  "age": 32,
+  "name": "Paola",
+  "age": 57,
   "favouriteDestinations": {
     "destinations": [
       {
@@ -18,13 +18,13 @@ Accept: application/json
 
 ### find by id
 
-GET {{host}}/api/findById?id=c6eb97c0-62fd-48b7-88d4-7c823db02fcd
+GET {{host}}/api/findById?id=dd27651b-863c-4f7a-ae0d-3a674fa9bd2f
 Content-Type: application/json
 Accept: application/json
 
 ### find by name
 
-GET {{host}}/api/find?name=Davide
+GET {{host}}/api/find?name=Paola
 Content-Type: application/json
 Accept: application/json
 
@@ -64,12 +64,6 @@ Accept: application/json
 {
   "destination": "Porto"
 }
-
-### retrieve all users
-
-GET {{host}}/api/retrieveUsers
-Content-Type: application/json
-Accept: application/json
 
 ### retrieve translations
 
