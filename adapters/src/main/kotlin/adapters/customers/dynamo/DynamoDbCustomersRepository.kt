@@ -7,6 +7,7 @@ import com.fasterxml.jackson.core.JsonProcessingException
 import domain.Customer
 import domain.Destination
 import domain.Error
+import domain.FavouriteDestinations
 import domain.Id
 import domain.Name
 import domain.repository.CustomerRepository
@@ -92,19 +93,42 @@ class DynamoDbCustomersRepository(
             Error.GenericError.left()
         }
 
+    override fun updateDestination(
+        oldDestination: Destination,
+        newDestination: Destination,
+        id: Id
+    ): Either<Error, Unit> =
+        findById(id).fold(
+            {
+                logger.error("Customer with id $id not found", it)
+                Error.CustomerNotFoundError.left()
+            },
+            { customer ->
+                val filteredDestinations = customer
+                    .favouriteDestinations
+                    .destinations
+                    .filter { it.city != oldDestination.city }
+                    .toMutableList()
+
+                filteredDestinations.add(newDestination)
+
+                customerTable.putItem(
+                    dynamoCustomerAdapter.toDynamoCustomer(
+                        customer.copy(
+                            favouriteDestinations = FavouriteDestinations(filteredDestinations)
+                        )
+                    )
+                )
+
+                Unit.right()
+            }
+        )
+
     override fun addDestination(id: Id, destination: Destination): Either<Error, Unit> {
         return Error.GenericError.left()
     }
 
     override fun removeDestination(id: Id, destination: Destination): Either<Error, Unit> {
-        return Error.GenericError.left()
-    }
-
-    override fun updateDestination(
-        oldDestination: Destination,
-        newDestination: Destination,
-        id: Id
-    ): Either<Error, Unit> {
         return Error.GenericError.left()
     }
 

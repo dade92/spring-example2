@@ -21,21 +21,32 @@ Accept: application/json
 
 ### find by id
 
-GET {{host}}/api/findById?id=36638429-0505-483b-a09a-54dbb1ee76e7
+GET {{host}}/api/findById?id=e18a48b4-e7e9-46f2-8a25-23945064621d
 Content-Type: application/json
 Accept: application/json
 
 ### find by name
 
-GET {{host}}/api/find?name=Fabrizio
+GET {{host}}/api/find?name=Davide
 Content-Type: application/json
 Accept: application/json
 
 ### remove customer
 
-POST {{host}}/api/remove/cb45c56b-07f9-41d5-916f-cefbf21816b1
+POST {{host}}/api/remove/e18a48b4-e7e9-46f2-8a25-23945064621d
 Content-Type: application/json
 Accept: application/json
+
+### update destination
+
+PUT {{host}}/api/update-destination/e18a48b4-e7e9-46f2-8a25-23945064621d
+Content-Type: application/json
+Accept: application/json
+
+{
+  "old": "Erba",
+  "new": "Chiasso"
+}
 
 ### add destination
 
@@ -55,17 +66,6 @@ Accept: application/json
 
 {
   "destination": "London"
-}
-
-### update destination
-
-PUT {{host}}/api/update-destination/2
-Content-Type: application/json
-Accept: application/json
-
-{
-  "old": "Milan",
-  "new": "Usmate Velate"
 }
 
 ### retrieve all users
