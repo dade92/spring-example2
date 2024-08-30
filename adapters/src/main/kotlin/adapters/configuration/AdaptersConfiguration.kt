@@ -25,9 +25,12 @@ class AdaptersConfiguration {
             .build()
 
         return DynamoDbCustomersRepository(
-            dynamoDbEnhancedClient.table("Customer", TableSchema.fromBean(DynamoCustomer::class.java)),
+            dynamoDbEnhancedClient.table(CUSTOMER_TABLE, TableSchema.fromBean(DynamoCustomer::class.java)),
             DynamoCustomerAdapter()
         )
     }
 
+    companion object {
+        private val CUSTOMER_TABLE = "Customer"
+    }
 }

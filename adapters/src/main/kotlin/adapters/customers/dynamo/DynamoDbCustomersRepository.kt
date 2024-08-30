@@ -18,9 +18,6 @@ import software.amazon.awssdk.enhanced.dynamodb.model.QueryConditional
 import software.amazon.awssdk.enhanced.dynamodb.model.QueryEnhancedRequest
 import software.amazon.awssdk.services.dynamodb.model.DynamoDbException
 
-
-private val USERNAME_GSI = "UsernameIndex"
-
 class DynamoDbCustomersRepository(
     private val customerTable: DynamoDbTable<DynamoCustomer>,
     private val dynamoCustomerAdapter: DynamoCustomerAdapter
@@ -37,18 +34,17 @@ class DynamoDbCustomersRepository(
         }
     }
 
-    override fun findById(id: Id): Either<Error, Customer> {
-        val key = Key.builder()
-            .partitionValue(id.value)
-            .build()
-
+    override fun findById(id: Id): Either<Error, Customer> =
         try {
-            return dynamoCustomerAdapter.toCustomer(customerTable.getItem(key)).right()
+            Key.builder()
+                .partitionValue(id.value)
+                .build().let {
+                    key -> dynamoCustomerAdapter.toCustomer(customerTable.getItem(key)).right()
+                }
         } catch (e: DynamoDbException) {
             logger.error("Error retrieving customer for id $id", e)
-            return Error.CustomerNotFoundError.left()
+            Error.CustomerNotFoundError.left()
         }
-    }
 
     override fun find(name: Name): Either<Error, Customer> =
         try {
@@ -174,7 +170,10 @@ class DynamoDbCustomersRepository(
             }
         )
 
-    override fun getAll(): List<Customer> {
-        return listOf()
+    //TODO this stuff should not exist
+    override fun getAll(): List<Customer> = emptyList()
+
+    companion object {
+        private val USERNAME_GSI = "UsernameIndex"
     }
 }
