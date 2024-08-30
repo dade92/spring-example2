@@ -21,7 +21,7 @@ Accept: application/json
 
 ### find by id
 
-GET {{host}}/api/findById?id=e18a48b4-e7e9-46f2-8a25-23945064621d
+GET {{host}}/api/findById?id=c5f62e13-a69d-4d5a-a95b-6b5b433306a2
 Content-Type: application/json
 Accept: application/json
 
@@ -33,7 +33,7 @@ Accept: application/json
 
 ### remove customer
 
-POST {{host}}/api/remove/e18a48b4-e7e9-46f2-8a25-23945064621d
+POST {{host}}/api/remove/c5f62e13-a69d-4d5a-a95b-6b5b433306a2
 Content-Type: application/json
 Accept: application/json
 
@@ -50,7 +50,7 @@ Accept: application/json
 
 ### add destination
 
-PUT {{host}}/api/add-destination/1234
+PUT {{host}}/api/add-destination/c5f62e13-a69d-4d5a-a95b-6b5b433306a2
 Content-Type: application/json
 Accept: application/json
 
@@ -60,12 +60,12 @@ Accept: application/json
 
 ### remove destination
 
-PUT {{host}}/api/remove-destination/2
+PUT {{host}}/api/remove-destination/c5f62e13-a69d-4d5a-a95b-6b5b433306a2
 Content-Type: application/json
 Accept: application/json
 
 {
-  "destination": "London"
+  "destination": "Como"
 }
 
 ### retrieve all users

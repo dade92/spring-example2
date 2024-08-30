@@ -124,13 +124,55 @@ class DynamoDbCustomersRepository(
             }
         )
 
-    override fun addDestination(id: Id, destination: Destination): Either<Error, Unit> {
-        return Error.GenericError.left()
-    }
+    override fun addDestination(id: Id, destination: Destination): Either<Error, Unit> =
+        findById(id).fold(
+            {
+                logger.error("Customer with id $id not found", it)
+                Error.CustomerNotFoundError.left()
+            },
+            { customer ->
+                val toBeChanged = customer
+                    .favouriteDestinations
+                    .destinations
+                    .toMutableList()
 
-    override fun removeDestination(id: Id, destination: Destination): Either<Error, Unit> {
-        return Error.GenericError.left()
-    }
+                toBeChanged.add(destination)
+
+                customerTable.putItem(
+                    dynamoCustomerAdapter.toDynamoCustomer(
+                        customer.copy(
+                            favouriteDestinations = FavouriteDestinations(toBeChanged)
+                        )
+                    )
+                )
+
+                Unit.right()
+            }
+        )
+
+    override fun removeDestination(id: Id, destination: Destination): Either<Error, Unit> =
+        findById(id).fold(
+            {
+                logger.error("Customer with id $id not found", it)
+                Error.CustomerNotFoundError.left()
+            },
+            { customer ->
+                val filteredDestinations = customer
+                    .favouriteDestinations
+                    .destinations
+                    .filter { it.city != destination.city }
+
+                customerTable.putItem(
+                    dynamoCustomerAdapter.toDynamoCustomer(
+                        customer.copy(
+                            favouriteDestinations = FavouriteDestinations(filteredDestinations)
+                        )
+                    )
+                )
+
+                Unit.right()
+            }
+        )
 
     override fun getAll(): List<Customer> {
         return listOf()
