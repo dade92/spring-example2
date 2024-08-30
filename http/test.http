@@ -33,7 +33,7 @@ Accept: application/json
 
 ### remove customer
 
-POST {{host}}/api/remove/b2ab9ad2-b739-4ba1-bb42-fd5c35ccf638
+POST {{host}}/api/remove/cb45c56b-07f9-41d5-916f-cefbf21816b1
 Content-Type: application/json
 Accept: application/json
 

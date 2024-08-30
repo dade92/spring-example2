@@ -32,7 +32,7 @@ class DynamoDbCustomersRepository(
             customerTable.putItem(dynamoCustomerAdapter.toDynamoCustomer(customer))
             return customer.id.right()
         } catch (e: JsonProcessingException) {
-            throw RuntimeException(e)
+            return Error.GenericError.left()
         }
     }
 
@@ -44,8 +44,8 @@ class DynamoDbCustomersRepository(
         try {
             return dynamoCustomerAdapter.toCustomer(customerTable.getItem(key)).right()
         } catch (e: DynamoDbException) {
-            System.err.println(e.message)
-            return Error.GenericError.left()
+            logger.error("Error retrieving customer for id $id", e)
+            return Error.CustomerNotFoundError.left()
         }
     }
 
@@ -71,16 +71,26 @@ class DynamoDbCustomersRepository(
             if (result.isPresent) {
                 dynamoCustomerAdapter.toCustomer(result.get()).right()
             } else {
-                Error.GenericError.left()
+                Error.CustomerNotFoundError.left()
             }
         } catch (e: DynamoDbException) {
             logger.error("Error querying DynamoDB by name: ${e.message}")
             Error.GenericError.left()
         }
 
-    override fun remove(id: Id): Either<Error, Unit> {
-        return Error.GenericError.left()
-    }
+    override fun remove(id: Id): Either<Error, Unit> =
+        try {
+            val key = Key.builder()
+                .partitionValue(id.value)
+                .build()
+
+            customerTable.deleteItem(key)
+
+            Unit.right()
+        } catch (e: DynamoDbException) {
+            logger.error("Error removing customer from DynamoDB: ${e.message}")
+            Error.GenericError.left()
+        }
 
     override fun addDestination(id: Id, destination: Destination): Either<Error, Unit> {
         return Error.GenericError.left()
