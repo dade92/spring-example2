@@ -18,6 +18,8 @@ import software.amazon.awssdk.enhanced.dynamodb.model.QueryEnhancedRequest
 import software.amazon.awssdk.services.dynamodb.model.DynamoDbException
 
 
+private val USERNAME_GSI = "UsernameIndex"
+
 class DynamoDbCustomersRepository(
     private val customerTable: DynamoDbTable<DynamoCustomer>,
     private val dynamoCustomerAdapter: DynamoCustomerAdapter
@@ -27,7 +29,7 @@ class DynamoDbCustomersRepository(
 
     override fun insert(customer: Customer): Either<Error, Id> {
         try {
-            customerTable.putItem(customer.toDynamoCustomer())
+            customerTable.putItem(dynamoCustomerAdapter.toDynamoCustomer(customer))
             return customer.id.right()
         } catch (e: JsonProcessingException) {
             throw RuntimeException(e)
@@ -40,7 +42,7 @@ class DynamoDbCustomersRepository(
             .build()
 
         try {
-            return dynamoCustomerAdapter.adapt(customerTable.getItem(key)).right()
+            return dynamoCustomerAdapter.toCustomer(customerTable.getItem(key)).right()
         } catch (e: DynamoDbException) {
             System.err.println(e.message)
             return Error.GenericError.left()
@@ -49,7 +51,7 @@ class DynamoDbCustomersRepository(
 
     override fun find(name: Name): Either<Error, Customer> =
         try {
-            val gsiIndex = customerTable.index("UsernameIndex")
+            val gsiIndex = customerTable.index(USERNAME_GSI)
 
             val queryConditional = QueryConditional.keyEqualTo(
                 Key.builder()
@@ -67,7 +69,7 @@ class DynamoDbCustomersRepository(
                 .findFirst()
 
             if (result.isPresent) {
-                dynamoCustomerAdapter.adapt(result.get()).right()
+                dynamoCustomerAdapter.toCustomer(result.get()).right()
             } else {
                 Error.GenericError.left()
             }
@@ -98,19 +100,5 @@ class DynamoDbCustomersRepository(
 
     override fun getAll(): List<Customer> {
         return listOf()
-    }
-
-    private fun Customer.toDynamoCustomer(): DynamoCustomer {
-        val dynamoCustomer = DynamoCustomer()
-        dynamoCustomer.ID = this.id.value
-        dynamoCustomer.username = this.name.value
-        val dynamoCustomerData = DynamoCustomerData(
-            this.name.value,
-            "XXX",
-            this.age,
-            DynamoFavouriteDestinations(this.favouriteDestinations.destinations.map { it.city })
-        )
-        dynamoCustomer.dynamoCustomerData = dynamoCustomerData
-        return dynamoCustomer
     }
 }

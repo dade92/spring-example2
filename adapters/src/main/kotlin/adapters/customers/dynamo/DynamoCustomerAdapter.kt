@@ -7,7 +7,7 @@ import domain.toId
 import domain.toName
 
 class DynamoCustomerAdapter {
-    fun adapt(dynamoCustomer: DynamoCustomer): Customer =
+    fun toCustomer(dynamoCustomer: DynamoCustomer): Customer =
         Customer(
             dynamoCustomer.ID!!.toId(),
             dynamoCustomer.dynamoCustomerData!!.username!!.toName(),
@@ -18,4 +18,14 @@ class DynamoCustomerAdapter {
                 )
             })
         )
+
+    fun toDynamoCustomer(customer: Customer): DynamoCustomer = DynamoCustomer(
+        customer.id.value, customer.name.value, DynamoCustomerData(
+            customer.name.value,
+            "XXX",
+            customer.age,
+            DynamoFavouriteDestinations(customer.favouriteDestinations.destinations.map { it.city })
+        )
+    )
+
 }

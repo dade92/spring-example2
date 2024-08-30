@@ -11,4 +11,12 @@ class DynamoCustomer {
     @get:DynamoDbSecondaryPartitionKey(indexNames = ["UsernameIndex"])
     var username: String? = null
     var dynamoCustomerData: DynamoCustomerData? = null
+
+    constructor()
+
+    constructor(ID: String, username: String, dynamoCustomerData: DynamoCustomerData) {
+        this.ID = ID
+        this.username = username
+        this.dynamoCustomerData = dynamoCustomerData
+    }
 }
