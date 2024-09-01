@@ -1,13 +1,15 @@
 package domain.usecases
 
 import arrow.core.Either
-import domain.*
+import domain.Customer
+import domain.Error
+import domain.Id
+import domain.Name
 import domain.repository.CustomerRepository
 
 interface FindCustomerUseCase {
     fun findBy(name: Name): Either<Error, Customer>
     fun findById(id: Id): Either<Error, Customer>
-    fun getAll(): List<Customer>
 }
 
 class DefaultFindCustomerUseCase(
@@ -16,8 +18,5 @@ class DefaultFindCustomerUseCase(
     override fun findBy(name: Name): Either<Error, Customer> = customerRepository.find(name)
 
     override fun findById(id: Id): Either<Error, Customer> = customerRepository.findById(id)
-    override fun getAll(): List<Customer> {
-        return customerRepository.getAll()
-    }
 
 }

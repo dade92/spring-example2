@@ -1,6 +1,11 @@
 package adapters;
 
+import adapters.customers.mongo.MongoDBCustomerRepository;
+import domain.repository.CustomerRepository;
+import domain.utils.DefaultTimeProvider;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.utility.DockerImageName;
@@ -9,6 +14,12 @@ import static org.testcontainers.utility.MountableFile.forClasspathResource;
 
 @Configuration
 public class MongoDBTestContainerConfig {
+
+    @Bean
+    public CustomerRepository customerRepository(MongoTemplate mongoTemplate) {
+        return new MongoDBCustomerRepository(mongoTemplate, new DefaultTimeProvider());
+    }
+
     @Container
     public static final GenericContainer<?> mongoDBContainer = new GenericContainer<>(
         DockerImageName.parse("mongo:latest"))

@@ -1,12 +1,23 @@
 package webapp
 
-import domain.*
+import domain.Customer
+import domain.Destination
+import domain.FavouriteDestinations
+import domain.toId
+import domain.toName
 import domain.usecases.FindCustomerUseCase
 import domain.usecases.InsertCustomerUseCase
 import domain.usecases.UpdateCustomerUseCase
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestMethod
+import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.RestController
 import webapp.adapters.UserRequestAdapter
 
 @RestController
@@ -113,22 +124,7 @@ class UserResource(
                 ResponseEntity.ok(it)
             }
         )
-
-    //TODO test or delete?
-    @GetMapping("/retrieveUsers")
-    fun retrieveAll(): ResponseEntity<CustomersResponse> {
-        return ResponseEntity.ok(
-            CustomersResponse(
-                findCustomerUseCase.getAll()
-            )
-        )
-    }
-
 }
-
-data class CustomersResponse(
-    val users: List<Customer>
-)
 
 data class InsertCustomerRequest(
     val name: String,

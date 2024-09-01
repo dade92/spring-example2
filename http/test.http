@@ -5,74 +5,65 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "name": "Karissa",
-  "age": 31,
+  "name": "Paola",
+  "age": 57,
   "favouriteDestinations": {
     "destinations": [
       {
-        "city": "Rochester"
-      },
-      {
-        "city": "Richmond"
+        "city": "Como"
       }
     ]
   }
 }
 
-### remove customer
+### find by id
 
-POST {{host}}/api/remove/b2ab9ad2-b739-4ba1-bb42-fd5c35ccf638
+GET {{host}}/api/findById?id=dd27651b-863c-4f7a-ae0d-3a674fa9bd2f
 Content-Type: application/json
 Accept: application/json
 
 ### find by name
 
-GET {{host}}/api/find?name=Davide
+GET {{host}}/api/find?name=Paola
 Content-Type: application/json
 Accept: application/json
 
-### find by id
+### remove customer
 
-GET {{host}}/api/findById?id=7e19d973-4c6b-4a33-9b34-50d7d5f892cd
+POST {{host}}/api/remove/26feefb0-a1c0-4ee7
 Content-Type: application/json
 Accept: application/json
 
-### add destination
+### update destination
 
-PUT {{host}}/api/add-destination/1234
+PUT {{host}}/api/update-destination/e18a48b4-e7e9-46f2-8a25-23945064621d
 Content-Type: application/json
 Accept: application/json
 
 {
-  "destination": "Pavia"
+  "old": "Erba",
+  "new": "Chiasso"
+}
+
+### add destination
+
+PUT {{host}}/api/add-destination/c6eb97c0-62fd-48b7-88d4-7c823db02fcd
+Content-Type: application/json
+Accept: application/json
+
+{
+  "destination": "New York"
 }
 
 ### remove destination
 
-PUT {{host}}/api/remove-destination/2
+PUT {{host}}/api/remove-destination/c6eb97c0-62fd-48b7-88d4-7c823db02fcd
 Content-Type: application/json
 Accept: application/json
 
 {
-  "destination": "London"
+  "destination": "Porto"
 }
-
-### update destination
-
-PUT {{host}}/api/update-destination/2
-Content-Type: application/json
-Accept: application/json
-
-{
-  "old": "Milan",
-  "new": "Usmate Velate"
-}
-
-### retrieve all users
-
-GET {{host}}/api/retrieveUsers
-Content-Type: application/json
-Accept: application/json
 
 ### retrieve translations
 

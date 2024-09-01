@@ -1,18 +1,24 @@
 package adapters
 
-import adapters.configuration.AdaptersConfiguration
 import adapters.configuration.MongoConfiguration
 import arrow.core.left
 import arrow.core.right
-import domain.*
+import domain.Customer
+import domain.Destination
+import domain.Error
+import domain.FavouriteDestinations
+import domain.Id
+import domain.Name
 import domain.repository.CustomerRepository
+import domain.toId
+import domain.toName
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.testcontainers.junit.jupiter.Testcontainers
 
-@SpringBootTest(classes = [AdaptersConfiguration::class, MongoConfiguration::class, MongoDBTestContainerConfig::class])
+@SpringBootTest(classes = [MongoConfiguration::class, MongoDBTestContainerConfig::class])
 @Testcontainers
 class MongoDBCustomerRepositoryIntegrationTest {
 
