@@ -16,9 +16,7 @@ public class AwsCredentialsConfiguration {
     @Bean
     @Profile("prod")
     public AWSCredentials awsCredentialsProd(AwsProperties awsProperties) {
-        DefaultAWSCredentialsProviderChain instance = DefaultAWSCredentialsProviderChain.getInstance();
-        new ProfileCredentialsProvider().refresh();
-        return instance.getCredentials();
+        return DefaultAWSCredentialsProviderChain.getInstance().getCredentials();
     }
 
     @Bean
