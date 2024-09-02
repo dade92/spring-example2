@@ -16,7 +16,7 @@ public class AwsCredentialsConfiguration {
 
     @Bean
     public AWSCredentials awsCredentials(AwsProperties awsProperties) {
-        return retrieveAWSCredentials(awsProperties);
+        return DefaultAWSCredentialsProviderChain.getInstance().getCredentials();
     }
 
     private AWSCredentials retrieveAWSCredentials(AwsProperties awsProperties) {
