@@ -3,6 +3,7 @@ package adapters.configuration;
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.auth.BasicSessionCredentials;
+import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,11 +26,12 @@ public class AwsCredentialsConfiguration {
                 awsProperties.secretAccessKey
             );
         } else {
-            return new BasicSessionCredentials(
-                awsProperties.accessKey,
-                awsProperties.secretAccessKey,
-                awsProperties.sessionToken
-            );
+            return DefaultAWSCredentialsProviderChain.getInstance().getCredentials();
+//            return new BasicSessionCredentials(
+//                awsProperties.accessKey,
+//                awsProperties.secretAccessKey,
+//                awsProperties.sessionToken
+//            );
         }
     }
 
