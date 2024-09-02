@@ -5,15 +5,12 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "name": "Davide",
-  "age": 32,
+  "name": "Luca",
+  "age": 45,
   "favouriteDestinations": {
     "destinations": [
       {
-        "city": "Como"
-      },
-      {
-        "city": "Erba"
+        "city": "Milan"
       }
     ]
   }
