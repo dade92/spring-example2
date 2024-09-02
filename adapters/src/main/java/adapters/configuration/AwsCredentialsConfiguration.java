@@ -1,12 +1,15 @@
 package adapters.configuration;
 
 import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.AWSCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 import com.amazonaws.auth.profile.ProfileCredentialsProvider;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 
 @Configuration
@@ -20,6 +23,7 @@ public class AwsCredentialsConfiguration {
     }
 
     @Bean
+    @ConditionalOnMissingBean(AWSCredentials.class)
     public AWSCredentials awsCredentialsLocal(AwsProperties awsProperties) {
         return new BasicAWSCredentials(
             awsProperties.accessKey,
