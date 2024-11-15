@@ -1,9 +1,13 @@
 package adapters.configuration
 
+import adapters.customers.dynamo.DynamoCustomer
 import adapters.customers.dynamo.DynamoCustomerAdapter
 import adapters.customers.dynamo.DynamoDbCustomersRepository
-import adapters.customers.dynamo.DynamoCustomer
+import adapters.customers.mongo.MongoDBCustomerRepository
+import com.mongodb.client.MongoClient
 import domain.repository.CustomerRepository
+import domain.utils.DefaultTimeProvider
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.data.mongodb.core.MongoTemplate
@@ -15,10 +19,11 @@ import software.amazon.awssdk.services.dynamodb.DynamoDbClient
 @Configuration
 class AdaptersConfiguration {
 
+    @ConditionalOnProperty(name = ["enabledDB"], havingValue = "dynamo")
     @Bean
     fun customerRepository(
         mongoTemplate: MongoTemplate,
-        dynamoDbClient: DynamoDbClient,
+        dynamoDbClient: DynamoDbClient, mongo: MongoClient,
     ): CustomerRepository {
         val dynamoDbEnhancedClient = DynamoDbEnhancedClient.builder()
             .dynamoDbClient(dynamoDbClient)
@@ -29,6 +34,12 @@ class AdaptersConfiguration {
             DynamoCustomerAdapter()
         )
     }
+
+    @ConditionalOnProperty(name = ["enabledDB"], havingValue = "mongo")
+    @Bean
+    fun customerRepositoryMongo(
+        mongoTemplate: MongoTemplate
+    ): CustomerRepository = MongoDBCustomerRepository(mongoTemplate, DefaultTimeProvider())
 
     companion object {
         private val CUSTOMER_TABLE = "Customer"

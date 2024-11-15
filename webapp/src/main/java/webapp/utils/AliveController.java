@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class AliveController {
 
-    private Logger logger = LoggerFactory.getLogger(AliveController.class);
+    private final Logger logger = LoggerFactory.getLogger(AliveController.class);
 
     @GetMapping("/alive")
     public ResponseEntity<?> alive() {

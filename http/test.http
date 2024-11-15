@@ -5,12 +5,12 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "name": "Luca",
-  "age": 45,
+  "name": "Paola",
+  "age": 57,
   "favouriteDestinations": {
     "destinations": [
       {
-        "city": "Milan"
+        "city": "Como"
       }
     ]
   }
@@ -18,25 +18,25 @@ Accept: application/json
 
 ### find by id
 
-GET {{host}}/api/findById?id=baa2a92c-3966-4187-b3d8-8e816c9041fb
+GET {{host}}/api/findById?id=2
 Content-Type: application/json
 Accept: application/json
 
 ### find by name
 
-GET {{host}}/api/find?name=Davide
+GET {{host}}/api/find?name=Paola
 Content-Type: application/json
 Accept: application/json
 
 ### remove customer
 
-POST {{host}}/api/remove/26feefb0-a1c0-4ee7
+POST {{host}}/api/remove/3b7d49a2-93a5-4b28-bd7c-83da4ae10684
 Content-Type: application/json
 Accept: application/json
 
 ### update destination
 
-PUT {{host}}/api/update-destination/e18a48b4-e7e9-46f2-8a25-23945064621d
+PUT {{host}}/api/update-destination/b5970bf9-873e-4c0f-b782-cd12d1d9ca39
 Content-Type: application/json
 Accept: application/json
 
@@ -47,22 +47,22 @@ Accept: application/json
 
 ### add destination
 
-PUT {{host}}/api/add-destination/c6eb97c0-62fd-48b7-88d4-7c823db02fcd
+PUT {{host}}/api/add-destination/68518f4b-d8e8-4bae-a062-d2a65830152e
 Content-Type: application/json
 Accept: application/json
 
 {
-  "destination": "New York"
+  "destination": "Lugano"
 }
 
 ### remove destination
 
-PUT {{host}}/api/remove-destination/c6eb97c0-62fd-48b7-88d4-7c823db02fcd
+PUT {{host}}/api/remove-destination/89b4803b-afd8-46fb-9d9d-6300a9e75105
 Content-Type: application/json
 Accept: application/json
 
 {
-  "destination": "Porto"
+  "destination": "Como"
 }
 
 ### retrieve translations

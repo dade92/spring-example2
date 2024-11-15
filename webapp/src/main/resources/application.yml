@@ -11,6 +11,8 @@ aws:
 mongo:
   url: mongodb://root:password@localhost:27017/?authSource=admin
 
+enabledDB: mongo
+
 spring:
   graphql:
     graphiql:

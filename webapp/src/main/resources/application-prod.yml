@@ -11,6 +11,8 @@ spring:
 mongo:
   url: mongodb://root:password@mongo:27017/customers?authSource=admin
 
+enabledDB: mongo
+
 aws:
   accessKey: ${ACCESS_KEY}
   secretAccessKey: ${SECRET_ACCESS_KEY}
