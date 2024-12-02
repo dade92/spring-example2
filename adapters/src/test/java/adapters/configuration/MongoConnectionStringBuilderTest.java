@@ -10,8 +10,8 @@ class MongoConnectionStringBuilderTest {
 
     @Test
     void build() {
-        ConnectionString actual = builder.build("localhost", "name", "password");
-        ConnectionString expected = new ConnectionString("mongodb://name:password@localhost:27017/?authSource=admin");
+        ConnectionString actual = builder.build("localhost", "name", "password", "666");
+        ConnectionString expected = new ConnectionString("mongodb://name:password@localhost:666/?authSource=admin");
 
         Assertions.assertEquals(expected, actual);
     }

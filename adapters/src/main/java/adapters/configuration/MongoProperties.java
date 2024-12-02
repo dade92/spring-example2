@@ -8,6 +8,7 @@ public class MongoProperties {
     public String baseUrl;
     public String username;
     public String password;
+    public String port;
 
     public void setBaseUrl(String baseUrl) {
         this.baseUrl = baseUrl;
@@ -19,5 +20,9 @@ public class MongoProperties {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void setPort(String port) {
+        this.port = port;
     }
 }

@@ -7,9 +7,10 @@ public class MongoConnectionStringBuilder {
     public ConnectionString build(
         String baseUrl,
         String username,
-        String password
+        String password,
+        String port
     ) {
-        return new ConnectionString("mongodb://" + username + ":" + password + "@" + baseUrl + ":27017/?authSource=admin");
+        return new ConnectionString("mongodb://" + username + ":" + password + "@" + baseUrl + ":" + port + "/?authSource=admin");
     }
 
 }

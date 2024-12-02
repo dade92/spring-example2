@@ -24,7 +24,8 @@ public class MongoConfiguration {
             mongoConnectionStringBuilder.build(
                 mongoProperties.baseUrl,
                 mongoProperties.username,
-                mongoProperties.password
+                mongoProperties.password,
+                mongoProperties.port
             );
 
         MongoClientSettings mongoClientSettings = MongoClientSettings.builder()
