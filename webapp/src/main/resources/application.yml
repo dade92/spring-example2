@@ -9,7 +9,7 @@ aws:
   bucketName: images.davidebotti.com
 
 mongo:
-  url: localhost:27017/?authSource=admin
+  baseUrl: localhost:27017/?authSource=admin
   username: root
   password: password
 
