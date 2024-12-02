@@ -9,7 +9,9 @@ spring:
       max-request-size: 10MB
 
 mongo:
-  url: mongodb://root:password@mongo:27017/customers?authSource=admin
+  url: localhost:27017/?authSource=admin
+  username: root
+  password: password
 
 enabledDB: mongo
 
