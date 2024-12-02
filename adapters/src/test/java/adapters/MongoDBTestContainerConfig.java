@@ -34,9 +34,6 @@ public class MongoDBTestContainerConfig {
     static {
         mongoDBContainer.start();
         var mappedPort = mongoDBContainer.getMappedPort(27017);
-        System.setProperty("mongo.baseUrl", "localhost");
         System.setProperty("mongo.port", mappedPort.toString());
-        System.setProperty("mongo.username", "root");
-        System.setProperty("mongo.password", "password");
     }
 }
