@@ -1,4 +1,4 @@
 mongo:
-  baseUrl: localhost
+  host: localhost
   username: root
   password: password

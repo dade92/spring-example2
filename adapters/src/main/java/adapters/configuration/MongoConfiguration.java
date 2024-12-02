@@ -22,7 +22,7 @@ public class MongoConfiguration {
         MongoConnectionStringBuilder mongoConnectionStringBuilder = new MongoConnectionStringBuilder();
         ConnectionString connectionString =
             mongoConnectionStringBuilder.build(
-                mongoProperties.baseUrl,
+                mongoProperties.host,
                 mongoProperties.username,
                 mongoProperties.password,
                 mongoProperties.port

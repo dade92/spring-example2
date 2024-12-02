@@ -5,13 +5,13 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties("mongo")
 public class MongoProperties {
 
-    public String baseUrl;
+    public String host;
     public String username;
     public String password;
     public String port;
 
-    public void setBaseUrl(String baseUrl) {
-        this.baseUrl = baseUrl;
+    public void setHost(String host) {
+        this.host = host;
     }
 
     public void setUsername(String username) {
