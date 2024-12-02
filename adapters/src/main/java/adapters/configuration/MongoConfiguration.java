@@ -19,8 +19,13 @@ public class MongoConfiguration {
     public MongoClient mongoClient(
         MongoProperties mongoProperties
     ) {
+        MongoConnectionStringBuilder mongoConnectionStringBuilder = new MongoConnectionStringBuilder();
         ConnectionString connectionString =
-            new ConnectionString(mongoProperties.url);
+            mongoConnectionStringBuilder.build(
+                mongoProperties.baseUrl,
+                mongoProperties.username,
+                mongoProperties.password
+            );
 
         MongoClientSettings mongoClientSettings = MongoClientSettings.builder()
             .applyConnectionString(connectionString)
