@@ -2,7 +2,6 @@ package adapters.configuration;
 
 import com.mongodb.ConnectionString;
 
-//TODO test
 public class MongoConnectionStringBuilder {
 
     public ConnectionString build(
@@ -10,7 +9,7 @@ public class MongoConnectionStringBuilder {
         String username,
         String password
     ) {
-        return new ConnectionString("mongodb://" + username + ":" + password + "@" + baseUrl);
+        return new ConnectionString("mongodb://" + username + ":" + password + "@" + baseUrl + ":27017/?authSource=admin");
     }
 
 }

@@ -13,8 +13,6 @@ mongo:
   username: root
   password: password
 
-#    mongodb://root:password@localhost:27017/?authSource=admin
-
 enabledDB: mongo
 
 spring:
