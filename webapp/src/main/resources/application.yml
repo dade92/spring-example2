@@ -9,7 +9,10 @@ aws:
   bucketName: images.davidebotti.com
 
 mongo:
-  url: mongodb://root:password@localhost:27017/?authSource=admin
+  host: localhost
+  username: root
+  password: password
+  port: 27017
 
 enabledDB: mongo
 
