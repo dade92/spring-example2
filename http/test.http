@@ -18,7 +18,7 @@ Accept: application/json
 
 ### find by id
 
-GET {{host}}/api/findById?id=ee6a3907-1211-4604-b46b-a5229bcba396
+GET {{host}}/api/findById?id=1
 Content-Type: application/json
 Accept: application/json
 

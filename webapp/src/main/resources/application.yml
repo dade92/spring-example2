@@ -10,8 +10,8 @@ aws:
 
 mongo:
   host: localhost
-  username: root
-  password: password
+  username: ${MONGO_USERNAME}
+  password: ${MONGO_PASSWORD}
   port: 27017
 
 enabledDB: mongo
