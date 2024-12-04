@@ -5,6 +5,8 @@ import com.amazonaws.auth.AWSCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 import com.amazonaws.auth.profile.ProfileCredentialsProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -17,10 +19,20 @@ import org.springframework.context.annotation.Profile;
 @EnableConfigurationProperties(AwsProperties.class)
 public class AwsCredentialsConfiguration {
 
+    private Logger logger = LoggerFactory.getLogger(AwsCredentialsConfiguration.class);
+
     @Bean
     @Profile("prod")
-    public AWSCredentials awsCredentialsProd() {
-        return DefaultAWSCredentialsProviderChain.getInstance().getCredentials();
+    public AWSCredentials awsCredentialsProd(AwsProperties awsProperties) {
+        try {
+            return DefaultAWSCredentialsProviderChain.getInstance().getCredentials();
+        } catch (Exception e) {
+            logger.error("Cannot retrieve AWS credentials, falling back to default one from environment variables", e);
+            return new BasicAWSCredentials(
+                awsProperties.accessKey,
+                awsProperties.secretAccessKey
+            );
+        }
     }
 
     @Bean
