@@ -12,7 +12,6 @@ import org.springframework.context.annotation.Configuration;
 public class AwsConfiguration {
 
     @Bean
-    @ConditionalOnProperty(name = "enabledDB", havingValue = "dynamo")
     public AmazonS3 amazonS3(AWSCredentials awsCredentials) {
         return AmazonS3ClientBuilder
             .standard()

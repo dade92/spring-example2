@@ -19,14 +19,12 @@ public class AwsCredentialsConfiguration {
 
     @Bean
     @Profile("prod")
-    @ConditionalOnProperty(name = "enabledDB", havingValue = "dynamo")
     public AWSCredentials awsCredentialsProd() {
         return DefaultAWSCredentialsProviderChain.getInstance().getCredentials();
     }
 
     @Bean
     @Profile("default")
-    @ConditionalOnProperty(name = "enabledDB", havingValue = "dynamo")
     public AWSCredentials awsCredentialsLocal(AwsProperties awsProperties) {
         return new BasicAWSCredentials(
             awsProperties.accessKey,
