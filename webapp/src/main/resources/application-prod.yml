@@ -9,7 +9,7 @@ spring:
       max-request-size: 10MB
 
 mongo:
-  host: localhost
+  host: mongo
   username: ${MONGO_USERNAME}
   password: ${MONGO_PASSWORD}
   port: 27017
