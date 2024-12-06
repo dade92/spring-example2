@@ -14,7 +14,7 @@ mongo:
   password: ${MONGO_PASSWORD}
   port: 27017
 
-enabledDB: mongo
+enabledDB: dynamo
 
 spring:
   graphql:
