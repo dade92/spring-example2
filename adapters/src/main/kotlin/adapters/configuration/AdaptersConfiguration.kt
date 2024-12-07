@@ -36,6 +36,6 @@ class AdaptersConfiguration {
         MongoDBCustomerRepository(mongoTemplate, DefaultTimeProvider())
 
     companion object {
-        private val CUSTOMER_TABLE = "Customer"
+        private const val CUSTOMER_TABLE = "Customer"
     }
 }

@@ -1,5 +1,6 @@
 package webapp.documents;
 
+import com.springexample.utils.Fixtures;
 import data.Post;
 import documents.DocumentService;
 import documents.ImageLocation;
@@ -29,8 +30,8 @@ class DocumentControllerTest {
     @MockBean
     private DocumentService documentService;
 
-    private static final String UPLOAD_RESPONSE = "{\"imageLocation\": \"http://example.com\"}";
-    private static final String READ_RESPONSE = "{\"posts\": [{\"name\": \"one\", \"imageLocation\": \"me.com\"}, {\"name\": \"two\", \"imageLocation\": \"you.com\"}]}";
+    private static final String UPLOAD_RESPONSE = Fixtures.Companion.readJson("/uploadPostResponse.json");
+    private static final String READ_RESPONSE = Fixtures.Companion.readJson("/readPostsResponse.json");
 
     @Test
     void upload() throws Exception {
@@ -54,8 +55,6 @@ class DocumentControllerTest {
 
     @Test
     void uploadFails() throws Exception {
-        String url = "http://example.com";
-
         MockMultipartFile mockMultipartFile = new MockMultipartFile(
             "file",
             "filename",
