@@ -18,13 +18,13 @@ Accept: application/json
 
 ### find by id
 
-GET {{host}}/api/findById?id=23d2fd0f-003b-4f54-abbb-9cf79172ee05
+GET {{host}}/api/findById?id=7d854c58-58e0-4ed9-8651-f2a2abf0005e
 Content-Type: application/json
 Accept: application/json
 
 ### find by name
 
-GET {{host}}/api/find?name=Davide
+GET {{host}}/api/find?name=David
 Content-Type: application/json
 Accept: application/json
 
@@ -80,8 +80,3 @@ Accept: application/json
 {
   "message": "What's up bro??"
 }
-
-### read text file from AWS s3 bucket
-
-GET {{host}}/api/read?fileName=awsTest.txt
-Content-Type: application/json
