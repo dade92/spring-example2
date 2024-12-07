@@ -67,4 +67,11 @@ public class DocumentController {
         return convertedFile;
     }
 
+    private record PostsResponse(List<PostJson> posts) {
+    }
+
+    private record UploadResponse(String imageLocation) {
+    }
+
+    private record PostJson(String name, String imageLocation) {}
 }
