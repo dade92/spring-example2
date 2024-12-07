@@ -1,0 +1,12 @@
+{
+  "posts": [
+    {
+      "name": "one",
+      "imageLocation": "me.com"
+    },
+    {
+      "name": "two",
+      "imageLocation": "you.com"
+    }
+  ]
+}
