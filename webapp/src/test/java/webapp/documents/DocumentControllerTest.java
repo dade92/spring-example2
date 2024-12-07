@@ -55,8 +55,6 @@ class DocumentControllerTest {
 
     @Test
     void uploadFails() throws Exception {
-        String url = "http://example.com";
-
         MockMultipartFile mockMultipartFile = new MockMultipartFile(
             "file",
             "filename",
