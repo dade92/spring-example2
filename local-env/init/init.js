@@ -18,3 +18,5 @@ db.mongocustomer.insert([
         "creationDate": '2023-12-29T08:48:06.742Z'
     },
 ]);
+
+db.mongocustomer.createIndex({name: 1}, {unique: true});

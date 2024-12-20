@@ -21,6 +21,7 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: password
     volumes:
+      - ./init:/docker-entrypoint-initdb.d
       - spring-example2-data-db:/data/db
       - spring-example2-data-db-prod:/Databases/production
 
