@@ -9,8 +9,8 @@ services:
     restart:
       always
     environment:
-      MONGO_USERNAME: root
-      MONGO_PASSWORD: password
+      MONGO_USERNAME: root      #env var in your OS
+      MONGO_PASSWORD: password  #env var in your OS
   mongo:
     image: mongo:4.4.18   # 4.4.18 is the last working version for raspberryPI (ARM64 bit)..
     container_name: mongo

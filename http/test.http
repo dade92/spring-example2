@@ -18,19 +18,19 @@ Accept: application/json
 
 ### find by id
 
-GET {{host}}/api/findById?id=df14ed42-52b9-4bd3-b6c3-0b4f019f58f1
+GET {{host}}/api/findById?id=462a3ae9-7468-4fa3-b884-e841f5b0f154
 Content-Type: application/json
 Accept: application/json
 
 ### find by name
 
-GET {{host}}/api/find?name=David
+GET {{host}}/api/find?name=Davide
 Content-Type: application/json
 Accept: application/json
 
 ### remove customer
 
-POST {{host}}/api/remove/e2df29b5-bc67-4b98-a8b6-a66fa3b40e6c
+POST {{host}}/api/remove/df14ed42-52b9-4bd3-b6c3-0b4f019f58f1
 Content-Type: application/json
 Accept: application/json
 
