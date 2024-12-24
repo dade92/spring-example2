@@ -20,25 +20,31 @@ Linked to this project there is a CI/CD integration (using Github actions) that 
 on every master push. This will push automatically the docker image on the dockerhub registry and Amazon public ECR,
 ready for the deployment.
 
-## Run the entire application
+## How to run
 
-Run using `./run.sh` command inside the `deploy` directory.
-This will download from dockerhub the images and run everything using docker compose.\
-You can stop shut everything down running the script `./stop.sh`.
+If you want to test the app locally, first run the script `./run-local-environment.sh`. This starts a
+mongodb instance reachable at `localhost:27017`, then run the application.  
+There is also a script `./run.sh` inside the `deploy` folder.
+This will download from dockerhub the images and run everything using docker compose.You can stop shut everything down running the script `./stop.sh`.
+
+The application contains two configuration files, one for local testing (`application.yml`) 
+and the other for production deployment (`application-prod.yml`). Inside them, among configuration
+variables, there is the field `enabledDB` that is used to specify which database you want to use. You can
+choose between `mongo` and `dynamo`.
+
+## Deploy
 
 ### AWS
 
 This application was deployed in my personal AWS cluster. In order to do that, run an EC2 instance, install Docker
-and run the docker image pushed on the ECR.
+and run the docker image pushed on the ECR. AWS **does not** leverage any file inside the `deploy` folder.
 
 ### Raspberry PI
 
 This application was successfully deployed in a Raspberry PI 4 Model B, with the only fix that mongo db must be
 version 4.4.18 or earlier, for some incompatibilities between latest mongo db versions and ARM architecture. To run on
-Raspberry, just enter the deploy folder and run the `./run.sh` script. Everything should run smoothly.
+Raspberry, just enter the `deploy` folder and run the `./run.sh` script. Everything should run smoothly.
 
-## Local testing
+## Test resources
 
-If you want to test the app locally, first run the script `./run-local-environment.sh`. This starts a
-mongodb instance reachable at `localhost:27017`.
-Then run the application.
+In the `http` folder you can find http sample request.
