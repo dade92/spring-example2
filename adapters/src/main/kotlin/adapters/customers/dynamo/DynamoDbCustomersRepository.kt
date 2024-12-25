@@ -76,7 +76,7 @@ class DynamoDbCustomersRepository(
         }
 
     //TODO implement this properly
-    override fun findAllBy(name: Name): Either<Error, List<Customer>> = emptyList<Customer>().right()
+    override fun findAll(name: Name): Either<Error, List<Customer>> = emptyList<Customer>().right()
 
     override fun remove(id: Id): Either<Error, Unit> =
         try {

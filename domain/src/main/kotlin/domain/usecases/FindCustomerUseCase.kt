@@ -20,6 +20,6 @@ class DefaultFindCustomerUseCase(
 
     override fun findById(id: Id): Either<Error, Customer> = customerRepository.findById(id)
 
-    override fun findAll(name: Name): Either<Error, List<Customer>> = customerRepository.findAllBy(name)
+    override fun findAll(name: Name): Either<Error, List<Customer>> = customerRepository.findAll(name)
 
 }

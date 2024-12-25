@@ -3,15 +3,8 @@ package adapters
 import adapters.configuration.MongoConfiguration
 import arrow.core.left
 import arrow.core.right
-import domain.Customer
-import domain.Destination
-import domain.Error
-import domain.FavouriteDestinations
-import domain.Id
-import domain.Name
+import domain.*
 import domain.repository.CustomerRepository
-import domain.toId
-import domain.toName
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -27,7 +20,7 @@ class MongoDBCustomerRepositoryIntegrationTest {
 
     @Test
     fun `insert successfully and remove the customer afterwards`() {
-        val customerId = "5".toId()
+        val customerId = "666".toId()
         val newCustomer = aCustomer(customerId, "John Doe".toName())
 
         val actualId = customerRepository.insert(newCustomer)
@@ -49,7 +42,16 @@ class MongoDBCustomerRepositoryIntegrationTest {
             age = 31,
             favouriteDestinations = FavouriteDestinations(listOf(Destination("Milan"), Destination("London")))
         )
-        customerRepository.find("Davide".toName()) shouldBe alreadyPresentCustomer.right()
+        val anotherAlreadyPresentCustomer = Customer(
+            id = "5".toId(),
+            name = "Davide".toName(),
+            age = 32,
+            favouriteDestinations = FavouriteDestinations(listOf(Destination("Erba"), Destination("Longone")))
+        )
+        customerRepository.findAll("Davide".toName()) shouldBe listOf(
+            alreadyPresentCustomer,
+            anotherAlreadyPresentCustomer
+        ).right()
 
         customerRepository.findById("1".toId()) shouldBe alreadyPresentCustomer.right()
     }
