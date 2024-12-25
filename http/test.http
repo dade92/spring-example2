@@ -6,17 +6,11 @@ Accept: application/json
 
 {
   "name": "Davide",
-  "age": 32,
+  "age": 33,
   "favouriteDestinations": {
     "destinations": [
       {
-        "city": "New York"
-      },
-      {
-        "city": "Chicago"
-      },
-      {
-        "city": "Longone"
+        "city": "Geneva"
       }
     ]
   }
@@ -24,7 +18,7 @@ Accept: application/json
 
 ### find by id
 
-GET {{host}}/api/findById?id=c5192af1-fab5-46a6-8d2a-325fddacc5fe
+GET {{host}}/api/findById?id=9d89bf35-67a8-4d6a-a75a-af61482a3f0a
 Content-Type: application/json
 Accept: application/json
 
