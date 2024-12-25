@@ -66,6 +66,19 @@ class UserResource(
             }
         )
 
+    @GetMapping("/findAll")
+    fun findAll(
+        @RequestParam name: String
+    ): ResponseEntity<List<Customer>> =
+        findCustomerUseCase.findAll(name.toName()).fold(
+            {
+                ResponseEntity.notFound().build()
+            },
+            {
+                ResponseEntity.ok(it)
+            }
+        )
+
     @RequestMapping(method = [RequestMethod.PUT], path = ["/add-destination/{id}"])
     fun addDestination(
         @PathVariable id: String,

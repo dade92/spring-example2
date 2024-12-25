@@ -3,15 +3,8 @@ package adapters.customers.mongo
 import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
-import domain.Customer
-import domain.Destination
-import domain.Error
-import domain.FavouriteDestinations
-import domain.Id
-import domain.Name
+import domain.*
 import domain.repository.CustomerRepository
-import domain.toId
-import domain.toName
 import domain.utils.TimeProvider
 import org.slf4j.LoggerFactory
 import org.springframework.data.mongodb.core.MongoTemplate
@@ -54,6 +47,17 @@ class MongoDBCustomerRepository(
         try {
             val query = query(Criteria.where("name").`is`(name.value))
             mongoTemplate.find(query, MongoCustomer::class.java, COLLECTION_NAME)[0].toDomain().right()
+        } catch (e: Exception) {
+            logger.warn("Unable to find customer because of ", e)
+            Error.CustomerNotFoundError.left()
+        }
+
+    override fun findAllBy(name: Name): Either<Error, List<Customer>> =
+        try {
+            val query = query(Criteria.where("name").`is`(name.value))
+            mongoTemplate.find(query, MongoCustomer::class.java, COLLECTION_NAME).map {
+                it.toDomain()
+            }.right()
         } catch (e: Exception) {
             logger.warn("Unable to find customer because of ", e)
             Error.CustomerNotFoundError.left()

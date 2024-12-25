@@ -75,6 +75,9 @@ class DynamoDbCustomersRepository(
             Error.GenericError.left()
         }
 
+    //TODO implement this properly
+    override fun findAllBy(name: Name): Either<Error, List<Customer>> = emptyList<Customer>().right()
+
     override fun remove(id: Id): Either<Error, Unit> =
         try {
             val key = Key.builder()
