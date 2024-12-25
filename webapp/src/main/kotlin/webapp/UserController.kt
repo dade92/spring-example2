@@ -1,23 +1,12 @@
 package webapp
 
-import domain.Customer
-import domain.Destination
-import domain.FavouriteDestinations
-import domain.toId
-import domain.toName
+import domain.*
 import domain.usecases.FindCustomerUseCase
 import domain.usecases.InsertCustomerUseCase
 import domain.usecases.UpdateCustomerUseCase
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestMethod
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import webapp.adapters.UserRequestAdapter
 
 @RestController
@@ -69,13 +58,13 @@ class UserResource(
     @GetMapping("/findAll")
     fun findAll(
         @RequestParam name: String
-    ): ResponseEntity<List<Customer>> =
+    ): ResponseEntity<FindAllCustomersResponse> =
         findCustomerUseCase.findAll(name.toName()).fold(
             {
                 ResponseEntity.notFound().build()
             },
             {
-                ResponseEntity.ok(it)
+                ResponseEntity.ok(FindAllCustomersResponse(it))
             }
         )
 
@@ -156,4 +145,8 @@ data class UpdateDestinationRequest(
 
 data class UpdateRequest(
     val destination: String
+)
+
+data class FindAllCustomersResponse(
+    val customers: List<Customer>
 )
