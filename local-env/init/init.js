@@ -19,4 +19,4 @@ db.mongocustomer.insert([
     },
 ]);
 
-db.mongocustomer.createIndex({name: 1}, {unique: true});
+db.mongocustomer.createIndex({name: 1}, {unique: false});
