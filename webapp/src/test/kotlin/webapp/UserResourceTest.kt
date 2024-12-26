@@ -38,21 +38,6 @@ class UserResourceTest {
     @MockBean
     private lateinit var userRequestAdapter: UserRequestAdapter
 
-    private val INSERT_REQUEST = Fixtures.readJson("/insertRequest.json")
-    private val INSERT_RESPONSE = Fixtures.readJson("/insertResponse.json")
-    private val ADD_DESTINATION_REQUEST = Fixtures.readJson("/updateRequest.json")
-    private val FIND_RESPONSE = Fixtures.readJson("/findResponse.json")
-
-    companion object {
-        val request = InsertCustomerRequest(
-            "Davide",
-            30,
-            FavouriteDestinations(
-                listOf(Destination("Milan"))
-            )
-        )
-    }
-
     @Test
     fun `insert successful`() {
         val uuid = "uuid"
@@ -97,34 +82,36 @@ class UserResourceTest {
 
     @Test
     fun `find successful`() {
-        `when`(findCustomerUseCase.findBy("Davide".toName())).thenReturn(
-            Customer(
-                "uuid".toId(),
-                "Davide".toName(),
-                30,
-                FavouriteDestinations(listOf(Destination("Milan")))
+        `when`(findCustomerUseCase.findAll("Davide".toName())).thenReturn(
+            listOf(
+                Customer(
+                    "uuid".toId(),
+                    "Davide".toName(),
+                    30,
+                    FavouriteDestinations(listOf(Destination("Milan")))
+                )
             ).right()
         )
 
         mvc.perform(
-            MockMvcRequestBuilders.get("/find?name=Davide")
+            MockMvcRequestBuilders.get("/findAll?name=Davide")
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isOk)
             .andExpect(content().json(FIND_RESPONSE))
 
-        verify(findCustomerUseCase).findBy("Davide".toName())
+        verify(findCustomerUseCase).findAll("Davide".toName())
     }
 
     @Test
     fun `find fails`() {
-        `when`(findCustomerUseCase.findBy("Davide".toName())).thenReturn(Error.CustomerNotFoundError.left())
+        `when`(findCustomerUseCase.findAll("Davide".toName())).thenReturn(Error.CustomerNotFoundError.left())
 
         mvc.perform(
-            MockMvcRequestBuilders.get("/find?name=Davide")
+            MockMvcRequestBuilders.get("/findAll?name=Davide")
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isNotFound)
 
-        verify(findCustomerUseCase).findBy("Davide".toName())
+        verify(findCustomerUseCase).findAll("Davide".toName())
     }
 
     @Test
@@ -195,5 +182,20 @@ class UserResourceTest {
         ).andExpect(status().isNotFound)
 
         verify(updateCustomerUseCase).removeDestination(id.toId(), Destination("London"))
+    }
+
+    companion object {
+        private val INSERT_REQUEST = Fixtures.readJson("/insertRequest.json")
+        private val INSERT_RESPONSE = Fixtures.readJson("/insertResponse.json")
+        private val ADD_DESTINATION_REQUEST = Fixtures.readJson("/updateRequest.json")
+        private val FIND_RESPONSE = Fixtures.readJson("/findResponse.json")
+
+        val request = InsertCustomerRequest(
+            "Davide",
+            30,
+            FavouriteDestinations(
+                listOf(Destination("Milan"))
+            )
+        )
     }
 }

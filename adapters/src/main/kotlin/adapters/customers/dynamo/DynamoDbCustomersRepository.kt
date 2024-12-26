@@ -4,12 +4,7 @@ import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
 import com.fasterxml.jackson.core.JsonProcessingException
-import domain.Customer
-import domain.Destination
-import domain.Error
-import domain.FavouriteDestinations
-import domain.Id
-import domain.Name
+import domain.*
 import domain.repository.CustomerRepository
 import org.slf4j.LoggerFactory
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbTable
@@ -17,6 +12,7 @@ import software.amazon.awssdk.enhanced.dynamodb.Key
 import software.amazon.awssdk.enhanced.dynamodb.model.QueryConditional
 import software.amazon.awssdk.enhanced.dynamodb.model.QueryEnhancedRequest
 import software.amazon.awssdk.services.dynamodb.model.DynamoDbException
+import java.util.stream.Collectors.toList
 
 class DynamoDbCustomersRepository(
     private val customerTable: DynamoDbTable<DynamoCustomer>,
@@ -46,7 +42,7 @@ class DynamoDbCustomersRepository(
             Error.CustomerNotFoundError.left()
         }
 
-    override fun find(name: Name): Either<Error, Customer> =
+    override fun findAll(name: Name): Either<Error, List<Customer>> =
         try {
             val gsiIndex = customerTable.index(USERNAME_GSI)
 
@@ -60,13 +56,15 @@ class DynamoDbCustomersRepository(
                 .queryConditional(queryConditional)
                 .build()
 
-            val result = gsiIndex.query(queryRequest)
+            val result: MutableList<DynamoCustomer> = gsiIndex.query(queryRequest)
                 .stream()
                 .flatMap { page -> page.items().stream() }
-                .findFirst()
+                .collect(toList())
 
-            if (result.isPresent) {
-                dynamoCustomerAdapter.toCustomer(result.get()).right()
+            if (result.isNotEmpty()) {
+                result.map {
+                    dynamoCustomerAdapter.toCustomer(it)
+                }.right()
             } else {
                 Error.CustomerNotFoundError.left()
             }
@@ -74,9 +72,6 @@ class DynamoDbCustomersRepository(
             logger.error("Error querying DynamoDB by name: ${e.message}")
             Error.GenericError.left()
         }
-
-    //TODO implement this properly
-    override fun findAll(name: Name): Either<Error, List<Customer>> = emptyList<Customer>().right()
 
     override fun remove(id: Id): Either<Error, Unit> =
         try {

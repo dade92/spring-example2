@@ -42,19 +42,6 @@ class UserResource(
             }
         )
 
-    @GetMapping("/find")
-    fun find(
-        @RequestParam name: String
-    ): ResponseEntity<Customer> =
-        findCustomerUseCase.findBy(name.toName()).fold(
-            {
-                ResponseEntity.notFound().build()
-            },
-            {
-                ResponseEntity.ok(it)
-            }
-        )
-
     @GetMapping("/findAll")
     fun findAll(
         @RequestParam name: String

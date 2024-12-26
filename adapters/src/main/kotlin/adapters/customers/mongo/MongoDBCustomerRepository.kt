@@ -43,15 +43,6 @@ class MongoDBCustomerRepository(
             Error.GenericError.left()
         }
 
-    override fun find(name: Name): Either<Error, Customer> =
-        try {
-            val query = query(Criteria.where("name").`is`(name.value))
-            mongoTemplate.find(query, MongoCustomer::class.java, COLLECTION_NAME)[0].toDomain().right()
-        } catch (e: Exception) {
-            logger.warn("Unable to find customer because of ", e)
-            Error.CustomerNotFoundError.left()
-        }
-
     override fun findAll(name: Name): Either<Error, List<Customer>> =
         try {
             val query = query(Criteria.where("name").`is`(name.value))
