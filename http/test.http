@@ -18,7 +18,7 @@ Accept: application/json
 
 ### find by id
 
-GET {{host}}/api/findById?id=b5a1dc98-e5a9-41e8-9041-09876e83742c
+GET {{host}}/api/findById?id=1
 Content-Type: application/json
 Accept: application/json
 
@@ -30,7 +30,7 @@ Accept: application/json
 
 ### remove customer
 
-POST {{host}}/api/remove/c0efd46b-183b-4341-ba72-010f911e5f79
+POST {{host}}/api/remove/a892755c-094d-4602-a98b-0a29fb2cff9e
 Content-Type: application/json
 Accept: application/json
 
@@ -64,6 +64,12 @@ Accept: application/json
 {
   "destination": "Como"
 }
+
+### liveness
+
+GET {{host}}/api/alive
+Content-Type: application/json
+Accept: application/json
 
 ### retrieve translations
 
